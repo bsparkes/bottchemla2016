@@ -89,3 +89,43 @@ The name after `posthit` must match the name of the `.config` file that you crea
 ```
     python submiterator.py reformat example
 ```
+
+6. (N.B. This will only work on unix.)
+If you want, you can make submiterator a system-wide command, so you can just type (for example):  
+```
+submiterator posthit example
+submiterator getresults example
+submiterator reformat example
+```
+To do this, run the following command:
+```
+chmod u+x submiterator.py
+```
+Then make a directory called "bin" in your home folder and make sym-links to the Submiterator file:  
+```
+cd ~
+mkdir bin
+cd bin
+ln -s [PATH_TO_SUBMITERATOR_DIRECTORY]/submiterator.py submiterator
+```
+Then open up or create the file .bash_profile or .bashrc in your home directory and add the following line:
+```
+PATH=$PATH:~/bin
+```
+Then once you open up a new terminal, you should be able to use the submiterator command as above.
+
+
+## Install R & RStudio
+
+R is a programming language widely used for statistical computing.
+RStudio is a powerful IDE (Integrated Development Environment) we will be working with
+in this course.
+
+1. [Install R](https://cran.cnr.berkeley.edu/)
+2. [Install RStudio](https://www.rstudio.com/products/rstudio/download/)
+3. Install the `tidyverse` package: Lauch RStudio and run in the console: `install.packages("tidyverse")`  
+**(Note that quotes are needed when you install packages)**
+4. You need to load the package before you can use it:
+`library(tidyverse)`  
+**(Note that there are NO quotes when you load packages)**  
+If you see a list of attached packages (including `ggplot2`, `dplyr` etc) then everything is good. (Don't worry about the conflicts printed afterwards.)
