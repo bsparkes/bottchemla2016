@@ -82,14 +82,11 @@ function make_slides(f) {
 
       getSymbols(exp.trialInf["symbols"])
 
-      $("#trialCondition").html(exp.condition + " " + exp.sym1t);
+      specifyCards(exp.trialInf)
 
-      makecard(canvasid = 'primeOneL', Math.floor(Math.random() * 3), 1)
-      makecard(canvasid = 'primeOneR', Math.floor(Math.random() * 3), 2)
-      makecard(canvasid = 'primeTwoL', Math.floor(Math.random() * 3), 3)
-      makecard(canvasid = 'primeTwoR', Math.floor(Math.random() * 3), 6)
-      makecard(canvasid = 'targetL', Math.floor(Math.random() * 3), 3)
-      makecard(canvasid = 'targetR', Math.floor(Math.random() * 3), 6)
+      exp.condition = symPre[exp.trialInf["prime"]];
+
+      $("#trialCondition").html(exp.condition + " " + exp.sym1t);
 
       $(".err").hide();
       $(".targetContainerL").hide();
@@ -98,8 +95,6 @@ function make_slides(f) {
       $(".primeTwoContainerR").hide();
       $(".primeOneContainerL").show();
       $(".primeOneContainerR").show();
-
-
 
       // uncheck the button and erase the previous value
       exp.criticalResponse = null;
@@ -140,6 +135,9 @@ function make_slides(f) {
         if (exp.primeTwoChoice == null) {
           $(".err").show();
         } else {
+
+          exp.condition = symPre[exp.trialInf["target"]];
+
           console.log('got two')
           $(".err").hide();
           $(".primeTwoContainerL").hide();
@@ -268,7 +266,7 @@ function make_slides(f) {
 /// init ///
 function init() {
   //specify conditions
-  exp.condition = _.sample(["Some of the symbols are", "There are four", "There is a"]); //can randomize between subject conditions here
+  // exp.condition = _.sample(["Some of the symbols are", "There are four", "There is a"]); //can randomize between subject conditions here
   //blocks of the experiment:
   exp.structure = ["i0", "instructions", "trial", "trial", "trial", //"subj_info",
     "thanks"
@@ -276,8 +274,8 @@ function init() {
   console.log(exp.structure)
 
   // bottchemla stuff
-  exp.sym1 = 0
-  exp.sym2 = 0
+  // exp.sym1 = 0
+  // exp.sym2 = 0
   // getSymbols()
 
   exp.trialStims = {
