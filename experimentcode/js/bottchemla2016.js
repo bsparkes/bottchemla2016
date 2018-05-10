@@ -84,9 +84,7 @@ function make_slides(f) {
 
       specifyCards(exp.trialInf)
 
-      exp.condition = symPre[exp.trialInf["prime"]];
-
-      $("#trialCondition").html(exp.condition + " " + exp.sym1t);
+      $("#trialCondition").html(conditionSentence(exp.trialInf["prime"], exp.trialInf["primeOneSymbols"][0]));
 
       $(".err").hide();
       $(".targetContainerL").hide();
@@ -125,6 +123,9 @@ function make_slides(f) {
       if (exp.primeOneChoice == null) {
         $(".err").show();
       } else {
+
+        $("#trialCondition").html(conditionSentence(exp.trialInf["prime"], exp.trialInf["primeTwoSymbols"][0]));
+
         console.log('got one')
         $(".err").hide();
         $(".primeOneContainerL").hide();
@@ -136,7 +137,8 @@ function make_slides(f) {
           $(".err").show();
         } else {
 
-          exp.condition = symPre[exp.trialInf["target"]];
+
+          $("#trialCondition").html(conditionSentence(exp.trialInf["target"], exp.trialInf["targetSymbols"][0]));
 
           console.log('got two')
           $(".err").hide();

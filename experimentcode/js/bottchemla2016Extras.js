@@ -35,6 +35,9 @@ for (t = 0; t < 3; t++) { // target
       dict["primeTwoShuffle"] = p2Split;
       dict["gudPrimeOneChoice"] = p1Split.indexOf(1);
       dict["gudPrimeTwoChoice"] = p2Split.indexOf(1);
+      dict["primeOneSymbols"] = symbolTriple();
+      dict["primeTwoSymbols"] = symbolTriple();
+      dict["targetSymbols"] = symbolTriple();
       trials.push(dict);
     }
   }
@@ -55,9 +58,11 @@ while (b--) {
   trialOrder[b] = b
 }
 
-trialOrder = _.shuffle(trialOrder)
-console.log('to')
-console.log(trialOrder)
+/* Uncomment to shuffle, but is it deterministic? */
+// trialOrder = _.shuffle(trialOrder)
+//
+// console.log('to')
+// console.log(trialOrder)
 
 /*
   So, we can now go through trialOrder in normal fashion to get something randomised.
@@ -75,11 +80,20 @@ var currentTrial = 0
 function makeCard(canvasid = 'canvas',
   cardspec,
   fresh = 0, // from taking a new symbol
+  symTrip = [0, 1, 2]
 ) {
 
+
   total = cardspec[3]
-  sym1 = exp.sym1
-  sym2 = exp.sym2
+  sym1 = symTrip[0]
+  sym2 = symTrip[1]
+  sym3 = symTrip[2]
+  // console.log('card symTrip input')
+  // console.log(symTrip)
+  // console.log('card symbols')
+  // console.log(sym1)
+  // console.log(sym2)
+  // console.log(sym3)
 
   // if (fresh == 1) {
   //   // sym2 = exp.sym4
@@ -89,15 +103,14 @@ function makeCard(canvasid = 'canvas',
 
 
   if (cardspec[0] == 0) {
-    sym1 = exp.sym3
+    sym1 = sym3
   }
   if (cardspec[0] == 9) {
     sym2 = sym1
   }
-  if (cardspec[2] == 0) {
-    sym1 = sym2
-  }
-
+  // if (cardspec[2] != 0) {
+  //   sym1 = sym2
+  // }
 
   var rows = (Math.ceil(total / 3));
   var cols = (total / rows);
@@ -165,25 +178,27 @@ function makeCard(canvasid = 'canvas',
   }
 }
 
+function symIndexTripleToUnicode(triple) {
+  return triple.map(x => symlist[x])
+}
+
+function symIndexTripleToText(triple) {
+  return triple.map(x => symText[x])
+}
+
 
 function getSymbols(symTrip) {
 
-  let sym0 = symTrip[0]
-  let sym1 = symTrip[1]
-  let sym2 = symTrip[2]
-  let sym3 = symTrip[3]
-  let sym4 = symTrip[4]
+  let sym1 = symTrip[0]
+  let sym2 = symTrip[1]
+  let sym3 = symTrip[2]
 
-  exp.sym1 = symlist[sym0];
-  exp.sym2 = symlist[sym1];
-  exp.sym3 = symlist[sym2];
-  exp.sym4 = symlist[sym3];
-  exp.sym5 = symlist[sym4];
-  exp.sym1t = symText[sym0];
-  exp.sym2t = symText[sym1];
-  exp.sym3t = symText[sym2];
-  exp.sym4t = symText[sym3];
-  exp.sym5t = symText[sym4];
+  exp.sym1 = symlist[sym1];
+  exp.sym2i = symlist[sym2];
+  exp.sym3 = symlist[sym3];
+  exp.sym1t = symText[sym1];
+  exp.sym2t = symText[sym2];
+  exp.sym3t = symText[sym3];
 }
 
 
@@ -191,14 +206,13 @@ function getSymbols(symTrip) {
 function symbolTriple() {
 
   let indicies = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-  return _.sample(indicies, 5)
+  return _.sample(indicies, 3)
 
   /* A less effective way to do things */
 
   // let sym1i = Math.floor((Math.random() * 10))
   // let sym2i = Math.floor((Math.random() * 10))
   // let sym3i = Math.floor((Math.random() * 10))
-
   // while (sym1i == sym2i) {
   //   sym2i = Math.floor((Math.random() * 10))
   // }
@@ -213,8 +227,13 @@ function specifyCards(trialDict) {
   primeCat = trialDict["prime"]
   targetCat = trialDict["target"]
   strength = trialDict["strength"]
-  primeOne = trialDict["primeOneShuffle"].slice(0)
-  primeTwo = trialDict["primeTwoShuffle"].slice(0)
+  primeOne = trialDict["primeOneShuffle"].slice(0) // deep copy cuz modifying
+  primeTwo = trialDict["primeTwoShuffle"].slice(0) // again
+  primeOneSymbols = symIndexTripleToUnicode(trialDict["primeOneSymbols"])
+  primeTwoSymbols = symIndexTripleToUnicode(trialDict["primeTwoSymbols"])
+  targetSymbols = symIndexTripleToUnicode(trialDict["targetSymbols"])
+  console.log('prime one symbols')
+  console.log(primeOneSymbols)
 
   someStrong = trialCards["someStrong"];
   someWeak = trialCards["someWeak"];
@@ -277,16 +296,25 @@ function specifyCards(trialDict) {
   }
 
   /* … and gen the cards */
-  makeCard(canvasid = 'primeOneL', primeOne[0], 0)
-  makeCard(canvasid = 'primeOneR', primeOne[1], 1)
-  makeCard(canvasid = 'primeTwoL', primeTwo[0], 0)
-  makeCard(canvasid = 'primeTwoR', primeTwo[1], 1)
-  makeCard(canvasid = 'targetL', targetL, 2)
-  makeCard(canvasid = 'targetR', trialCards["target"], 2)
+  makeCard(canvasid = 'primeOneL', primeOne[0], 0, primeOneSymbols)
+  makeCard(canvasid = 'primeOneR', primeOne[1], 1, primeOneSymbols)
+  makeCard(canvasid = 'primeTwoL', primeTwo[0], 0, primeTwoSymbols)
+  makeCard(canvasid = 'primeTwoR', primeTwo[1], 1, primeTwoSymbols)
+  makeCard(canvasid = 'targetL', targetL, 2, targetSymbols)
+  makeCard(canvasid = 'targetR', trialCards["target"], 2, targetSymbols)
 }
 
 
-console.log('current trail')
-console.log(trials[currentTrial])
-console.log(trials[currentTrial]["symbols"])
-console.log('done')
+function conditionSentence(condition, symbol) {
+
+  condText = "" + symPre[condition] + " " + symText[symbol]
+  if (condition != 2) {
+    condText += "s"
+  }
+  return condText
+}
+
+// console.log('current trail')
+// console.log(trials[currentTrial])
+// console.log(trials[currentTrial]["symbols"])
+// console.log('done')
