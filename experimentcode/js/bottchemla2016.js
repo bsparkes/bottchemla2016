@@ -69,6 +69,11 @@ function make_slides(f) {
 
       $(".err").hide();
       console.log(currentTrial)
+      console.log('Trial slide info:')
+      console.log('order')
+      console.log(trialOrder)
+
+      console.log(trials[currentTrial])
 
     },
 
@@ -78,9 +83,7 @@ function make_slides(f) {
     //this gets run only at the beginning of the block, which means for each 'present' thing.
     present_handle: function(stim) {
 
-      exp.trialInf = trials[currentTrial];
-
-      getSymbols(exp.trialInf["symbols"])
+      exp.trialInf = trials[trialOrder[currentTrial]];
 
       specifyCards(exp.trialInf)
 

@@ -19,15 +19,17 @@ let trials = [
   // {symbols: [] prime: [], target: [], strength : []}
 ]
 
-/* build trials */
+/*
+  build trials
+*/
 
+for (n = 1; n <= 1; n++) { // number of each
 for (t = 0; t < 3; t++) { // target
   for (s = 0; s < 2; s++) { // strength
     for (p = 0; p < 3; p++) { // prime
-      dict = {}
+      dict = {};
       p1Split = _.shuffle([0, 1]);
       p2Split = _.shuffle([0, 1]);
-      dict["symbols"] = symbolTriple();
       dict["target"] = t;
       dict["strength"] = s;
       dict["prime"] = p;
@@ -42,6 +44,7 @@ for (t = 0; t < 3; t++) { // target
     }
   }
 }
+}
 
 console.log('trial length')
 console.log(trials.length)
@@ -55,14 +58,14 @@ console.log(trials.length)
 var trialOrder = [],
   b = trials.length;
 while (b--) {
-  trialOrder[b] = b
+  trialOrder[b] = 5 //b
 }
 
 /* Uncomment to shuffle, but is it deterministic? */
-// trialOrder = _.shuffle(trialOrder)
+trialOrder = _.shuffle(trialOrder)
 //
-// console.log('to')
-// console.log(trialOrder)
+console.log('to')
+console.log(trialOrder)
 
 /*
   So, we can now go through trialOrder in normal fashion to get something randomised.
@@ -79,7 +82,6 @@ var currentTrial = 0
 
 function makeCard(canvasid = 'canvas',
   cardspec,
-  fresh = 0, // from taking a new symbol
   symTrip = [0, 1, 2]
 ) {
 
@@ -128,12 +130,16 @@ function makeCard(canvasid = 'canvas',
 
   var drawlist = [];
   var strList = [];
-  for (i = 1; i <= rows * (cols - 1); i++) {
+  if (total == 1) {
     drawlist.push(sym1)
-  }
+  } else {
+    for (i = 1; i <= rows * (cols - 1); i++) {
+      drawlist.push(sym1)
+    }
 
-  for (j = 1; j <= rows; j++) {
-    strList.push(sym2)
+    for (j = 1; j <= rows; j++) {
+      strList.push(sym2)
+    }
   }
 
   // randomise false placement
@@ -296,12 +302,12 @@ function specifyCards(trialDict) {
   }
 
   /* … and gen the cards */
-  makeCard(canvasid = 'primeOneL', primeOne[0], 0, primeOneSymbols)
-  makeCard(canvasid = 'primeOneR', primeOne[1], 1, primeOneSymbols)
-  makeCard(canvasid = 'primeTwoL', primeTwo[0], 0, primeTwoSymbols)
-  makeCard(canvasid = 'primeTwoR', primeTwo[1], 1, primeTwoSymbols)
-  makeCard(canvasid = 'targetL', targetL, 2, targetSymbols)
-  makeCard(canvasid = 'targetR', trialCards["target"], 2, targetSymbols)
+  makeCard(canvasid = 'primeOneL', primeOne[0], primeOneSymbols)
+  makeCard(canvasid = 'primeOneR', primeOne[1], primeOneSymbols)
+  makeCard(canvasid = 'primeTwoL', primeTwo[0], primeTwoSymbols)
+  makeCard(canvasid = 'primeTwoR', primeTwo[1], primeTwoSymbols)
+  makeCard(canvasid = 'targetL', targetL, targetSymbols)
+  makeCard(canvasid = 'targetR', trialCards["target"], targetSymbols)
 }
 
 
@@ -316,5 +322,4 @@ function conditionSentence(condition, symbol) {
 
 // console.log('current trail')
 // console.log(trials[currentTrial])
-// console.log(trials[currentTrial]["symbols"])
 // console.log('done')
