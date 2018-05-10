@@ -1,0 +1,68 @@
+<html>
+
+<head>
+  <!--Shared set-up generally needs no change-->
+    <meta charset="utf-8"/>
+    <!--JS-->
+
+    <!-- external general utilities -->
+    <!-- <script src="../shared/js/jquery-1.11.1.min.js"></script>
+    <script src="../shared/full-projects/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../shared/js/underscore-min.js"></script> -->
+    <!-- if you want to draw stuff: -->
+    <!-- <script src="../shared/js/raphael-min.js"></script> -->
+
+    <!-- cocolab experiment logic -->
+    <script src="../shared/js/exp-V2.js"></script><!--
+    <script src="../shared/js/stream-V2.js"></script> -->
+
+    <!-- cocolab general utilities -->
+    <script src="../shared/js/mmturkey.js "></script><!--
+    <script src="../shared/js/browserCheck.js"></script>
+    <script src="../shared/js/utils.js"></script> -->
+    <!-- if you want to draw cute creatures (depends on raphael): -->
+    <!-- <script src="../shared/js/ecosystem.js"></script> -->
+
+    <!--CSS-->
+    <link href="../shared/full-projects/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../shared/css/cocolab-style.css" rel="stylesheet" type="text/css"/>
+  <!--Shared set-up ends-->
+
+  <!--Things specific to this experiment-->
+    <title>Maximalist template</title>
+    <!-- <script src="../js/bottchemla2016.js"></script> -->
+    <script src="../js/bottchemla2016Extras.js"></script>
+    <link href="../css/local-style.css" rel="stylesheet" type="text/css"/>
+    <!-- experiment specific helper functions -->
+    <!-- <script src="../js/local-utils.js"></script> -->
+
+</head>
+
+<body>
+
+
+  <!--Always starts with the i0 slide:
+  A very brief description is sufficient: just give participants
+  a sense of what type of responses they will be providing and the length of
+  the experiment-->
+  <!-- <div class="slide" id="i0" > -->
+<!--     <p id="cocolab">Stanford Linguistics</p>
+    <p id="instruct-text">You will read some sentences and be asked some questions about how they sound. The HIT should take ~2 minutes. Please pay attention, thanks!</p> -->
+
+
+    <canvas id="canvas">
+
+    </canvas>
+    <script>
+     makecard()
+    </script>
+
+    <!-- <canvas id="canvas" width="300" height="360">
+
+    </canvas> -->
+    <!-- <p></p>
+    <button id="start_button" type="button">Start Experiment</button>
+ -->
+
+</body>
+</html>
