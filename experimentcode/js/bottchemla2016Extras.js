@@ -2,8 +2,6 @@ var symlist = ["♦", "♣", "✓", "♠", "♥", "■", "★", "●", "♩", "�
 var symText = ["diamond", "club", "tick", "spade", "heart", "square", "star", "circle", "note", "triangle"];
 var symPre = ["Some of the symbols are", "There are four", "There is a"]
 
-console.log(_.shuffle([0, 1]))
-
 var trialCards = {
   someStrong: [6, 3, 0, 9],
   someWeak: [9, 0, 0, 9],
@@ -28,9 +26,7 @@ for (t = 0; t < 3; t++) { // target
     for (p = 0; p < 3; p++) { // prime
       dict = {}
       p1Split = _.shuffle([0, 1]);
-      console.log(p1Split)
       p2Split = _.shuffle([0, 1]);
-      console.log(p2Split)
       dict["symbols"] = symbolTriple();
       dict["target"] = t;
       dict["strength"] = s;
@@ -52,6 +48,7 @@ console.log(trials.length)
    there is something that the html can access when creating cards.
 */
 
+/* Can modify this to get right number of trials */
 var trialOrder = [],
   b = trials.length;
 while (b--) {
@@ -59,6 +56,8 @@ while (b--) {
 }
 
 trialOrder = _.shuffle(trialOrder)
+console.log('to')
+console.log(trialOrder)
 
 /*
   So, we can now go through trialOrder in normal fashion to get something randomised.
@@ -73,14 +72,32 @@ var currentTrial = 0
 // console.log(trials[9])
 
 
-function makeCard(canvasid = 'canvas', cardspec) {
+function makeCard(canvasid = 'canvas',
+  cardspec,
+  fresh = 0, // from taking a new symbol
+) {
 
   total = cardspec[3]
   sym1 = exp.sym1
   sym2 = exp.sym2
+
+  // if (fresh == 1) {
+  //   // sym2 = exp.sym4
+  // } else if (fresh == 2) {
+  //   // sym2 = exp.sym5
+  // }
+
+
   if (cardspec[0] == 0) {
     sym1 = exp.sym3
   }
+  if (cardspec[0] == 9) {
+    sym2 = sym1
+  }
+  if (cardspec[2] == 0) {
+    sym1 = sym2
+  }
+
 
   var rows = (Math.ceil(total / 3));
   var cols = (total / rows);
@@ -154,21 +171,27 @@ function getSymbols(symTrip) {
   let sym0 = symTrip[0]
   let sym1 = symTrip[1]
   let sym2 = symTrip[2]
+  let sym3 = symTrip[3]
+  let sym4 = symTrip[4]
 
   exp.sym1 = symlist[sym0];
   exp.sym2 = symlist[sym1];
   exp.sym3 = symlist[sym2];
+  exp.sym4 = symlist[sym3];
+  exp.sym5 = symlist[sym4];
   exp.sym1t = symText[sym0];
   exp.sym2t = symText[sym1];
   exp.sym3t = symText[sym2];
+  exp.sym4t = symText[sym3];
+  exp.sym5t = symText[sym4];
 }
 
 
 
 function symbolTriple() {
 
-  let indicies = [0,1,2,3,4,5,6,7,8,9]
-  return _.sample(indicies, 3)
+  let indicies = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  return _.sample(indicies, 5)
 
   /* A less effective way to do things */
 
@@ -225,34 +248,23 @@ function specifyCards(trialDict) {
     }
   } else { // if strong
     if (primeCat == 0) {
-
       // choice = [someStrong, someWeak]
       primeOne[primeOne.indexOf(0)] = someWeak
       primeOne[primeOne.indexOf(1)] = someStrong
       primeTwo[primeTwo.indexOf(0)] = someWeak
       primeTwo[primeTwo.indexOf(1)] = someStrong
-
     } else if (primeCat == 1) {
-
       // choice = [fourStrong, fourWeak]
       primeOne[primeOne.indexOf(0)] = fourWeak
       primeOne[primeOne.indexOf(1)] = fourStrong
       primeTwo[primeTwo.indexOf(0)] = fourWeak
       primeTwo[primeTwo.indexOf(1)] = fourStrong
-
-      // primeOne = _.shuffle([fourStrong, fourWeak]);
-      // primeTwo = _.shuffle([fourStrong, fourWeak]);
     } else {
-
       // choice = [fourStrong, fourWeak]
       primeOne[primeOne.indexOf(0)] = adhocWeak
       primeOne[primeOne.indexOf(1)] = adhocStrong
       primeTwo[primeTwo.indexOf(0)] = adhocWeak
       primeTwo[primeTwo.indexOf(1)] = adhocStrong
-
-
-      // primeOne = _.shuffle([adhocStrong, adhocWeak]);
-      // primeTwo = _.shuffle([adhocStrong, adhocWeak]);
     }
   }
 
@@ -264,12 +276,13 @@ function specifyCards(trialDict) {
     targetL = adhocStrong;
   }
 
-  makeCard(canvasid = 'primeOneL', primeOne[0])
-  makeCard(canvasid = 'primeOneR', primeOne[1])
-  makeCard(canvasid = 'primeTwoL', primeTwo[0])
-  makeCard(canvasid = 'primeTwoR', primeTwo[1])
-  makeCard(canvasid = 'targetL', targetL)
-  makeCard(canvasid = 'targetR', trialCards["target"])
+  /* … and gen the cards */
+  makeCard(canvasid = 'primeOneL', primeOne[0], 0)
+  makeCard(canvasid = 'primeOneR', primeOne[1], 1)
+  makeCard(canvasid = 'primeTwoL', primeTwo[0], 0)
+  makeCard(canvasid = 'primeTwoR', primeTwo[1], 1)
+  makeCard(canvasid = 'targetL', targetL, 2)
+  makeCard(canvasid = 'targetR', trialCards["target"], 2)
 }
 
 
