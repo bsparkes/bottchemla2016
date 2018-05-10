@@ -2,6 +2,8 @@ var symlist = ["♦", "♣", "✓", "♠", "♥", "■", "★", "●", "♩", "�
 var symText = ["diamond", "club", "tick", "spade", "heart", "square", "star", "circle", "note", "triangle"];
 var symPre = ["Some of the symbols are", "There are four", "There is a"]
 
+console.log(_.shuffle([0, 1]))
+
 var trialCards = {
   someStrong: [6, 3, 0, 9],
   someWeak: [9, 0, 0, 9],
@@ -24,12 +26,20 @@ let trials = [
 for (t = 0; t < 3; t++) { // target
   for (s = 0; s < 2; s++) { // strength
     for (p = 0; p < 3; p++) { // prime
-      let dict = {}
-      dict["symbols"] = symbolTriple()
-      dict["target"] = t
-      dict["strength"] = s
-      dict["prime"] = p
-      trials.push(dict)
+      dict = {}
+      p1Split = _.shuffle([0, 1]);
+      console.log(p1Split)
+      p2Split = _.shuffle([0, 1]);
+      console.log(p2Split)
+      dict["symbols"] = symbolTriple();
+      dict["target"] = t;
+      dict["strength"] = s;
+      dict["prime"] = p;
+      dict["primeOneShuffle"] = p1Split;
+      dict["primeTwoShuffle"] = p2Split;
+      dict["gudPrimeOneChoice"] = p1Split.indexOf(1);
+      dict["gudPrimeTwoChoice"] = p2Split.indexOf(1);
+      trials.push(dict);
     }
   }
 }
@@ -61,19 +71,6 @@ var currentTrial = 0
 // console.log('test')
 // console.log(trials)
 // console.log(trials[9])
-
-
-
-// function someCard(canvasid, strength) {
-//   if (strength == 2) {
-
-//   } else if (strength == 1) {
-
-//   } else {
-
-//   }
-// }
-
 
 
 function makeCard(canvasid = 'canvas', cardspec) {
@@ -132,11 +129,9 @@ function makeCard(canvasid = 'canvas', cardspec) {
       symbol[i] = {
         y: (Math.floor((i * Hr) - Hr / 2)),
         x: (Math.floor((j * Wc) - Wc / 2)),
-
         color: "black",
         unisym: drawlist[symCount],
-
-        draw: symbols
+        draw: symbols,
       };
       symCount++;
       var s = symbol[i];
@@ -172,17 +167,22 @@ function getSymbols(symTrip) {
 
 function symbolTriple() {
 
-  let sym1i = Math.floor((Math.random() * 10))
-  let sym2i = Math.floor((Math.random() * 10))
-  let sym3i = Math.floor((Math.random() * 10))
+  let indicies = [0,1,2,3,4,5,6,7,8,9]
+  return _.sample(indicies, 3)
 
-  while (sym1i == sym2i) {
-    sym2i = Math.floor((Math.random() * 10))
-  }
-  while (sym1i == sym3i | sym2i == sym3i) {
-    sym3i = Math.floor((Math.random() * 10))
-  }
-  return [sym1i, sym2i, sym3i]
+  /* A less effective way to do things */
+
+  // let sym1i = Math.floor((Math.random() * 10))
+  // let sym2i = Math.floor((Math.random() * 10))
+  // let sym3i = Math.floor((Math.random() * 10))
+
+  // while (sym1i == sym2i) {
+  //   sym2i = Math.floor((Math.random() * 10))
+  // }
+  // while (sym1i == sym3i | sym2i == sym3i) {
+  //   sym3i = Math.floor((Math.random() * 10))
+  // }
+  // return [sym1i, sym2i, sym3i]
 }
 
 function specifyCards(trialDict) {
@@ -190,6 +190,8 @@ function specifyCards(trialDict) {
   primeCat = trialDict["prime"]
   targetCat = trialDict["target"]
   strength = trialDict["strength"]
+  primeOne = trialDict["primeOneShuffle"].slice(0)
+  primeTwo = trialDict["primeTwoShuffle"].slice(0)
 
   someStrong = trialCards["someStrong"];
   someWeak = trialCards["someWeak"];
@@ -203,25 +205,54 @@ function specifyCards(trialDict) {
 
   if (strength == 0) { // if weak
     if (primeCat == 0) {
-      primeOne = _.shuffle([someWeak, someFalse]);
-      primeTwo = _.shuffle([someWeak, someFalse]);
+      // choice = [someWeak, someFalse]
+      primeOne[primeOne.indexOf(0)] = someFalse
+      primeOne[primeOne.indexOf(1)] = someWeak
+      primeTwo[primeTwo.indexOf(0)] = someFalse
+      primeTwo[primeTwo.indexOf(1)] = someWeak
     } else if (primeCat == 1) {
-      primeOne = _.shuffle([fourWeak, fourFalse]);
-      primeTwo = _.shuffle([fourWeak, fourFalse]);
+      // choice = [fourWeak, fourFalse]
+      primeOne[primeOne.indexOf(0)] = fourFalse
+      primeOne[primeOne.indexOf(1)] = fourWeak
+      primeTwo[primeTwo.indexOf(0)] = fourFalse
+      primeTwo[primeTwo.indexOf(1)] = fourWeak
     } else {
-      primeOne = _.shuffle([adhocWeak, adhocFalse]);
-      primeTwo = _.shuffle([adhocWeak, adhocFalse]);
+      // choice = [adhocWeak, adhocFalse]
+      primeOne[primeOne.indexOf(0)] = adhocFalse
+      primeOne[primeOne.indexOf(1)] = adhocWeak
+      primeTwo[primeTwo.indexOf(0)] = adhocFalse
+      primeTwo[primeTwo.indexOf(1)] = adhocWeak
     }
   } else { // if strong
     if (primeCat == 0) {
-      primeOne = _.shuffle([someStrong, someWeak]);
-      primeTwo = _.shuffle([someStrong, someWeak]);
+
+      // choice = [someStrong, someWeak]
+      primeOne[primeOne.indexOf(0)] = someWeak
+      primeOne[primeOne.indexOf(1)] = someStrong
+      primeTwo[primeTwo.indexOf(0)] = someWeak
+      primeTwo[primeTwo.indexOf(1)] = someStrong
+
     } else if (primeCat == 1) {
-      primeOne = _.shuffle([fourStrong, fourWeak]);
-      primeTwo = _.shuffle([fourStrong, fourWeak]);
+
+      // choice = [fourStrong, fourWeak]
+      primeOne[primeOne.indexOf(0)] = fourWeak
+      primeOne[primeOne.indexOf(1)] = fourStrong
+      primeTwo[primeTwo.indexOf(0)] = fourWeak
+      primeTwo[primeTwo.indexOf(1)] = fourStrong
+
+      // primeOne = _.shuffle([fourStrong, fourWeak]);
+      // primeTwo = _.shuffle([fourStrong, fourWeak]);
     } else {
-      primeOne = _.shuffle([adhocStrong, adhocWeak]);
-      primeTwo = _.shuffle([adhocStrong, adhocWeak]);
+
+      // choice = [fourStrong, fourWeak]
+      primeOne[primeOne.indexOf(0)] = adhocWeak
+      primeOne[primeOne.indexOf(1)] = adhocStrong
+      primeTwo[primeTwo.indexOf(0)] = adhocWeak
+      primeTwo[primeTwo.indexOf(1)] = adhocStrong
+
+
+      // primeOne = _.shuffle([adhocStrong, adhocWeak]);
+      // primeTwo = _.shuffle([adhocStrong, adhocWeak]);
     }
   }
 

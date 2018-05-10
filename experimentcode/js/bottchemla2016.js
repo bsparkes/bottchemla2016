@@ -170,6 +170,7 @@ function make_slides(f) {
         "primeTwoChoice": exp.primeTwoChoice,
         "targetChoice": exp.targetChoice,
       });
+      console.log(exp.trialInf)
     }
 
   });
