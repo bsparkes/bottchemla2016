@@ -2,6 +2,11 @@ var symlist = ["♦", "♣", "✓", "♠", "♥", "■", "★", "●", "♩", "�
 var symText = ["diamond", "club", "tick", "spade", "heart", "square", "star", "circle", "note", "triangle"];
 var symPre = ["Some of the symbols are", "There are four", "There is a"]
 
+/*
+  Specification of how cards look. This is read…
+  [sym1, sym2, sym3, total].
+  sym1 is the one named in the prompt, sym2 and sym3 are alternatives.
+*/
 var trialCards = {
   someStrong: [6, 3, 0, 9],
   someWeak: [9, 0, 0, 9],
@@ -15,8 +20,12 @@ var trialCards = {
   target: [0, 0, 0, 0],
 }
 
+/*
+  We build a dictionary for each trial, containing all the relevant information.
+  This can then be stored, or the info can be read off and stored independently.
+*/
 let trials = [
-  // {symbols: [] prime: [], target: [], strength : []}
+  // {symbols: [] prime: [], target: [], strength : [], etc…}
 ]
 
 /*
@@ -24,26 +33,26 @@ let trials = [
 */
 
 for (n = 1; n <= 1; n++) { // number of each
-for (t = 0; t < 3; t++) { // target
-  for (s = 0; s < 2; s++) { // strength
-    for (p = 0; p < 3; p++) { // prime
-      dict = {};
-      p1Split = _.shuffle([0, 1]);
-      p2Split = _.shuffle([0, 1]);
-      dict["target"] = t;
-      dict["strength"] = s;
-      dict["prime"] = p;
-      dict["primeOneShuffle"] = p1Split;
-      dict["primeTwoShuffle"] = p2Split;
-      dict["gudPrimeOneChoice"] = p1Split.indexOf(1);
-      dict["gudPrimeTwoChoice"] = p2Split.indexOf(1);
-      dict["primeOneSymbols"] = symbolTriple();
-      dict["primeTwoSymbols"] = symbolTriple();
-      dict["targetSymbols"] = symbolTriple();
-      trials.push(dict);
+  for (t = 0; t < 3; t++) { // target
+    for (s = 0; s < 2; s++) { // strength
+      for (p = 0; p < 3; p++) { // prime
+        dict = {};
+        p1Split = _.shuffle([0, 1]);
+        p2Split = _.shuffle([0, 1]);
+        dict["target"] = t;
+        dict["strength"] = s;
+        dict["prime"] = p;
+        dict["primeOneShuffle"] = p1Split;
+        dict["primeTwoShuffle"] = p2Split;
+        dict["gudPrimeOneChoice"] = p1Split.indexOf(1);
+        dict["gudPrimeTwoChoice"] = p2Split.indexOf(1);
+        dict["primeOneSymbols"] = symbolTriple();
+        dict["primeTwoSymbols"] = symbolTriple();
+        dict["targetSymbols"] = symbolTriple();
+        trials.push(dict);
+      }
     }
   }
-}
 }
 
 console.log('trial length')
@@ -96,12 +105,6 @@ function makeCard(canvasid = 'canvas',
   // console.log(sym1)
   // console.log(sym2)
   // console.log(sym3)
-
-  // if (fresh == 1) {
-  //   // sym2 = exp.sym4
-  // } else if (fresh == 2) {
-  //   // sym2 = exp.sym5
-  // }
 
 
   if (cardspec[0] == 0) {

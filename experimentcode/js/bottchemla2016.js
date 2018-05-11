@@ -67,6 +67,8 @@ function make_slides(f) {
     name: "trial",
     start: function() {
 
+      slide.condition = 0;
+      slide.onto = 1;
       $(".err").hide();
       console.log(currentTrial)
       console.log('Trial slide info:')
@@ -110,60 +112,56 @@ function make_slides(f) {
       this.stim = stim; // I like to store this information in the slide so I can record it later.
     },
 
+    cardButton: function() { // if a card is selected
+      $('.err').hide(); // hide error
+      slide.condition = 1; // note that something is selected
+    },
 
-    button: function() {
-      //find out the checked option
+    /*
+      The button function does a lot.
+      Primarily, it updates the slide to follow the trial.
+      We do this by first showing relevant info for the first prime, and then if a selection has
+      been made we update to the second, and then to the target, when we store information and then
+      move to the next trial.
+      The function does this by checking in reverse, as target takes precedence over primeTwo, etc…
+    */
 
-      exp.primeOneChoice = $('input[name=primeOneChoice]:checked').val();
-      exp.primeTwoChoice = $('input[name=primeTwoChoice]:checked').val();
-      exp.targetChoice = $('input[name=targetChoice]:checked').val();
-
-      console.log(exp.primeOneChoice)
-      console.log(exp.primeTwoChoice)
-      console.log(exp.targetChoice)
-
-      // verify the response
-      if (exp.primeOneChoice == null) {
-        $(".err").show();
-      } else {
-
-        $("#trialCondition").html(conditionSentence(exp.trialInf["prime"], exp.trialInf["primeTwoSymbols"][0]));
-
-        console.log('got one')
-        $(".err").hide();
-        $(".primeOneContainerL").hide();
-        $(".primeOneContainerR").hide();
-        $(".primeTwoContainerL").show();
-        $(".primeTwoContainerR").show();
-
-        if (exp.primeTwoChoice == null) {
-          $(".err").show();
-        } else {
-
-
+    button: function() { // what to do when the lower button is clicked
+      if (slide.condition == 1) { // so long as a button is clicked, we update
+        $(".err").hide(); // hide error
+        exp.targetChoice = $('input[name=targetChoice]:checked').val(); // now update one button values
+        exp.primeOneChoice = $('input[name=primeOneChoice]:checked').val();
+        exp.primeTwoChoice = $('input[name=primeTwoChoice]:checked').val();
+        if (exp.targetChoice != null) { // if one hasn't chosen the target
+          console.log('got target')
+          console.log('exp.trialInf')
+          console.log(exp.trialInf)
+          currentTrial++
+          console.log('currentTrial')
+          console.log(currentTrial)
+          this.log_responses();
+          /* use _stream.apply(this); if and only if there is
+          "present" data. (and only *after* responses are logged) */
+          _stream.apply(this);
+        } else if (exp.primeTwoChoice != null) { // if one hasn't chosen the second prime
           $("#trialCondition").html(conditionSentence(exp.trialInf["target"], exp.trialInf["targetSymbols"][0]));
-
           console.log('got two')
-          $(".err").hide();
           $(".primeTwoContainerL").hide();
           $(".primeTwoContainerR").hide();
           $(".targetContainerL").show();
           $(".targetContainerR").show();
-
-          if (exp.targetChoice == null) {
-            $(".err").show()
-          } else {
-            console.log('got target')
-            console.log(exp.data_trials)
-            currentTrial++
-            console.log(currentTrial)
-            this.log_responses();
-
-            /* use _stream.apply(this); if and only if there is
-            "present" data. (and only *after* responses are logged) */
-            _stream.apply(this);
-          }
+          slide.condition = 0;
+        } else if (exp.primeOneChoice != null) { // if one hasn't chosen the first
+          $("#trialCondition").html(conditionSentence(exp.trialInf["prime"], exp.trialInf["primeTwoSymbols"][0]));
+          console.log('got one')
+          $(".primeOneContainerL").hide();
+          $(".primeOneContainerR").hide();
+          $(".primeTwoContainerL").show();
+          $(".primeTwoContainerR").show();
+          slide.condition = 0;
         }
+      } else { // otherwise show error
+        $('.err').show()
       }
     },
 
