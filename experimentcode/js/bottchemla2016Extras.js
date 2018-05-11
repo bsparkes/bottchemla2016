@@ -24,7 +24,7 @@ var trialCards = {
   We build a dictionary for each trial, containing all the relevant information.
   This can then be stored, or the info can be read off and stored independently.
 */
-let trials = [
+trials = [
   // {symbols: [] prime: [], target: [], strength : [], etc…}
 ]
 
@@ -32,10 +32,10 @@ let trials = [
   build trials
 */
 
-for (n = 1; n <= 1; n++) { // number of each
-  for (t = 0; t < 3; t++) { // target
-    for (s = 0; s < 2; s++) { // strength
-      for (p = 0; p < 3; p++) { // prime
+for (let n = 1; n <= 1; n++) { // number of each
+  for (let t = 0; t < 3; t++) { // target
+    for (let s = 0; s < 2; s++) { // strength
+      for (let p = 0; p < 3; p++) { // prime
         dict = {};
         p1Split = _.shuffle([0, 1]);
         p2Split = _.shuffle([0, 1]);
@@ -55,9 +55,6 @@ for (n = 1; n <= 1; n++) { // number of each
   }
 }
 
-console.log('trial length')
-console.log(trials.length)
-
 /* We've now got an array of trial dictionaries.
    The next thing to do is shuffle these. This is primarily so that
    there is something that the html can access when creating cards.
@@ -66,29 +63,18 @@ console.log(trials.length)
 /* Each trial gets a number, and we generate a list.
    Of course, could simply randomise the list of trials, this might simplify things.
  */
-var trialOrder = [],
-  b = trials.length;
-while (b--) {
-  trialOrder[b] = b
-}
+trialOrder = [];
 
-/* Uncomment to shuffle, but is it deterministic? */
-trialOrder = _.shuffle(trialOrder)
-//
-console.log('to')
-console.log(trialOrder)
+//   trialAdd = trials.length;
+// while (trialAdd--) {
+//   trialOrder[trialAdd] = trialAdd
+// }
 
-/*
-  So, we can now go through trialOrder in normal fashion to get something randomised.
-  This is all rather ugly, but it's the web…
- */
+// console.log(trials[17][0])
+
+// trialOrder = _.shuffle(trialOrder) // randomise order of trials
 
 var currentTrial = 0
-
-// console.log(trialOrder)
-// console.log('test')
-// console.log(trials)
-// console.log(trials[9])
 
 
 function makeCard(canvasid = 'canvas',
@@ -96,17 +82,19 @@ function makeCard(canvasid = 'canvas',
   symTrip = [0, 1, 2]
 ) {
 
+  // basic canvas stuff
   var canvas = document.getElementById(canvasid);
   ctx = canvas.getContext("2d");
   ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
-  var W = 300,
-    H = 1.2 * W;
-  canvas.width = W, canvas.height = H;
+  W = 300;
+  H = 1.2 * W;
+  canvas.width = W;
+  canvas.height = H;
 
   if (cardspec[3] == 0) {
-    x = W/2
-    y = H/2
+    x = W / 2
+    y = H / 2
     betterText = 'Better picture?'
     ctx.font = "36px serif";
     ctx.fillStyle = "black";
@@ -118,29 +106,18 @@ function makeCard(canvasid = 'canvas',
     sym1 = symTrip[0]
     sym2 = symTrip[1]
     sym3 = symTrip[2]
-    // console.log('card symTrip input')
-    // console.log(symTrip)
-    // console.log('card symbols')
-    // console.log(sym1)
-    // console.log(sym2)
-    // console.log(sym3)
 
 
+    // depending on trial type, reconfigure display symbols
     if (cardspec[0] == 0) {
       sym1 = sym3
     }
-    if (cardspec[0] == 9) {
+    if (cardspec[0] == cardspec[3]) {
       sym2 = sym1
     }
-    // if (cardspec[2] != 0) {
-    //   sym1 = sym2
-    // }
 
     var rows = (Math.ceil(total / 3));
     var cols = (total / rows);
-
-    /* console.log([rows, cols]) */
-
 
 
     var drawlist = [];
@@ -163,8 +140,6 @@ function makeCard(canvasid = 'canvas',
     } else {
       drawlist = strList.concat(drawlist)
     }
-
-    /* console.log(drawlist) */
 
     var symbol = [];
     var symCount = 0;
@@ -200,29 +175,17 @@ function makeCard(canvasid = 'canvas',
   }
 }
 
+
+/* map list of symbol indices to unicode characters */
 function symIndexTripleToUnicode(triple) {
   return triple.map(x => symlist[x])
 }
 
+
+/* map list of symbol indices to text description */
 function symIndexTripleToText(triple) {
   return triple.map(x => symText[x])
 }
-
-
-function getSymbols(symTrip) {
-
-  let sym1 = symTrip[0]
-  let sym2 = symTrip[1]
-  let sym3 = symTrip[2]
-
-  exp.sym1 = symlist[sym1];
-  exp.sym2i = symlist[sym2];
-  exp.sym3 = symlist[sym3];
-  exp.sym1t = symText[sym1];
-  exp.sym2t = symText[sym2];
-  exp.sym3t = symText[sym3];
-}
-
 
 
 function symbolTriple() {
@@ -254,8 +217,6 @@ function specifyCards(trialDict) {
   primeOneSymbols = symIndexTripleToUnicode(trialDict["primeOneSymbols"])
   primeTwoSymbols = symIndexTripleToUnicode(trialDict["primeTwoSymbols"])
   targetSymbols = symIndexTripleToUnicode(trialDict["targetSymbols"])
-  console.log('prime one symbols')
-  console.log(primeOneSymbols)
 
   someStrong = trialCards["someStrong"];
   someWeak = trialCards["someWeak"];
@@ -269,19 +230,16 @@ function specifyCards(trialDict) {
 
   if (strength == 0) { // if weak
     if (primeCat == 0) {
-      // choice = [someWeak, someFalse]
       primeOne[primeOne.indexOf(0)] = someFalse
       primeOne[primeOne.indexOf(1)] = someWeak
       primeTwo[primeTwo.indexOf(0)] = someFalse
       primeTwo[primeTwo.indexOf(1)] = someWeak
     } else if (primeCat == 1) {
-      // choice = [fourWeak, fourFalse]
       primeOne[primeOne.indexOf(0)] = fourFalse
       primeOne[primeOne.indexOf(1)] = fourWeak
       primeTwo[primeTwo.indexOf(0)] = fourFalse
       primeTwo[primeTwo.indexOf(1)] = fourWeak
-    } else {
-      // choice = [adhocWeak, adhocFalse]
+    } else { // primeCat == 2
       primeOne[primeOne.indexOf(0)] = adhocFalse
       primeOne[primeOne.indexOf(1)] = adhocWeak
       primeTwo[primeTwo.indexOf(0)] = adhocFalse
@@ -289,19 +247,16 @@ function specifyCards(trialDict) {
     }
   } else { // if strong
     if (primeCat == 0) {
-      // choice = [someStrong, someWeak]
       primeOne[primeOne.indexOf(0)] = someWeak
       primeOne[primeOne.indexOf(1)] = someStrong
       primeTwo[primeTwo.indexOf(0)] = someWeak
       primeTwo[primeTwo.indexOf(1)] = someStrong
     } else if (primeCat == 1) {
-      // choice = [fourStrong, fourWeak]
       primeOne[primeOne.indexOf(0)] = fourWeak
       primeOne[primeOne.indexOf(1)] = fourStrong
       primeTwo[primeTwo.indexOf(0)] = fourWeak
       primeTwo[primeTwo.indexOf(1)] = fourStrong
-    } else {
-      // choice = [fourStrong, fourWeak]
+    } else { // primeCat == 2
       primeOne[primeOne.indexOf(0)] = adhocWeak
       primeOne[primeOne.indexOf(1)] = adhocStrong
       primeTwo[primeTwo.indexOf(0)] = adhocWeak
@@ -336,6 +291,23 @@ function conditionSentence(condition, symbol) {
   return condText
 }
 
-// console.log('current trail')
-// console.log(trials[currentTrial])
-// console.log('done')
+
+$('.cardbutton').keyup(function(e) {
+  var code = (e.keyCode ? e.keyCode : e.which);
+
+  switch (code) {
+    case 66: // b
+      console.log('oh');
+      $('#primeOneChoiceL').prop('checked', true);
+      break;
+    case 71: // g
+      $('#button2').prop('checked', true);
+      break;
+    case 79: // o
+      $('#button3').prop('checked', true);
+      break;
+    case 89: // y
+      $('#button4').prop('checked', true);
+      break;
+  }
+});

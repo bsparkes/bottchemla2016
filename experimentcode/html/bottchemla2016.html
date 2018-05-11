@@ -40,8 +40,6 @@
 
   <body onload="init();">
 
-    <script>console.log(trials)</script>
-
     <noscript>This task requires JavaScript.</noscript>
 
     <!--Always starts with the i0 slide:
@@ -126,65 +124,59 @@
 
     <div class="slide" id="trial">
 
-      <script>
-        console.log(trialOrder)
-      </script>
-
       <p>Here is a single trial. Depending on the condition, you'll see different words below:</p>
       <p id="trialCondition"></p>
 
-      <!-- <script>console.log(exp.trialInf)</script> -->
-
       <div class="primeOneContainerL" id="container">
         <label for="primeOneChoiceL">
-        <canvas class="canvas" id="primeOneL"></canvas>
-      </label>
+          <canvas class="canvas" id="primeOneL"></canvas>
+        </label>
         <p></p>
-        <input class="cardbutton" id="primeOneChoiceL" type="radio" name="primeOneChoice" value="0" onclick="_s.cardButton()">
+        <input class="cardbutton" accesskey=null id="primeOneChoiceL" type="radio" name="primeOneChoice" value="0" onclick="_s.cardButton()">
       </div>
 
       <div class="primeOneContainerR" id="container">
         <label for="primeOneChoiceR">
-        <canvas class="canvas" id="primeOneR"></canvas>
-      </label>
+          <canvas class="canvas" id="primeOneR"></canvas>
+        </label>
         <p></p>
-        <input class="cardbutton" id="primeOneChoiceR" type="radio" name="primeOneChoice" value="1" onclick="_s.cardButton()">
+        <input class="cardbutton" accesskey=null id="primeOneChoiceR" type="radio" name="primeOneChoice" value="1" onclick="_s.cardButton()">
       </div>
 
       <div class="primeTwoContainerL" id="container">
         <label for="primeTwoChoiceL">
-        <canvas class="canvas" id="primeTwoL"></canvas>
-      </label>
+          <canvas class="canvas" id="primeTwoL"></canvas>
+        </label>
         <p></p>
-        <input class="cardbutton" id="primeTwoChoiceL" type="radio" name="primeTwoChoice" value="0" onclick="_s.cardButton()">
+        <input class="cardbutton" accesskey=null id="primeTwoChoiceL" type="radio" name="primeTwoChoice" value="0" onclick="_s.cardButton()">
       </div>
 
       <div class="primeTwoContainerR" id="container">
         <label for="primeTwoChoiceR">
-        <canvas class="canvas" id="primeTwoR"></canvas>
-      </label>
+          <canvas class="canvas" id="primeTwoR"></canvas>
+        </label>
         <p></p>
-        <input class="cardbutton" id="primeTwoChoiceR" type="radio" name="primeTwoChoice" value="1" onclick="_s.cardButton()">
+        <input class="cardbutton" accesskey=null id="primeTwoChoiceR" type="radio" name="primeTwoChoice" value="1" onclick="_s.cardButton()">
       </div>
 
       <div class="targetContainerL" id="container">
         <label for="targetChoiceL">
-        <canvas class="canvas" id="targetL"></canvas>
-      </label>
+          <canvas class="canvas" id="targetL"></canvas>
+        </label>
         <p></p>
-        <input class="cardbutton" id="targetChoiceL" type="radio" name="targetChoice" value="0" onclick="_s.cardButton()">
+        <input class="cardbutton" accesskey=null id="targetChoiceL" type="radio" name="targetChoice" value="0" onclick="_s.cardButton()">
       </div>
 
       <div class="targetContainerR" id="container">
         <label for="targetChoiceR">
-        <canvas class="canvas" id="targetR"></canvas>
-      </label>
+          <canvas class="canvas" id="targetR"></canvas>
+        </label>
         <p></p>
-        <input class="cardbutton" id="targetChoiceR" type="radio" name="targetChoice" value="1" onclick="_s.cardButton()">
+        <input class="cardbutton" accesskey=null id="targetChoiceR" type="radio" name="targetChoice" value="1" onclick="_s.cardButton()">
       </div>
 
       <div class="err">Please select one of the options.</div>
-      <button onclick="_s.button()">Continue</button>
+      <button id="continueButton" onclick="_s.button()" accesskey=null>Continue</button>
     </div>
 
 
