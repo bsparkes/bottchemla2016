@@ -63,11 +63,13 @@ console.log(trials.length)
    there is something that the html can access when creating cards.
 */
 
-/* Can modify this to get right number of trials */
+/* Each trial gets a number, and we generate a list.
+   Of course, could simply randomise the list of trials, this might simplify things.
+ */
 var trialOrder = [],
   b = trials.length;
 while (b--) {
-  trialOrder[b] = 5 //b
+  trialOrder[b] = b
 }
 
 /* Uncomment to shuffle, but is it deterministic? */
@@ -94,34 +96,6 @@ function makeCard(canvasid = 'canvas',
   symTrip = [0, 1, 2]
 ) {
 
-
-  total = cardspec[3]
-  sym1 = symTrip[0]
-  sym2 = symTrip[1]
-  sym3 = symTrip[2]
-  // console.log('card symTrip input')
-  // console.log(symTrip)
-  // console.log('card symbols')
-  // console.log(sym1)
-  // console.log(sym2)
-  // console.log(sym3)
-
-
-  if (cardspec[0] == 0) {
-    sym1 = sym3
-  }
-  if (cardspec[0] == 9) {
-    sym2 = sym1
-  }
-  // if (cardspec[2] != 0) {
-  //   sym1 = sym2
-  // }
-
-  var rows = (Math.ceil(total / 3));
-  var cols = (total / rows);
-
-  /* console.log([rows, cols]) */
-
   var canvas = document.getElementById(canvasid);
   ctx = canvas.getContext("2d");
   ctx.strokeRect(0, 0, canvas.width, canvas.height);
@@ -130,56 +104,95 @@ function makeCard(canvasid = 'canvas',
     H = 1.2 * W;
   canvas.width = W, canvas.height = H;
 
-
-  var drawlist = [];
-  var strList = [];
-  if (total == 1) {
-    drawlist.push(sym1)
+  if (cardspec[3] == 0) {
+    x = W/2
+    y = H/2
+    betterText = 'Better picture?'
+    ctx.font = "36px serif";
+    ctx.fillStyle = "black";
+    textDimensions = ctx.measureText(betterText);
+    x = (x - (textDimensions.width / 2))
+    ctx.fillText(betterText, x, y);
   } else {
-    for (i = 1; i <= rows * (cols - 1); i++) {
+    total = cardspec[3]
+    sym1 = symTrip[0]
+    sym2 = symTrip[1]
+    sym3 = symTrip[2]
+    // console.log('card symTrip input')
+    // console.log(symTrip)
+    // console.log('card symbols')
+    // console.log(sym1)
+    // console.log(sym2)
+    // console.log(sym3)
+
+
+    if (cardspec[0] == 0) {
+      sym1 = sym3
+    }
+    if (cardspec[0] == 9) {
+      sym2 = sym1
+    }
+    // if (cardspec[2] != 0) {
+    //   sym1 = sym2
+    // }
+
+    var rows = (Math.ceil(total / 3));
+    var cols = (total / rows);
+
+    /* console.log([rows, cols]) */
+
+
+
+    var drawlist = [];
+    var strList = [];
+
+    if (total == 1) {
       drawlist.push(sym1)
+    } else {
+      for (i = 1; i <= rows * (cols - 1); i++) {
+        drawlist.push(sym1)
+      }
+      for (j = 1; j <= rows; j++) {
+        strList.push(sym2)
+      }
     }
 
-    for (j = 1; j <= rows; j++) {
-      strList.push(sym2)
+    // randomise false placement
+    if (Math.random() >= 0.5) {
+      drawlist = drawlist.concat(strList)
+    } else {
+      drawlist = strList.concat(drawlist)
     }
-  }
 
-  // randomise false placement
-  if (Math.random() >= 0.5) {
-    drawlist = drawlist.concat(strList)
-  } else {
-    drawlist = strList.concat(drawlist)
-  }
+    /* console.log(drawlist) */
 
-  /* console.log(drawlist) */
-
-  var symbol = [];
-  var symCount = 0;
-  if (rows > 1) {
-    [rows, cols] = [cols, rows]
-  }
-  var Wc = W / cols,
-    Hr = H / rows
+    var symbol = [];
+    var symCount = 0;
+    if (rows > 1) {
+      [rows, cols] = [cols, rows]
+    }
+    var Wc = W / cols,
+      Hr = H / rows
 
 
-  for (i = 1; i <= rows; i++) {
-    for (j = 1; j <= cols; j++) {
-      symbol[i] = {
-        y: (Math.floor((i * Hr) - Hr / 2)),
-        x: (Math.floor((j * Wc) - Wc / 2)),
-        color: "black",
-        unisym: drawlist[symCount],
-        draw: symbols,
-      };
-      symCount++;
-      var s = symbol[i];
-      s.draw(s.x, s.y, s.color, s.unisym);
+    for (i = 1; i <= rows; i++) {
+      for (j = 1; j <= cols; j++) {
+        symbol[i] = {
+          y: (Math.floor((i * Hr) - Hr / 2)),
+          x: (Math.floor((j * Wc) - Wc / 2)),
+          color: "black",
+          unisym: drawlist[symCount],
+          draw: symbols,
+        };
+        symCount++;
+        var s = symbol[i];
+        s.draw(s.x, s.y, s.color, s.unisym);
+      }
     }
   }
 
   function symbols(x, y, color, unisym) {
-    ctx.font = "36px sans-serif";
+    ctx.font = "36px serif";
     ctx.fillStyle = color;
     textDimensions = ctx.measureText(unisym);
     x = (x - (textDimensions.width / 2))

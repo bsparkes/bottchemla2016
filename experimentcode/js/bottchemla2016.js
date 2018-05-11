@@ -62,44 +62,23 @@ function make_slides(f) {
 
   slides.trial = slide({
 
-    // exp.criticalResponse = slides.trial
-
     name: "trial",
     start: function() {
-
-      slide.condition = 0;
-      slide.onto = 1;
-      $(".err").hide();
-      console.log(currentTrial)
-      console.log('Trial slide info:')
-      console.log('order')
-      console.log(trialOrder)
-
-      console.log(trials[currentTrial])
-
     },
 
 
-    present: trialOrder, // [exp.trialInf],
+    present: trialOrder,
 
     //this gets run only at the beginning of the block, which means for each 'present' thing.
     present_handle: function(stim) {
 
+      // Get the trial info. currentTrial picks up a value from the randomised list, which is fed to the
+      // list of trials, which are dictionaries. So, exp.trialInf is the dictionary containing relevant info.
       exp.trialInf = trials[trialOrder[currentTrial]];
 
-      specifyCards(exp.trialInf)
+      specifyCards(exp.trialInf); // use trial dictionary build cards.
 
-      $("#trialCondition").html(conditionSentence(exp.trialInf["prime"], exp.trialInf["primeOneSymbols"][0]));
-
-      $(".err").hide();
-      $(".targetContainerL").hide();
-      $(".targetContainerR").hide();
-      $(".primeTwoContainerL").hide();
-      $(".primeTwoContainerR").hide();
-      $(".primeOneContainerL").show();
-      $(".primeOneContainerR").show();
-
-      // uncheck the button and erase the previous value
+      // Uncheck card buttons and erase the previous values
       exp.criticalResponse = null;
       exp.primeOneChoice = null;
       exp.primeTwoChoice = null;
@@ -108,6 +87,20 @@ function make_slides(f) {
       $('input[name=primeTwoChoice]:checked').prop('checked', false);
       $('input[name=targetChoice]:checked').prop('checked', false);
       $("#criticalSentence").html(stim);
+      slide.condition = 0; // no card has been selected
+
+
+      // hide everything but for the primeOne cards
+      $(".err").hide();
+      $(".targetContainerL").hide();
+      $(".targetContainerR").hide();
+      $(".primeTwoContainerL").hide();
+      $(".primeTwoContainerR").hide();
+      $(".primeOneContainerL").show();
+      $(".primeOneContainerR").show();
+
+      // show primeOne stimulus
+      $("#trialCondition").html(conditionSentence(exp.trialInf["prime"], exp.trialInf["primeOneSymbols"][0]));
 
       this.stim = stim; // I like to store this information in the slide so I can record it later.
     },
