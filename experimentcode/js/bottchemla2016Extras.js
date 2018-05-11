@@ -24,7 +24,7 @@ var trialCards = {
   We build a dictionary for each trial, containing all the relevant information.
   This can then be stored, or the info can be read off and stored independently.
 */
-trials = [
+trialList = [
   // {symbols: [] prime: [], target: [], strength : [], etc…}
 ]
 
@@ -49,7 +49,7 @@ for (let n = 1; n <= 1; n++) { // number of each
         dict["primeOneSymbols"] = symbolTriple();
         dict["primeTwoSymbols"] = symbolTriple();
         dict["targetSymbols"] = symbolTriple();
-        trials.push(dict);
+        trialList.push(dict);
       }
     }
   }
@@ -63,18 +63,14 @@ for (let n = 1; n <= 1; n++) { // number of each
 /* Each trial gets a number, and we generate a list.
    Of course, could simply randomise the list of trials, this might simplify things.
  */
-trialOrder = [];
+// trialOrder = [];
 
 //   trialAdd = trials.length;
 // while (trialAdd--) {
 //   trialOrder[trialAdd] = trialAdd
 // }
 
-// console.log(trials[17][0])
-
-// trialOrder = _.shuffle(trialOrder) // randomise order of trials
-
-var currentTrial = 0
+// trialList = _.shuffle(trialList) // randomise order of trials
 
 
 function makeCard(canvasid = 'canvas',

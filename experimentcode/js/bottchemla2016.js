@@ -66,14 +66,11 @@ function make_slides(f) {
     start: function() {},
 
 
-    present: trials, //trialOrder,
+    present: trialList, //trialOrder,
 
     //this gets run only at the beginning of the block, which means for each 'present' thing.
     present_handle: function(stim) {
-
-      // Get the trial info. currentTrial picks up a value from the randomised list, which is fed to the
-      // list of trials, which are dictionaries. So, exp.trialInf is the dictionary containing relevant info.
-      exp.trialInf = trials[0] //[trialOrder[0]];
+      exp.trialInf = stim; //
 
       specifyCards(exp.trialInf); // use trial dictionary build cards.
 
@@ -130,7 +127,6 @@ function make_slides(f) {
         exp.primeOneChoice = $('input[name=primeOneChoice]:checked').val();
         exp.primeTwoChoice = $('input[name=primeTwoChoice]:checked').val();
         if (exp.targetChoice != null) { // if one has chosen the target
-          // currentTrial++ // increase trial counter
           this.log_responses(); // log responses
           _stream.apply(this); // store data
         } else if (exp.primeTwoChoice != null) { // if one has chosen the second prime…
@@ -176,16 +172,13 @@ function make_slides(f) {
       });
       console.log('this trial…')
       console.log(exp.trialInf)
-      // console.log(currentTrial)
       console.log('prime test')
       console.log(exp.primeOneChoice == exp.trialInf["gudPrimeOneChoice"] && exp.primeTwoChoice == exp.trialInf["gudPrimeTwoChoice"])
       console.log(exp.data_trials) // show the data, for testing
-      console.log("trials")
-      console.log(trials)
+      // console.log("trials")
+      // console.log(trials)
       // console.log("trialOrder")
       // console.log(trialOrder)
-      // console.log("currentTrial")
-      // console.log(currentTrial)
     }
   });
 
@@ -236,15 +229,14 @@ function init() {
     "thanks"
   ];
 
-
-  exp.trialStims = {
-    "comparatives": ["John ate more food than this burger.",
-      "Mary had more pets than Fido."
-    ],
-    "multiple negations": ["No head injury is too severe to depair",
-      "No head injury is too trivial to ignore"
-    ]
-  }[exp.condition];
+  // exp.trialStims = {
+  //   "comparatives": ["John ate more food than this burger.",
+  //     "Mary had more pets than Fido."
+  //   ],
+  //   "multiple negations": ["No head injury is too severe to depair",
+  //     "No head injury is too trivial to ignore"
+  //   ]
+  // }[exp.condition];
 
   // generally no need to change anything below
   exp.trials = [];
