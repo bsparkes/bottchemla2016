@@ -78,20 +78,20 @@ function make_slides(f) {
       exp.criticalResponse = null;
       exp.primeOneChoice = null;
       exp.primeTwoChoice = null;
-      exp.targetChoice = null;
+      exp.responseChoice = null;
       $('input[name=primeOneChoice]:checked').prop('checked', false);
       $('input[name=primeTwoChoice]:checked').prop('checked', false);
-      $('input[name=targetChoice]:checked').prop('checked', false);
+      $('input[name=responseChoice]:checked').prop('checked', false);
       $("#criticalSentence").html(stim);
       slide.condition = 0; // no card has been selected
 
 
       // hide everything but for the primeOne cards
       $(".err").hide();
-      $(".targetContainerL").hide();
-      $(".targetContainerR").hide();
-      document.getElementById("targetChoiceL").accessKey = null;
-      document.getElementById("targetChoiceR").accessKey = null;
+      $(".responseContainerL").hide();
+      $(".responseContainerR").hide();
+      document.getElementById("responseChoiceL").accessKey = null;
+      document.getElementById("responseChoiceR").accessKey = null;
       $(".primeTwoContainerL").hide();
       $(".primeTwoContainerR").hide();
       $(".primeOneContainerL").show();
@@ -115,30 +115,30 @@ function make_slides(f) {
       The button function does a lot.
       Primarily, it updates the slide to follow the trial.
       We do this by first showing relevant info for the first prime, and then if a selection has
-      been made we update to the second, and then to the target, when we store information and then
+      been made we update to the second, and then to the response, when we store information and then
       move to the next trial.
-      The function does this by checking in reverse, as target takes precedence over primeTwo, etc…
+      The function does this by checking in reverse, as response takes precedence over primeTwo, etc…
     */
 
     button: function() { // what to do when the lower button is clicked
       if (slide.condition == 1) { // so long as a button is clicked, we update…
         $(".err").hide(); // hide error
-        exp.targetChoice = $('input[name=targetChoice]:checked').val(); // now update one button values
+        exp.responseChoice = $('input[name=responseChoice]:checked').val(); // now update one button values
         exp.primeOneChoice = $('input[name=primeOneChoice]:checked').val();
         exp.primeTwoChoice = $('input[name=primeTwoChoice]:checked').val();
-        if (exp.targetChoice != null) { // if one has chosen the target
+        if (exp.responseChoice != null) { // if one has chosen the response
           this.log_responses(); // log responses
           _stream.apply(this); // store data
         } else if (exp.primeTwoChoice != null) { // if one has chosen the second prime…
-          $("#trialCondition").html(conditionSentence(exp.trialInf["target"], exp.trialInf["targetSymbols"]));
+          $("#trialCondition").html(conditionSentence(exp.trialInf["response"], exp.trialInf["responseSymbols"]));
           $(".primeTwoContainerL").hide();
           $(".primeTwoContainerR").hide();
           document.getElementById("primeTwoChoiceL").accessKey = null;
           document.getElementById("primeTwoChoiceR").accessKey = null;
-          $(".targetContainerL").show();
-          $(".targetContainerR").show();
-          document.getElementById("targetChoiceL").accessKey = ",";
-          document.getElementById("targetChoiceR").accessKey = ".";
+          $(".responseContainerL").show();
+          $(".responseContainerR").show();
+          document.getElementById("responseChoiceL").accessKey = ",";
+          document.getElementById("responseChoiceR").accessKey = ".";
           slide.condition = 0;
         } else if (exp.primeOneChoice != null) { // if one has chosen the first prime…
           $("#trialCondition").html(conditionSentence(exp.trialInf["prime"], exp.trialInf["primeTwoSymbols"]));
@@ -159,7 +159,7 @@ function make_slides(f) {
 
     log_responses: function() {
       exp.data_trials.push({ // data to be stored
-        "trial_type": "target",
+        "trial_type": "response",
         "trial_data": exp.trialInf, // store all trial data, as who knows…
         "primeOneChoice": exp.primeOneChoice,
         "gudPrimeOneChoice": exp.trialInf["gudPrimeOneChoice"],
@@ -168,11 +168,11 @@ function make_slides(f) {
         "gudPrimeTwoChoice": exp.trialInf["gudPrimeTwoChoice"],
         "correctPrimeTwoChoice": (exp.primeTwoChoice == exp.trialInf["gudPrimeTwoChoice"]),
         "correctPrimeChoices": (exp.primeOneChoice == exp.primeTwoChoice == exp.trialInf["gudPrimeTwoChoice"]),
-        "targetChoice": exp.targetChoice,
+        "responseChoice": exp.responseChoice, // rename response
         // could include time of response as well
       });
-      document.getElementById("targetChoiceL").accessKey = null; // disable quick keys after trials are over
-      document.getElementById("targetChoiceR").accessKey = null;
+      document.getElementById("responseChoiceL").accessKey = null; // disable quick keys after trials are over
+      document.getElementById("responseChoiceR").accessKey = null;
       document.getElementById("continueButton").accessKey = null;
       /* console logs for testing */
       console.log('this trial…')
@@ -226,7 +226,7 @@ function make_slides(f) {
 /// init ///
 function init() {
   //blocks of the experiment:
-  exp.structure = ["i0", "instructions", "trial", //"subj_info",
+  exp.structure = ["i0", "instructions", "trial", "subj_info",
     "thanks"
   ];
 

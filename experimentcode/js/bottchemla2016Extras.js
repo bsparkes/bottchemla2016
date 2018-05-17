@@ -17,93 +17,114 @@ var trialCards = {
   adhocStrong: [1, 0, 0, 1],
   adhocWeak: [1, 1, 0, 2],
   adhocFalse: [0, 1, 1, 2],
-  target: [0, 0, 0, 0],
+  response: [0, 0, 0, 0],
 }
 
 /*
   We build a dictionary for each trial, containing all the relevant information.
   This can then be stored, or the info can be read off and stored independently.
 */
-trialList = [
-  // {symbols: [] prime: [], target: [], strength : [], etc…}
-]
+// trialList = [
+// {symbols: [] prime: [], response: [], strength : [], etc…}
+// ]
 
 /*
-  build trials
+  We now build the responses.
+  We're going to avoid adhoc, which will effectively cut the length of the trial by half, due
+  to the cross category matching that happens.
 */
 
-for (let n = 1; n <= 1; n++) { // number of each
-  for (let t = 0; t < 3; t++) { // target
-    for (let s = 0; s < 2; s++) { // strength
-      for (let p = 0; p < 3; p++) { // prime
-        dict = {};
-        p1Split = _.shuffle([0, 1]);
-        p2Split = _.shuffle([0, 1]);
-        dict["target"] = t;
-        dict["strength"] = s;
-        dict["prime"] = p;
-        dict["filler"] = false;
-        dict["primeOneShuffle"] = p1Split;
-        dict["primeTwoShuffle"] = p2Split;
-        dict["gudPrimeOneChoice"] = p1Split.indexOf(1);
-        dict["gudPrimeTwoChoice"] = p2Split.indexOf(1);
-        dict["primeOneSymbols"] = symbolTriple();
-        dict["primeTwoSymbols"] = symbolTriple();
-        dict["targetSymbols"] = symbolTriple();
-        trialList.push(dict);
+function buildTrials() {
+  list = [
+    // {symbols: [] prime: [], response: [], strength : [], etc…}
+  ]
+  for (let n = 0; n < 4; n++) { // number of each
+    for (let t = 0; t < 2; t++) { // response, skipping adhoc
+      for (let s = 0; s < 2; s++) { // strength
+        for (let p = 0; p < 2; p++) { // prime skipping adhoc
+          dict = {};
+          p1Split = _.shuffle([0, 1]);
+          p2Split = _.shuffle([0, 1]);
+          dict["response"] = t;
+          dict["strength"] = s;
+          dict["prime"] = p;
+          dict["filler"] = false;
+          dict["primeOneShuffle"] = p1Split;
+          dict["primeTwoShuffle"] = p2Split;
+          dict["gudPrimeOneChoice"] = p1Split.indexOf(1);
+          dict["gudPrimeTwoChoice"] = p2Split.indexOf(1);
+          dict["primeOneSymbols"] = symbolTriple();
+          dict["primeTwoSymbols"] = symbolTriple();
+          dict["responseSymbols"] = symbolTriple();
+          list.push(dict);
+        }
       }
     }
   }
+  return list
 }
+
+trialList = buildTrials()
 
 /*
   Adding filler trials
-  To my understanding we only change the 'target' card when doing filler trials,
+  To my understanding we only change the 'response' card when doing filler trials,
   and there are three different possible filler cards. So, we'll get a total of
   6 different filler trials for each category, and from these we need to go down to
   4. We'll use the same method of generation, then split the list into respective
   enrichment categories, and randomly pick 4.
-  We adjust the prime some that the target always matches, as we're not interested in
+  We adjust the prime some that the response always matches, as we're not interested in
   crossing over prime/filler categories.
 */
 
-fillerList = []
-
-for (let n = 1; n <= 1; n++) { // number of each
-  for (let t = 3; t < 6; t++) { // target
-    for (let s = 0; s < 2; s++) { // strength
-      // for (let p = 0; p < 3; p++) { // prime
-      for (let f = 0; f < 3; f++) { // filler
-        dict = {};
-        p1Split = _.shuffle([0, 1]);
-        p2Split = _.shuffle([0, 1]);
-        dict["target"] = t;
-        dict["strength"] = s;
-        dict["prime"] = t - 3; // make sure prime and filler categories match up
-        dict["filler"] = f;
-        dict["primeOneShuffle"] = p1Split;
-        dict["primeTwoShuffle"] = p2Split;
-        dict["gudPrimeOneChoice"] = p1Split.indexOf(1);
-        dict["gudPrimeTwoChoice"] = p2Split.indexOf(1);
-        dict["primeOneSymbols"] = symbolTriple();
-        dict["primeTwoSymbols"] = symbolTriple();
-        dict["targetSymbols"] = symbolTriple();
-        fillerList.push(dict);
+function buildFillers() {
+  list = []
+  for (let n = 1; n <= 1; n++) { // number of each
+    for (let t = 3; t < 5; t++) { // response, skipping adhoc
+      for (let s = 0; s < 2; s++) { // strength
+        // for (let p = 0; p < 3; p++) { // prime
+        for (let f = 0; f < 3; f++) { // filler
+          dict = {};
+          p1Split = _.shuffle([0, 1]);
+          p2Split = _.shuffle([0, 1]);
+          dict["response"] = t;
+          dict["strength"] = s;
+          dict["prime"] = t; // make sure prime and filler categories match up
+          dict["filler"] = f;
+          dict["primeOneShuffle"] = p1Split;
+          dict["primeTwoShuffle"] = p2Split;
+          dict["gudPrimeOneChoice"] = p1Split.indexOf(1);
+          dict["gudPrimeTwoChoice"] = p2Split.indexOf(1);
+          dict["primeOneSymbols"] = symbolTriple();
+          dict["primeTwoSymbols"] = symbolTriple();
+          dict["responseSymbols"] = symbolTriple();
+          list.push(dict);
+        }
       }
     }
+    // }
   }
-  // }
+  return list
 }
+
+fillerList = buildFillers()
 
 console.log('filler list')
 console.log(fillerList.length)
 
+/* We now build the filler list, as we're dropping adhoc, we cannot keep the same ratio between response
+   and filler trials.
+   We had 4*18 = 72 different trials before, and 12 fillers, so a ratio of one filler to every six responses.
+   Now we have 4*8 = 32 different trials, so as 32/6 = 5.3, we'd need 5.3… fillers total. We round down to 5.
+*/
+// someFiller = fillerList.slice(0, 6)
+// someFiller = someFiller.concat(_.sample(fillerList.slice(0, 6), 2))
+// fourFiller = fillerList.slice(6, 12)
+// fourFiller = fourFiller.concat(_.sample(fillerList.slice(6, 12), 2))
 
-someFiller = _.sample(fillerList.slice(0, 6), 4)
-fourFiller = _.sample(fillerList.slice(6, 12), 4)
-adhocFiller = _.sample(fillerList.slice(12, 18), 4)
-
-fillerList = someFiller.concat(fourFiller).concat(adhocFiller)
+someFiller = _.sample(fillerList.slice(0, 6), 5)
+fourFiller = _.sample(fillerList.slice(6, 12), 5)
+// adhocFiller = _.sample(fillerList.slice(12, 18), 4)
 
 // console.log('someFiller')
 // console.log(someFiller)
@@ -112,26 +133,22 @@ fillerList = someFiller.concat(fourFiller).concat(adhocFiller)
 // console.log('adhocFiller')
 // console.log(adhocFiller)
 
+fillerList = someFiller.concat(fourFiller) //.concat(adhocFiller)
+
 // console.log('filler list')
 // console.log(fillerList)
 
-trialList.concat(fillerList)
+trialList = trialList.concat(fillerList)
+// trialList = fillerList
 /* We've now got an array of trial dictionaries.
    The next thing to do is shuffle these. This is primarily so that
    there is something that the html can access when creating cards.
 */
 
-/* Each trial gets a number, and we generate a list.
-   Of course, could simply randomise the list of trials, this might simplify things.
- */
-// trialOrder = [];
-
-//   trialAdd = trials.length;
-// while (trialAdd--) {
-//   trialOrder[trialAdd] = trialAdd
-// }
-
 trialList = _.shuffle(trialList) // randomise order of trials
+
+console.log('trialList')
+console.log(trialList)
 
 
 function makeCard(canvasid = 'canvas',
@@ -153,7 +170,7 @@ function makeCard(canvasid = 'canvas',
     x = W / 2
     y = H / 2
     betterText = 'Better picture?'
-    ctx.font = "36px serif";
+    ctx.font = "46px serif";
     ctx.fillStyle = "black";
     textDimensions = ctx.measureText(betterText);
     x = (x - (textDimensions.width / 2))
@@ -224,7 +241,7 @@ function makeCard(canvasid = 'canvas',
   }
 
   function symbols(x, y, color, unisym) {
-    ctx.font = "36px serif";
+    ctx.font = "46px serif";
     ctx.fillStyle = color;
     textDimensions = ctx.measureText(unisym);
     x = (x - (textDimensions.width / 2))
@@ -267,13 +284,13 @@ function symbolTriple() {
 function specifyCards(trialDict) {
 
   primeCat = trialDict["prime"]
-  targetCat = trialDict["target"]
+  responseCat = trialDict["response"]
   strength = trialDict["strength"]
   primeOne = trialDict["primeOneShuffle"].slice(0) // deep copy cuz modifying
   primeTwo = trialDict["primeTwoShuffle"].slice(0) // again
   primeOneSymbols = symIndexTripleToUnicode(trialDict["primeOneSymbols"])
   primeTwoSymbols = symIndexTripleToUnicode(trialDict["primeTwoSymbols"])
-  targetSymbols = symIndexTripleToUnicode(trialDict["targetSymbols"])
+  responseSymbols = symIndexTripleToUnicode(trialDict["responseSymbols"])
 
   fillerType = trialDict["filler"]
 
@@ -293,100 +310,105 @@ function specifyCards(trialDict) {
   fillerDoubleWeak = trialCards["fillerDoubleWeak"];
   fillerDoubleFalse = trialCards["fillerDoubleFalse"];
 
+  console.log(strength)
+  console.log(primeCat)
+
   if (strength == 0) { // if weak
-    if (primeCat == 0) {
+    if (primeCat == 0 || primeCat == 3) {
       primeOne[primeOne.indexOf(0)] = someFalse
       primeOne[primeOne.indexOf(1)] = someWeak
       primeTwo[primeTwo.indexOf(0)] = someFalse
       primeTwo[primeTwo.indexOf(1)] = someWeak
-    } else if (primeCat == 1) {
+    } else if (primeCat == 1 || primeCat == 4) {
       primeOne[primeOne.indexOf(0)] = fourFalse
       primeOne[primeOne.indexOf(1)] = fourWeak
       primeTwo[primeTwo.indexOf(0)] = fourFalse
       primeTwo[primeTwo.indexOf(1)] = fourWeak
-    } else { // primeCat == 2
+    } else if (primeCat == 2 || primeCat == 5) {
       primeOne[primeOne.indexOf(0)] = adhocFalse
       primeOne[primeOne.indexOf(1)] = adhocWeak
       primeTwo[primeTwo.indexOf(0)] = adhocFalse
       primeTwo[primeTwo.indexOf(1)] = adhocWeak
     }
   } else if (strength == 1) { // if strong
-    if (primeCat == 0) {
+    if (primeCat == 0 || primeCat == 3) {
       primeOne[primeOne.indexOf(0)] = someWeak
       primeOne[primeOne.indexOf(1)] = someStrong
       primeTwo[primeTwo.indexOf(0)] = someWeak
       primeTwo[primeTwo.indexOf(1)] = someStrong
-    } else if (primeCat == 1) {
+    } else if (primeCat == 1 || primeCat == 4) {
       primeOne[primeOne.indexOf(0)] = fourWeak
       primeOne[primeOne.indexOf(1)] = fourStrong
       primeTwo[primeTwo.indexOf(0)] = fourWeak
       primeTwo[primeTwo.indexOf(1)] = fourStrong
-    } else { // primeCat == 2
+    } else if (primeCat == 2 || primeCat == 5) {
       primeOne[primeOne.indexOf(0)] = adhocWeak
       primeOne[primeOne.indexOf(1)] = adhocStrong
       primeTwo[primeTwo.indexOf(0)] = adhocWeak
       primeTwo[primeTwo.indexOf(1)] = adhocStrong
     }
-  } else if (stregth == 2) { // if filler
-    if (primeCat == 0) {
-      primeOne[primeOne.indexOf(0)] = someFalse
-      primeOne[primeOne.indexOf(1)] = someWeak
-      primeTwo[primeTwo.indexOf(0)] = someFalse
-      primeTwo[primeTwo.indexOf(1)] = someWeak
-    } else if (primeCat == 1) {
-      primeOne[primeOne.indexOf(0)] = fourFalse
-      primeOne[primeOne.indexOf(1)] = fourWeak
-      primeTwo[primeTwo.indexOf(0)] = fourFalse
-      primeTwo[primeTwo.indexOf(1)] = fourWeak
-    } else { // primeCat == 2
-      primeOne[primeOne.indexOf(0)] = adhocFalse
-      primeOne[primeOne.indexOf(1)] = adhocWeak
-      primeTwo[primeTwo.indexOf(0)] = adhocFalse
-      primeTwo[primeTwo.indexOf(1)] = adhocWeak
+  // } else if (stregth == 2) { // if filler
+  //   if (primeCat == 0 || primeCat == 3) {
+  //     primeOne[primeOne.indexOf(0)] = someFalse
+  //     primeOne[primeOne.indexOf(1)] = someWeak
+  //     primeTwo[primeTwo.indexOf(0)] = someFalse
+  //     primeTwo[primeTwo.indexOf(1)] = someWeak
+  //   } else if (primeCat == 1 || primeCat == 4) {
+  //     primeOne[primeOne.indexOf(0)] = fourFalse
+  //     primeOne[primeOne.indexOf(1)] = fourWeak
+  //     primeTwo[primeTwo.indexOf(0)] = fourFalse
+  //     primeTwo[primeTwo.indexOf(1)] = fourWeak
+  //   } else if (primeCat == 2 || primeCat == 5) {
+  //     primeOne[primeOne.indexOf(0)] = adhocFalse
+  //     primeOne[primeOne.indexOf(1)] = adhocWeak
+  //     primeTwo[primeTwo.indexOf(0)] = adhocFalse
+  //     primeTwo[primeTwo.indexOf(1)] = adhocWeak
+  //   }
+  } else {
+      console.log('error')
     }
-  }
 
-  if (targetCat == 0) { // someStrong
-    targetL = someStrong;
-    targetR = trialCards["target"];
-  } else if (targetCat == 1) {
-    targetL = fourStrong;
-    targetR = trialCards["target"];
-  } else if (targetCat == 2) {
-    targetL = adhocStrong;
-    targetR = trialCards["target"];
-  } else if (targetCat == 3) {
+  if (responseCat == 0) { // someStrong
+    responseL = someStrong;
+    responseR = trialCards["response"];
+  } else if (responseCat == 1) {
+    responseL = fourStrong;
+    responseR = trialCards["response"];
+  } else if (responseCat == 2) {
+    responseL = adhocStrong;
+    responseR = trialCards["response"];
+  } else if (responseCat == 3) {
     if (fillerType == 0) {
-      targetL = someFalse;
-      targetR = trialCards["target"];
+      responseL = someFalse;
+      responseR = trialCards["response"];
     } else if (fillerType == 1) {
-      targetL = someWeak;
-      targetR = trialCards["target"];
+      responseL = someWeak;
+      responseR = trialCards["response"];
     } else if (fillerType == 2) {
-      targetL = someWeak;
-      targetR = someStrong;
+      responseL = someWeak;
+      responseR = someStrong;
     }
-  } else if (targetCat == 4) {
+  } else if (responseCat == 4) {
     if (fillerType == 0) {
-      targetL = fourFalse;
-      targetR = trialCards["target"];
+      responseL = fourFalse;
+      responseR = trialCards["response"];
     } else if (fillerType == 1) {
-      targetL = fourWeak;
-      targetR = trialCards["target"];
+      responseL = fourWeak;
+      responseR = trialCards["response"];
     } else if (fillerType == 2) {
-      targetL = fourWeak;
-      targetR = fourStrong;
+      responseL = fourWeak;
+      responseR = fourStrong;
     }
-  } else if (targetCat == 5) {
+  } else if (responseCat == 5) {
     if (fillerType == 0) {
-      targetL = adhocFalse;
-      targetR = trialCards["target"];
+      responseL = adhocFalse;
+      responseR = trialCards["response"];
     } else if (fillerType == 1) {
-      targetL = adhocWeak;
-      targetR = trialCards["target"];
+      responseL = adhocWeak;
+      responseR = trialCards["response"];
     } else if (fillerType == 2) {
-      targetL = adhocWeak;
-      targetR = adhocStrong;
+      responseL = adhocWeak;
+      responseR = adhocStrong;
     }
   }
 
@@ -395,8 +417,8 @@ function specifyCards(trialDict) {
   makeCard(canvasid = 'primeOneR', primeOne[1], primeOneSymbols)
   makeCard(canvasid = 'primeTwoL', primeTwo[0], primeTwoSymbols)
   makeCard(canvasid = 'primeTwoR', primeTwo[1], primeTwoSymbols)
-  makeCard(canvasid = 'targetL', targetL, targetSymbols)
-  makeCard(canvasid = 'targetR', targetR, targetSymbols)
+  makeCard(canvasid = 'responseL', responseL, responseSymbols)
+  makeCard(canvasid = 'responseR', responseR, responseSymbols)
 }
 
 

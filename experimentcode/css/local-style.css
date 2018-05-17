@@ -71,7 +71,7 @@ text-align: center;
 transform: translate(10%, 0%)
 }
 
-.targetContainerL {
+.responseContainerL {
 position: absolute;
 top:18%;
 left:50%;
@@ -81,7 +81,7 @@ text-align: center;
 transform: translate(-110%, 0%)
 }
 
-.targetContainerR {
+.responseContainerR {
 position: absolute;
 top:18%;
 left:50%;
