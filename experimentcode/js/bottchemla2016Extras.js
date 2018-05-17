@@ -1,6 +1,6 @@
 var symlist = ["♦", "♣", "✓", "♠", "♥", "■", "★", "●", "♩", "▲"];
 var symText = ["diamond", "club", "tick", "spade", "heart", "square", "star", "circle", "note", "triangle"];
-var symPre = ["Some of the symbols are", "There are four", "There is a"]
+var symPre = ["Some of the symbols are", "There are four", "There is a", "All of the symbols are", "There are six", "There is a"]
 
 /*
   Specification of how cards look. This is read…
@@ -42,6 +42,7 @@ for (let n = 1; n <= 1; n++) { // number of each
         dict["target"] = t;
         dict["strength"] = s;
         dict["prime"] = p;
+        dict["filler"] = false;
         dict["primeOneShuffle"] = p1Split;
         dict["primeTwoShuffle"] = p2Split;
         dict["gudPrimeOneChoice"] = p1Split.indexOf(1);
@@ -55,6 +56,66 @@ for (let n = 1; n <= 1; n++) { // number of each
   }
 }
 
+/*
+  Adding filler trials
+  To my understanding we only change the 'target' card when doing filler trials,
+  and there are three different possible filler cards. So, we'll get a total of
+  6 different filler trials for each category, and from these we need to go down to
+  4. We'll use the same method of generation, then split the list into respective
+  enrichment categories, and randomly pick 4.
+  We adjust the prime some that the target always matches, as we're not interested in
+  crossing over prime/filler categories.
+*/
+
+fillerList = []
+
+for (let n = 1; n <= 1; n++) { // number of each
+  for (let t = 3; t < 6; t++) { // target
+    for (let s = 0; s < 2; s++) { // strength
+      // for (let p = 0; p < 3; p++) { // prime
+      for (let f = 0; f < 3; f++) { // filler
+        dict = {};
+        p1Split = _.shuffle([0, 1]);
+        p2Split = _.shuffle([0, 1]);
+        dict["target"] = t;
+        dict["strength"] = s;
+        dict["prime"] = t - 3; // make sure prime and filler categories match up
+        dict["filler"] = f;
+        dict["primeOneShuffle"] = p1Split;
+        dict["primeTwoShuffle"] = p2Split;
+        dict["gudPrimeOneChoice"] = p1Split.indexOf(1);
+        dict["gudPrimeTwoChoice"] = p2Split.indexOf(1);
+        dict["primeOneSymbols"] = symbolTriple();
+        dict["primeTwoSymbols"] = symbolTriple();
+        dict["targetSymbols"] = symbolTriple();
+        fillerList.push(dict);
+      }
+    }
+  }
+  // }
+}
+
+console.log('filler list')
+console.log(fillerList.length)
+
+
+someFiller = _.sample(fillerList.slice(0, 6), 4)
+fourFiller = _.sample(fillerList.slice(6, 12), 4)
+adhocFiller = _.sample(fillerList.slice(12, 18), 4)
+
+fillerList = someFiller.concat(fourFiller).concat(adhocFiller)
+
+// console.log('someFiller')
+// console.log(someFiller)
+// console.log('fourFiller')
+// console.log(fourFiller)
+// console.log('adhocFiller')
+// console.log(adhocFiller)
+
+// console.log('filler list')
+// console.log(fillerList)
+
+trialList.concat(fillerList)
 /* We've now got an array of trial dictionaries.
    The next thing to do is shuffle these. This is primarily so that
    there is something that the html can access when creating cards.
@@ -70,7 +131,7 @@ for (let n = 1; n <= 1; n++) { // number of each
 //   trialOrder[trialAdd] = trialAdd
 // }
 
-// trialList = _.shuffle(trialList) // randomise order of trials
+trialList = _.shuffle(trialList) // randomise order of trials
 
 
 function makeCard(canvasid = 'canvas',
@@ -214,6 +275,8 @@ function specifyCards(trialDict) {
   primeTwoSymbols = symIndexTripleToUnicode(trialDict["primeTwoSymbols"])
   targetSymbols = symIndexTripleToUnicode(trialDict["targetSymbols"])
 
+  fillerType = trialDict["filler"]
+
   someStrong = trialCards["someStrong"];
   someWeak = trialCards["someWeak"];
   someFalse = trialCards["someFalse"];
@@ -223,6 +286,12 @@ function specifyCards(trialDict) {
   adhocStrong = trialCards["adhocStrong"];
   adhocWeak = trialCards["adhocWeak"];
   adhocFalse = trialCards["adhocFalse"];
+  fillerAllWeak = trialCards["fillerAllWeak"];
+  fillerAllStrong = trialCards["fillerAllStrong"];
+  fillerSixWeak = trialCards["fillerSixWeak"];
+  fillerSixFalse = trialCards["fillerSixFalse"];
+  fillerDoubleWeak = trialCards["fillerDoubleWeak"];
+  fillerDoubleFalse = trialCards["fillerDoubleFalse"];
 
   if (strength == 0) { // if weak
     if (primeCat == 0) {
@@ -241,7 +310,7 @@ function specifyCards(trialDict) {
       primeTwo[primeTwo.indexOf(0)] = adhocFalse
       primeTwo[primeTwo.indexOf(1)] = adhocWeak
     }
-  } else { // if strong
+  } else if (strength == 1) { // if strong
     if (primeCat == 0) {
       primeOne[primeOne.indexOf(0)] = someWeak
       primeOne[primeOne.indexOf(1)] = someStrong
@@ -258,14 +327,67 @@ function specifyCards(trialDict) {
       primeTwo[primeTwo.indexOf(0)] = adhocWeak
       primeTwo[primeTwo.indexOf(1)] = adhocStrong
     }
+  } else if (stregth == 2) { // if filler
+    if (primeCat == 0) {
+      primeOne[primeOne.indexOf(0)] = someFalse
+      primeOne[primeOne.indexOf(1)] = someWeak
+      primeTwo[primeTwo.indexOf(0)] = someFalse
+      primeTwo[primeTwo.indexOf(1)] = someWeak
+    } else if (primeCat == 1) {
+      primeOne[primeOne.indexOf(0)] = fourFalse
+      primeOne[primeOne.indexOf(1)] = fourWeak
+      primeTwo[primeTwo.indexOf(0)] = fourFalse
+      primeTwo[primeTwo.indexOf(1)] = fourWeak
+    } else { // primeCat == 2
+      primeOne[primeOne.indexOf(0)] = adhocFalse
+      primeOne[primeOne.indexOf(1)] = adhocWeak
+      primeTwo[primeTwo.indexOf(0)] = adhocFalse
+      primeTwo[primeTwo.indexOf(1)] = adhocWeak
+    }
   }
 
-  if (targetCat == 0) {
+  if (targetCat == 0) { // someStrong
     targetL = someStrong;
+    targetR = trialCards["target"];
   } else if (targetCat == 1) {
     targetL = fourStrong;
-  } else {
+    targetR = trialCards["target"];
+  } else if (targetCat == 2) {
     targetL = adhocStrong;
+    targetR = trialCards["target"];
+  } else if (targetCat == 3) {
+    if (fillerType == 0) {
+      targetL = someFalse;
+      targetR = trialCards["target"];
+    } else if (fillerType == 1) {
+      targetL = someWeak;
+      targetR = trialCards["target"];
+    } else if (fillerType == 2) {
+      targetL = someWeak;
+      targetR = someStrong;
+    }
+  } else if (targetCat == 4) {
+    if (fillerType == 0) {
+      targetL = fourFalse;
+      targetR = trialCards["target"];
+    } else if (fillerType == 1) {
+      targetL = fourWeak;
+      targetR = trialCards["target"];
+    } else if (fillerType == 2) {
+      targetL = fourWeak;
+      targetR = fourStrong;
+    }
+  } else if (targetCat == 5) {
+    if (fillerType == 0) {
+      targetL = adhocFalse;
+      targetR = trialCards["target"];
+    } else if (fillerType == 1) {
+      targetL = adhocWeak;
+      targetR = trialCards["target"];
+    } else if (fillerType == 2) {
+      targetL = adhocWeak;
+      targetR = adhocStrong;
+    }
   }
 
   /* … and gen the cards */
@@ -274,15 +396,19 @@ function specifyCards(trialDict) {
   makeCard(canvasid = 'primeTwoL', primeTwo[0], primeTwoSymbols)
   makeCard(canvasid = 'primeTwoR', primeTwo[1], primeTwoSymbols)
   makeCard(canvasid = 'targetL', targetL, targetSymbols)
-  makeCard(canvasid = 'targetR', trialCards["target"], targetSymbols)
+  makeCard(canvasid = 'targetR', targetR, targetSymbols)
 }
 
 
-function conditionSentence(condition, symbol) {
+function conditionSentence(condition, symbols) {
 
-  condText = "" + symPre[condition] + " " + symText[symbol]
-  if (condition != 2) {
-    condText += "s"
+  if (condition != 5) {
+    condText = "" + symPre[condition] + " " + symText[symbols[0]]
+    if (condition != 2) {
+      condText += "s"
+    }
+  } else {
+    condText = "" + symPre[condition] + " " + symText[symbols[0]] + " and a " + symText[symbols[1]]
   }
   return condText
 }

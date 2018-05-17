@@ -101,7 +101,7 @@ function make_slides(f) {
       document.getElementById("continueButton").accessKey = "/";
 
       // show primeOne stimulus
-      $("#trialCondition").html(conditionSentence(exp.trialInf["prime"], exp.trialInf["primeOneSymbols"][0]));
+      $("#trialCondition").html(conditionSentence(exp.trialInf["prime"], exp.trialInf["primeOneSymbols"]));
 
       this.stim = stim; // I like to store this information in the slide so I can record it later.
     },
@@ -130,7 +130,7 @@ function make_slides(f) {
           this.log_responses(); // log responses
           _stream.apply(this); // store data
         } else if (exp.primeTwoChoice != null) { // if one has chosen the second prime…
-          $("#trialCondition").html(conditionSentence(exp.trialInf["target"], exp.trialInf["targetSymbols"][0]));
+          $("#trialCondition").html(conditionSentence(exp.trialInf["target"], exp.trialInf["targetSymbols"]));
           $(".primeTwoContainerL").hide();
           $(".primeTwoContainerR").hide();
           document.getElementById("primeTwoChoiceL").accessKey = null;
@@ -141,7 +141,7 @@ function make_slides(f) {
           document.getElementById("targetChoiceR").accessKey = ".";
           slide.condition = 0;
         } else if (exp.primeOneChoice != null) { // if one has chosen the first prime…
-          $("#trialCondition").html(conditionSentence(exp.trialInf["prime"], exp.trialInf["primeTwoSymbols"][0]));
+          $("#trialCondition").html(conditionSentence(exp.trialInf["prime"], exp.trialInf["primeTwoSymbols"]));
           $(".primeOneContainerL").hide();
           $(".primeOneContainerR").hide();
           document.getElementById("primeOneChoiceL").accessKey = null;
@@ -167,18 +167,19 @@ function make_slides(f) {
         "primeTwoChoice": exp.primeTwoChoice,
         "gudPrimeTwoChoice": exp.trialInf["gudPrimeTwoChoice"],
         "correctPrimeTwoChoice": (exp.primeTwoChoice == exp.trialInf["gudPrimeTwoChoice"]),
+        "correctPrimeChoices": (exp.primeOneChoice == exp.primeTwoChoice == exp.trialInf["gudPrimeTwoChoice"]),
         "targetChoice": exp.targetChoice,
         // could include time of response as well
       });
+      document.getElementById("targetChoiceL").accessKey = null; // disable quick keys after trials are over
+      document.getElementById("targetChoiceR").accessKey = null;
+      document.getElementById("continueButton").accessKey = null;
+      /* console logs for testing */
       console.log('this trial…')
       console.log(exp.trialInf)
       console.log('prime test')
       console.log(exp.primeOneChoice == exp.trialInf["gudPrimeOneChoice"] && exp.primeTwoChoice == exp.trialInf["gudPrimeTwoChoice"])
       console.log(exp.data_trials) // show the data, for testing
-      // console.log("trials")
-      // console.log(trials)
-      // console.log("trialOrder")
-      // console.log(trialOrder)
     }
   });
 
