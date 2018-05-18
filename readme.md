@@ -6,4 +6,4 @@ This repository contains code for reproducing an experiment, as part of the [lin
 In particular reproducing [Bott and Chemla (2016)](https://www.sciencedirect.com/science/article/pii/S0749596X16300109).
 The code focuses on the first experiment, but should be adaptable to all.
 
-We use a template for web-based experiments developed and used in Noah Goodman's CoCoLab, etc… you can see all of the relevant details in the original repository [here](https://github.com/Ciyang/experiment_template)
+We use a template for web-based experiments developed and used in Noah Goodman's CoCoLab, etc… you can see all of the relevant details in the original repository [here](https://github.com/Ciyang/experiment_template).
