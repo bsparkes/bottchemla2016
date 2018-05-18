@@ -81,7 +81,7 @@ function make_slides(f) {
           this.log_responses(); // log responses
           _stream.apply(this); // store data}
         } else {
-          $("#exampleErr").html("Are you sure? Please consult your native speaker intuition harder and try again.")
+          $("#exampleErr").html("Are you sure? Please consider which card best matches the sentence and and try again.")
           $('.err').show();
         }
       } else {
@@ -202,12 +202,12 @@ function make_slides(f) {
         "trial_type": "response",
         "trial_data": this.stim, // store all trial data, as who knows…
         "primeOneChoice": exp.primeOneChoice,
-        "gudPrimeOneChoice": this.stim["gudPrimeOneChoice"],
-        "correctPrimeOneChoice": (exp.primeOneChoice == this.stim["gudPrimeOneChoice"]),
+        "goodPrimeOneChoice": this.stim["goodPrimeOneChoice"],
+        "correctPrimeOneChoice": (exp.primeOneChoice == this.stim["goodPrimeOneChoice"]),
         "primeTwoChoice": exp.primeTwoChoice,
-        "gudPrimeTwoChoice": this.stim["gudPrimeTwoChoice"],
-        "correctPrimeTwoChoice": (exp.primeTwoChoice == this.stim["gudPrimeTwoChoice"]),
-        "correctPrimeChoices": (exp.primeOneChoice == exp.primeTwoChoice == this.stim["gudPrimeTwoChoice"]),
+        "goodPrimeTwoChoice": this.stim["goodPrimeTwoChoice"],
+        "correctPrimeTwoChoice": (exp.primeTwoChoice == this.stim["goodPrimeTwoChoice"]),
+        "correctPrimeChoices": (exp.primeOneChoice == exp.primeTwoChoice == this.stim["goodPrimeTwoChoice"]),
         "responseChoice": exp.responseChoice, // rename response
         // could include time of response as well
       });
@@ -218,7 +218,7 @@ function make_slides(f) {
       console.log('this trial…')
       console.log(this.stim)
       console.log('prime test')
-      console.log(exp.primeOneChoice == this.stim["gudPrimeOneChoice"] && exp.primeTwoChoice == this.stim["gudPrimeTwoChoice"])
+      console.log(exp.primeOneChoice == this.stim["goodPrimeOneChoice"] && exp.primeTwoChoice == this.stim["goodPrimeTwoChoice"])
       console.log(exp.data_trials) // show the data, for testing
     }
   });
@@ -228,7 +228,6 @@ function make_slides(f) {
   slides.subj_info = slide({
     name: "subj_info",
     submit: function(e) {
-      //if (e.preventDefault) e.preventDefault(); // I don't know what this means.
       exp.subj_data = {
         language: $("#language").val(),
         enjoyment: $("#enjoyment").val(),

@@ -27,13 +27,12 @@ var trialCards = {
 /*
   We build a dictionary for each trial, containing all the relevant information.
   This can then be stored, or the info can be read off and stored independently.
+  The dictionary will have the structure:
+    {symbols: [] prime: [], response: [], strength : [], etc…}
 */
-// trialList = [
-// {symbols: [] prime: [], response: [], strength : [], etc…}
-// ]
 
 /*
-  We now build the responses.
+ Building the responses …
   We're going to avoid adhoc, which will effectively cut the length of the trial by half, due
   to the cross category matching that happens.
 */
@@ -164,7 +163,6 @@ function makeExamples() {
 exampleList = makeExamples()
 
 
-console.log(exampleList)
 
 
 function makeCard(canvasid = 'canvas',
@@ -196,7 +194,6 @@ function makeCard(canvasid = 'canvas',
     sym1 = symTrip[0]
     sym2 = symTrip[1]
     sym3 = symTrip[2]
-
 
     // depending on trial type, reconfigure display symbols
     if (cardspec[0] == 0) {
@@ -252,8 +249,6 @@ function makeCard(canvasid = 'canvas',
     }
 
     var symbol = [];
-
-
     var Wc = W / cols,
       Hr = H / rows
 
@@ -284,10 +279,12 @@ function makeCard(canvasid = 'canvas',
 }
 
 
+
 /* map list of symbol indices to unicode characters */
 function symIndexTripleToUnicode(triple) {
   return triple.map(x => symlist[x])
 }
+
 
 
 /* map list of symbol indices to text description */
@@ -296,30 +293,17 @@ function symIndexTripleToText(triple) {
 }
 
 
-function symbolTriple() {
 
+function symbolTriple() {
   let indicies = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
   return _.sample(indicies, 3)
-
-  /* A less effective way to do things */
-
-  // let sym1i = Math.floor((Math.random() * 10))
-  // let sym2i = Math.floor((Math.random() * 10))
-  // let sym3i = Math.floor((Math.random() * 10))
-  // while (sym1i == sym2i) {
-  //   sym2i = Math.floor((Math.random() * 10))
-  // }
-  // while (sym1i == sym3i | sym2i == sym3i) {
-  //   sym3i = Math.floor((Math.random() * 10))
-  // }
-  // return [sym1i, sym2i, sym3i]
 }
+
 
 
 /*
   To specify the cards we have what amounts to a lookup table.
 */
-
 function specifyTrialCards(trialDict) {
 
   primeCat = trialDict["prime"]
@@ -348,6 +332,8 @@ function specifyTrialCards(trialDict) {
   fillerSixFalse = trialCards["fillerSixFalse"];
   fillerDoubleWeak = trialCards["fillerDoubleWeak"];
   fillerDoubleFalse = trialCards["fillerDoubleFalse"];
+
+  responseCard = trialCards["response"];
 
   if (strength == 0) { // if weak
     if (primeCat == 0 || primeCat == 3) { // disjunctions to take care of filler trails.
@@ -406,20 +392,20 @@ function specifyTrialCards(trialDict) {
 
   if (responseCat == 0) { // someStrong
     responseL = someStrong;
-    responseR = trialCards["response"];
+    responseR = responseCard;
   } else if (responseCat == 1) {
     responseL = fourStrong;
-    responseR = trialCards["response"];
+    responseR = responseCard;
   } else if (responseCat == 2) {
     responseL = adhocStrong;
-    responseR = trialCards["response"];
+    responseR = responseCard;
   } else if (responseCat == 3) {
     if (fillerType == 0) {
       responseL = someFalse;
-      responseR = trialCards["response"];
+      responseR = responseCard;
     } else if (fillerType == 1) {
       responseL = someWeak;
-      responseR = trialCards["response"];
+      responseR = responseCard;
     } else if (fillerType == 2) {
       responseL = someWeak;
       responseR = someStrong;
@@ -427,10 +413,10 @@ function specifyTrialCards(trialDict) {
   } else if (responseCat == 4) {
     if (fillerType == 0) {
       responseL = fourFalse;
-      responseR = trialCards["response"];
+      responseR = responseCard;
     } else if (fillerType == 1) {
       responseL = fourWeak;
-      responseR = trialCards["response"];
+      responseR = responseCard;
     } else if (fillerType == 2) {
       responseL = fourWeak;
       responseR = fourStrong;
@@ -438,10 +424,10 @@ function specifyTrialCards(trialDict) {
   } else if (responseCat == 5) {
     if (fillerType == 0) {
       responseL = adhocFalse;
-      responseR = trialCards["response"];
+      responseR = responseCard;
     } else if (fillerType == 1) {
       responseL = adhocWeak;
-      responseR = trialCards["response"];
+      responseR = responseCard;
     } else if (fillerType == 2) {
       responseL = adhocWeak;
       responseR = adhocStrong;
@@ -458,6 +444,7 @@ function specifyTrialCards(trialDict) {
 }
 
 
+
 function specifyExampleCards(trialDict) {
 
   exampleCat = trialDict["example"]
@@ -472,7 +459,7 @@ function specifyExampleCards(trialDict) {
     exampleCardR = manyContrast
   } else if (exampleCat == 1) { //
     exampleCardL = aboveExample
-    exampleCardR = trialCards["response"]
+    exampleCardR = responseCard
   } else {
     console.log('error')
   }
@@ -495,6 +482,8 @@ function conditionSentence(condition, symbols) {
   return condText
 }
 
+
+
 function exampleSentence(condition, symbols) {
 
   if (condition == 0) {
@@ -504,24 +493,3 @@ function exampleSentence(condition, symbols) {
   }
   return condText
 }
-
-
-$('.cardbutton').keyup(function(e) {
-  var code = (e.keyCode ? e.keyCode : e.which);
-
-  switch (code) {
-    case 66: // b
-      console.log('oh');
-      $('#primeOneChoiceL').prop('checked', true);
-      break;
-    case 71: // g
-      $('#button2').prop('checked', true);
-      break;
-    case 79: // o
-      $('#button3').prop('checked', true);
-      break;
-    case 89: // y
-      $('#button4').prop('checked', true);
-      break;
-  }
-});
