@@ -128,3 +128,23 @@ display: block;
 margin-right: auto;
 margin-left: auto;
 }*/
+
+.exampleContainerL {
+position: absolute;
+top:18%;
+left:50%;
+/*margin: auto;*/
+/*overflow: visible;*/
+text-align: center;
+transform: translate(-110%, 0%)
+}
+
+.exampleContainerR {
+position: absolute;
+top:18%;
+left:50%;
+/*margin: auto;*/
+/*overflow: visible;*/
+text-align: center;
+transform: translate(10%, 0%)
+}

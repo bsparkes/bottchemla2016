@@ -39,11 +39,31 @@ function make_slides(f) {
 
   slides.example = slide({
     name: "example",
-    start: function() {
+    start: function() {},
+
+    present: exampleList,
+
+    present_handle: function(stim) {
+
+      this.stim = stim
+
       $(".err").hide();
-      $('input[name=exChoice]:checked').prop('checked', false);
+      $('input[name=exampleChoice]:checked').prop('checked', false);
+      $("#exampleCondition").html(exampleSentence(this.stim["example"], this.stim["exampleSymbols"]));
+
+      exp.trialInf = stim; //
+
+      specifyExampleCards(exp.trialInf); // use trial dictionary build cards.
+
+      document.getElementById("exampleChoiceL").accessKey = ",";
+      document.getElementById("exampleChoiceR").accessKey = ".";
+      document.getElementById("continueButton").accessKey = "/";
+
+      slide.condition = 0;
     },
-    button: function() {
+
+
+    cardButton: function() { // if a card is selected
       // make sure participants understand
       // the task before they continue
       // response = $("#text_response").val();
@@ -56,9 +76,32 @@ function make_slides(f) {
       //   });
       //   exp.go(); //make sure this is at the *end*, after you log your data
       // }
-      exp.go(); //use exp.go() if and only if there is no "present" data.
+      $('.err').hide(); // hide error
+      slide.condition = 1; // note that something is selected
+    },
+
+
+    button: function() {
+      if (slide.condition == 1) {
+        document.getElementById("exampleChoiceL").accessKey = null; // disable quick keys after trials are over
+        document.getElementById("exampleChoiceR").accessKey = null;
+        document.getElementById("continueButton").accessKey = null;
+        this.log_responses(); // log responses
+        _stream.apply(this); // store data}
+      } else {
+        $('.err').show();
+      }
+    },
+
+
+    log_responses: function() {
+
+      exp.data_trials.push({ // data to be stored
+        "trial_type": "example",
+      });
     },
   });
+
 
   slides.trial = slide({ // the main slide
 
@@ -70,9 +113,9 @@ function make_slides(f) {
 
     //this gets run only at the beginning of the block, which means for each 'present' thing.
     present_handle: function(stim) {
-      exp.trialInf = stim; //
+      this.stim = stim; //
 
-      specifyCards(exp.trialInf); // use trial dictionary build cards.
+      specifyTrialCards(this.stim); // use trial dictionary build cards.
 
       // Uncheck card buttons and erase the previous values
       exp.criticalResponse = null;
@@ -82,7 +125,6 @@ function make_slides(f) {
       $('input[name=primeOneChoice]:checked').prop('checked', false);
       $('input[name=primeTwoChoice]:checked').prop('checked', false);
       $('input[name=responseChoice]:checked').prop('checked', false);
-      $("#criticalSentence").html(stim);
       slide.condition = 0; // no card has been selected
 
 
@@ -101,7 +143,7 @@ function make_slides(f) {
       document.getElementById("continueButton").accessKey = "/";
 
       // show primeOne stimulus
-      $("#trialCondition").html(conditionSentence(exp.trialInf["prime"], exp.trialInf["primeOneSymbols"]));
+      $("#trialCondition").html(conditionSentence(this.stim["prime"], this.stim["primeOneSymbols"]));
 
       this.stim = stim; // I like to store this information in the slide so I can record it later.
     },
@@ -130,7 +172,7 @@ function make_slides(f) {
           this.log_responses(); // log responses
           _stream.apply(this); // store data
         } else if (exp.primeTwoChoice != null) { // if one has chosen the second prime…
-          $("#trialCondition").html(conditionSentence(exp.trialInf["response"], exp.trialInf["responseSymbols"]));
+          $("#trialCondition").html(conditionSentence(this.stim["response"], this.stim["responseSymbols"]));
           $(".primeTwoContainerL").hide();
           $(".primeTwoContainerR").hide();
           document.getElementById("primeTwoChoiceL").accessKey = null;
@@ -141,7 +183,7 @@ function make_slides(f) {
           document.getElementById("responseChoiceR").accessKey = ".";
           slide.condition = 0;
         } else if (exp.primeOneChoice != null) { // if one has chosen the first prime…
-          $("#trialCondition").html(conditionSentence(exp.trialInf["prime"], exp.trialInf["primeTwoSymbols"]));
+          $("#trialCondition").html(conditionSentence(this.stim["prime"], this.stim["primeTwoSymbols"]));
           $(".primeOneContainerL").hide();
           $(".primeOneContainerR").hide();
           document.getElementById("primeOneChoiceL").accessKey = null;
@@ -160,14 +202,14 @@ function make_slides(f) {
     log_responses: function() {
       exp.data_trials.push({ // data to be stored
         "trial_type": "response",
-        "trial_data": exp.trialInf, // store all trial data, as who knows…
+        "trial_data": this.stim, // store all trial data, as who knows…
         "primeOneChoice": exp.primeOneChoice,
-        "gudPrimeOneChoice": exp.trialInf["gudPrimeOneChoice"],
-        "correctPrimeOneChoice": (exp.primeOneChoice == exp.trialInf["gudPrimeOneChoice"]),
+        "gudPrimeOneChoice": this.stim["gudPrimeOneChoice"],
+        "correctPrimeOneChoice": (exp.primeOneChoice == this.stim["gudPrimeOneChoice"]),
         "primeTwoChoice": exp.primeTwoChoice,
-        "gudPrimeTwoChoice": exp.trialInf["gudPrimeTwoChoice"],
-        "correctPrimeTwoChoice": (exp.primeTwoChoice == exp.trialInf["gudPrimeTwoChoice"]),
-        "correctPrimeChoices": (exp.primeOneChoice == exp.primeTwoChoice == exp.trialInf["gudPrimeTwoChoice"]),
+        "gudPrimeTwoChoice": this.stim["gudPrimeTwoChoice"],
+        "correctPrimeTwoChoice": (exp.primeTwoChoice == this.stim["gudPrimeTwoChoice"]),
+        "correctPrimeChoices": (exp.primeOneChoice == exp.primeTwoChoice == this.stim["gudPrimeTwoChoice"]),
         "responseChoice": exp.responseChoice, // rename response
         // could include time of response as well
       });
@@ -176,9 +218,9 @@ function make_slides(f) {
       document.getElementById("continueButton").accessKey = null;
       /* console logs for testing */
       console.log('this trial…')
-      console.log(exp.trialInf)
+      console.log(this.stim)
       console.log('prime test')
-      console.log(exp.primeOneChoice == exp.trialInf["gudPrimeOneChoice"] && exp.primeTwoChoice == exp.trialInf["gudPrimeTwoChoice"])
+      console.log(exp.primeOneChoice == this.stim["gudPrimeOneChoice"] && exp.primeTwoChoice == this.stim["gudPrimeTwoChoice"])
       console.log(exp.data_trials) // show the data, for testing
     }
   });
@@ -226,18 +268,7 @@ function make_slides(f) {
 /// init ///
 function init() {
   //blocks of the experiment:
-  exp.structure = ["i0", "instructions", "trial", "subj_info",
-    "thanks"
-  ];
-
-  // exp.trialStims = {
-  //   "comparatives": ["John ate more food than this burger.",
-  //     "Mary had more pets than Fido."
-  //   ],
-  //   "multiple negations": ["No head injury is too severe to depair",
-  //     "No head injury is too trivial to ignore"
-  //   ]
-  // }[exp.condition];
+  exp.structure = ["i0", "instructions", "example", "trial", "subj_info", "thanks"];
 
   // generally no need to change anything below
   exp.trials = [];
