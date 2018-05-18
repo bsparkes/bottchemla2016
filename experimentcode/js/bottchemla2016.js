@@ -1,8 +1,9 @@
 function make_slides(f) {
+
   var slides = {};
 
-  /* For Ling245, no need to change the code
-   for i0 and consent slides*/
+
+
   slides.i0 = slide({
     name: "i0",
     start: function() {
@@ -28,6 +29,8 @@ function make_slides(f) {
     }
   });
 
+
+
   /*Consult the code in the consent slide if you
     want to break down very long instructions */
   slides.instructions = slide({
@@ -36,6 +39,8 @@ function make_slides(f) {
       exp.go(); //use exp.go() if and only if there is no "present" data.
     }
   });
+
+
 
   slides.example = slide({
     name: "example",
@@ -51,9 +56,7 @@ function make_slides(f) {
       $('input[name=exampleChoice]:checked').prop('checked', false);
       $("#exampleCondition").html(exampleSentence(this.stim["example"], this.stim["exampleSymbols"]));
 
-      exp.trialInf = stim; //
-
-      specifyExampleCards(exp.trialInf); // use trial dictionary build cards.
+      specifyExampleCards(this.stim); // use trial dictionary build cards.
 
       document.getElementById("exampleChoiceL").accessKey = ",";
       document.getElementById("exampleChoiceR").accessKey = ".";
@@ -64,18 +67,6 @@ function make_slides(f) {
 
 
     cardButton: function() { // if a card is selected
-      // make sure participants understand
-      // the task before they continue
-      // response = $("#text_response").val();
-      // if (response.length == 0) {
-      //   $(".err").show();
-      // } else {
-      //   exp.data_trials.push({
-      //     "trial_type" : "example",
-      //     "response" : response
-      //   });
-      //   exp.go(); //make sure this is at the *end*, after you log your data
-      // }
       $('.err').hide(); // hide error
       slide.condition = 1; // note that something is selected
     },
@@ -83,12 +74,18 @@ function make_slides(f) {
 
     button: function() {
       if (slide.condition == 1) {
-        document.getElementById("exampleChoiceL").accessKey = null; // disable quick keys after trials are over
-        document.getElementById("exampleChoiceR").accessKey = null;
-        document.getElementById("continueButton").accessKey = null;
-        this.log_responses(); // log responses
-        _stream.apply(this); // store data}
+        if (this.stim["example"] == $('input[name=exampleChoice]:checked').val()) { // make sure correct response on examples
+          document.getElementById("exampleChoiceL").accessKey = null; // disable quick keys after trials are over
+          document.getElementById("exampleChoiceR").accessKey = null;
+          document.getElementById("continueButton").accessKey = null;
+          this.log_responses(); // log responses
+          _stream.apply(this); // store data}
+        } else {
+          $("#exampleErr").html("Are you sure? Please consult your native speaker intuition harder and try again.")
+          $('.err').show();
+        }
       } else {
+        $("#exampleErr").html("Please select one of the options.")
         $('.err').show();
       }
     },
@@ -101,6 +98,7 @@ function make_slides(f) {
       });
     },
   });
+
 
 
   slides.trial = slide({ // the main slide
@@ -226,6 +224,7 @@ function make_slides(f) {
   });
 
 
+
   slides.subj_info = slide({
     name: "subj_info",
     submit: function(e) {
@@ -244,6 +243,8 @@ function make_slides(f) {
       exp.go(); //use exp.go() if and only if there is no "present" data.
     }
   });
+
+
 
   slides.thanks = slide({
     name: "thanks",
@@ -265,10 +266,12 @@ function make_slides(f) {
   return slides;
 }
 
+
+
 /// init ///
 function init() {
   //blocks of the experiment:
-  exp.structure = ["i0", "instructions", "example", "trial", "subj_info", "thanks"];
+  exp.structure = ["i0", "consent", "instructions", "example", "trial", "subj_info", "thanks"];
 
   // generally no need to change anything below
   exp.trials = [];

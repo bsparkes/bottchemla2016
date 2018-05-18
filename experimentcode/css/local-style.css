@@ -1,94 +1,57 @@
-.slider {
-/* default is width 400 and margin 10 */
-width: 400;
-margin: 10px;
-}
-
 .canvas {
 border-radius: 5px;
 background-color: white;
 border: 1px solid #000;
 overflow: hidden;
 margin: auto;
-/*position: absolute;*/
-}
-
-.canvasOn {
-border-radius: 10px;
-background-color: lightblue;
-border: 5px solid #000;
-overflow: hidden;
-margin: auto;
-/*position: absolute;*/
-}
-
-.container {
-position: absolute;
-top:18%;
-left:50%;
-/*margin: auto;*/
-/*overflow: visible;*/
-text-align: center;
 }
 
 .primeOneContainerL {
 position: absolute;
-top:18%;
+top:0%;
 left:50%;
-/*margin: auto;*/
-/*overflow: visible;*/
 text-align: center;
-transform: translate(-110%, 0%)
+transform: translate(-110%, 33%)
 }
 
 .primeOneContainerR {
 position: absolute;
-top:18%;
+top:0%;
 left:50%;
-/*margin: auto;*/
-/*overflow: visible;*/
 text-align: center;
-transform: translate(10%, 0%)
+transform: translate(10%, 33%)
 }
 
 .primeTwoContainerL {
 position: absolute;
-top:18%;
+top:0%;
 left:50%;
-/*margin: auto;*/
-/*overflow: visible;*/
 text-align: center;
-transform: translate(-110%, 0%)
+transform: translate(-110%, 33%)
 }
 
 .primeTwoContainerR {
 position: absolute;
-top:18%;
+top:0%;
 left:50%;
-/*margin: auto;*/
-/*overflow: visible;*/
 text-align: center;
-transform: translate(10%, 0%)
+transform: translate(10%, 33%)
 }
 
 .responseContainerL {
 position: absolute;
-top:18%;
+top:0%;
 left:50%;
-/*margin: auto;*/
-/*overflow: visible;*/
 text-align: center;
-transform: translate(-110%, 0%)
+transform: translate(-110%, 33%)
 }
 
 .responseContainerR {
 position: absolute;
-top:18%;
+top:0%;
 left:50%;
-/*margin: auto;*/
-/*overflow: visible;*/
 text-align: center;
-transform: translate(10%, 0%)
+transform: translate(10%, 33%)
 }
 
 .cardbutton
@@ -100,10 +63,10 @@ transform : translate(0%, 100%)
 .err
 {
 position: absolute;
-top: 77%;
+top: 0%;
 left: 50%;
 margin-right: -50%;
-transform: translate(-50%, 0%)
+transform: translate(-50%, 2300%)
 }
 
 button {
@@ -131,20 +94,16 @@ margin-left: auto;
 
 .exampleContainerL {
 position: absolute;
-top:18%;
+top:0%;
 left:50%;
-/*margin: auto;*/
-/*overflow: visible;*/
 text-align: center;
-transform: translate(-110%, 0%)
+transform: translate(-110%, 33%)
 }
 
 .exampleContainerR {
 position: absolute;
-top:18%;
+top:0%;
 left:50%;
-/*margin: auto;*/
-/*overflow: visible;*/
 text-align: center;
-transform: translate(10%, 0%)
+transform: translate(10%, 33%)
 }
