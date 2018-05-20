@@ -8,6 +8,7 @@ function make_slides(f) {
     name: "i0",
     start: function() {
       exp.startT = Date.now();
+      addi0Keys();
     }
   });
 
@@ -17,6 +18,9 @@ function make_slides(f) {
       exp.startT = Date.now();
       $("#consent_2").hide();
       exp.consent_position = 0;
+
+      cleari0Keys();
+      addConsentKeys();
     },
     button: function() {
       if (exp.consent_position == 0) {
@@ -35,6 +39,11 @@ function make_slides(f) {
     want to break down very long instructions */
   slides.instructions = slide({
     name: "instructions",
+    start: function() {
+      clearConsentKeys()
+      addInstructiontKeys();
+
+    },
     button: function() {
       exp.go(); //use exp.go() if and only if there is no "present" data.
     }
@@ -44,7 +53,11 @@ function make_slides(f) {
 
   slides.example = slide({
     name: "example",
-    start: function() {},
+    start: function() {
+
+      clearInstructiontKeys();
+      addExampleKeys();
+    },
 
     present: exampleList,
 
@@ -104,22 +117,27 @@ function make_slides(f) {
   slides.trial = slide({ // the main slide
 
     name: "trial",
-    start: function() {},
+    start: function() {
+
+      clearExampleKeys();
+    },
 
 
     present: trialList, //trialOrder,
 
     //this gets run only at the beginning of the block, which means for each 'present' thing.
     present_handle: function(stim) {
+
+      this.trial_start = Date.now();
       this.stim = stim; //
 
       specifyTrialCards(this.stim); // use trial dictionary build cards.
 
       // Uncheck card buttons and erase the previous values
-      exp.criticalResponse = null;
-      exp.primeOneChoice = null;
-      exp.primeTwoChoice = null;
-      exp.responseChoice = null;
+      this.stim.criticalResponse = null;
+      this.stim.primeOneChoice = null;
+      this.stim.primeTwoChoice = null;
+      this.stim.responseChoice = null;
       $('input[name=primeOneChoice]:checked').prop('checked', false);
       $('input[name=primeTwoChoice]:checked').prop('checked', false);
       $('input[name=responseChoice]:checked').prop('checked', false);
@@ -130,15 +148,12 @@ function make_slides(f) {
       $(".err").hide();
       $(".responseContainerL").hide();
       $(".responseContainerR").hide();
-      document.getElementById("responseChoiceL").accessKey = null;
-      document.getElementById("responseChoiceR").accessKey = null;
+      clearResponseKeys();
       $(".primeTwoContainerL").hide();
       $(".primeTwoContainerR").hide();
       $(".primeOneContainerL").show();
       $(".primeOneContainerR").show();
-      document.getElementById("primeOneChoiceL").accessKey = ",";
-      document.getElementById("primeOneChoiceR").accessKey = ".";
-      document.getElementById("continueButton").accessKey = "/";
+      addPrimeOneKeys();
 
       // show primeOne stimulus
       $("#trialCondition").html(conditionSentence(this.stim["prime"], this.stim["primeOneSymbols"]));
@@ -163,33 +178,29 @@ function make_slides(f) {
     button: function() { // what to do when the lower button is clicked
       if (slide.condition == 1) { // so long as a button is clicked, we update…
         $(".err").hide(); // hide error
-        exp.responseChoice = $('input[name=responseChoice]:checked').val(); // now update one button values
-        exp.primeOneChoice = $('input[name=primeOneChoice]:checked').val();
-        exp.primeTwoChoice = $('input[name=primeTwoChoice]:checked').val();
-        if (exp.responseChoice != null) { // if one has chosen the response
+        this.stim.responseChoice = $('input[name=responseChoice]:checked').val(); // now update one button values
+        this.stim.primeOneChoice = $('input[name=primeOneChoice]:checked').val();
+        this.stim.primeTwoChoice = $('input[name=primeTwoChoice]:checked').val();
+        if (this.stim.responseChoice != null) { // if one has chosen the response
           this.log_responses(); // log responses
           _stream.apply(this); // store data
-        } else if (exp.primeTwoChoice != null) { // if one has chosen the second prime…
+        } else if (this.stim.primeTwoChoice != null) { // if one has chosen the second prime…
           $("#trialCondition").html(conditionSentence(this.stim["response"], this.stim["responseSymbols"]));
           $(".primeTwoContainerL").hide();
           $(".primeTwoContainerR").hide();
-          document.getElementById("primeTwoChoiceL").accessKey = null;
-          document.getElementById("primeTwoChoiceR").accessKey = null;
+          clearPrimeTwoKeys();
           $(".responseContainerL").show();
           $(".responseContainerR").show();
-          document.getElementById("responseChoiceL").accessKey = ",";
-          document.getElementById("responseChoiceR").accessKey = ".";
+          addResponseKeys();
           slide.condition = 0;
-        } else if (exp.primeOneChoice != null) { // if one has chosen the first prime…
+        } else if (this.stim.primeOneChoice != null) { // if one has chosen the first prime…
           $("#trialCondition").html(conditionSentence(this.stim["prime"], this.stim["primeTwoSymbols"]));
           $(".primeOneContainerL").hide();
           $(".primeOneContainerR").hide();
-          document.getElementById("primeOneChoiceL").accessKey = null;
-          document.getElementById("primeOneChoiceR").accessKey = null;
+          clearPrimeOneKeys();
           $(".primeTwoContainerL").show();
           $(".primeTwoContainerR").show();
-          document.getElementById("primeTwoChoiceL").accessKey = ",";
-          document.getElementById("primeTwoChoiceR").accessKey = ".";
+          addPrimeTwoKeys();
           slide.condition = 0;
         }
       } else { // otherwise…
@@ -201,31 +212,36 @@ function make_slides(f) {
       exp.data_trials.push({ // data to be stored
         "trial_type": "response",
         "trial_data": this.stim, // store all trial data, as who knows…
-        "primeOneChoice": exp.primeOneChoice,
+        "primeOneChoice": this.stim.primeOneChoice,
         "goodPrimeOneChoice": this.stim["goodPrimeOneChoice"],
-        "correctPrimeOneChoice": (exp.primeOneChoice == this.stim["goodPrimeOneChoice"]),
-        "primeTwoChoice": exp.primeTwoChoice,
+        "correctPrimeOneChoice": (this.stim.primeOneChoice == this.stim["goodPrimeOneChoice"]),
+        "primeTwoChoice": this.stim.primeTwoChoice,
         "goodPrimeTwoChoice": this.stim["goodPrimeTwoChoice"],
-        "correctPrimeTwoChoice": (exp.primeTwoChoice == this.stim["goodPrimeTwoChoice"]),
-        "correctPrimeChoices": (exp.primeOneChoice == exp.primeTwoChoice == this.stim["goodPrimeTwoChoice"]),
-        "responseChoice": exp.responseChoice, // rename response
+        "correctPrimeTwoChoice": (this.stim.primeTwoChoice == this.stim["goodPrimeTwoChoice"]),
+        "correctPrimeChoices": (this.stim.primeOneChoice == this.stim.primeTwoChoice == this.stim["goodPrimeTwoChoice"]),
+        "responseChoice": this.stim.responseChoice, // rename response
+        "rt" : Date.now() - _s.trial_start,
         // could include time of response as well
       });
       document.getElementById("responseChoiceL").accessKey = null; // disable quick keys after trials are over
       document.getElementById("responseChoiceR").accessKey = null;
       document.getElementById("continueButton").accessKey = null;
       /* console logs for testing */
-      console.log('this trial…')
-      console.log(this.stim)
-      console.log('prime test')
-      console.log(exp.primeOneChoice == this.stim["goodPrimeOneChoice"] && exp.primeTwoChoice == this.stim["goodPrimeTwoChoice"])
-      console.log(exp.data_trials) // show the data, for testing
+      // console.log('this trial…')
+      // console.log(this.stim)
+      // console.log('prime test')
+      // console.log(exp.primeOneChoice == this.stim["goodPrimeOneChoice"] && exp.primeTwoChoice == this.stim["goodPrimeTwoChoice"])
+      // console.log(exp.data_trials) // show the data, for testing
     }
   });
 
 
 
   slides.subj_info = slide({
+    start: function() {
+
+      clearTrialKeys();
+    },
     name: "subj_info",
     submit: function(e) {
       exp.subj_data = {

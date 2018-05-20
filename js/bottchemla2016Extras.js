@@ -8,6 +8,7 @@ var examplePre = ["Many of the symbols are", ["There is a", "above a"]]
   [sym1, sym2, sym3, total].
   sym1 is the one named in the prompt, sym2 and sym3 are alternatives.
 */
+
 var trialCards = {
   someStrong: [6, 3, 0, 9],
   someWeak: [9, 0, 0, 9],
@@ -41,7 +42,7 @@ function buildTrials() {
   list = [
     // {symbols: [] prime: [], response: [], strength : [], etc…}
   ]
-  for (let n = 0; n < 4; n++) { // number of each
+  for (let n = 0; n < 1; n++) { // number of each
     for (let t = 0; t < 2; t++) { // response, skipping adhoc
       for (let s = 0; s < 2; s++) { // strength
         for (let p = 0; p < 2; p++) { // prime skipping adhoc
@@ -67,7 +68,6 @@ function buildTrials() {
   return list
 }
 
-trialList = buildTrials()
 
 /*
   Adding filler trials
@@ -110,10 +110,11 @@ function buildFillers() {
   return list
 }
 
+
+trialList = buildTrials()
 fillerList = buildFillers()
 
-console.log('filler list')
-console.log(fillerList.length)
+
 
 /* We now build the filler list, as we're dropping adhoc, we cannot keep the same ratio between response
    and filler trials.
@@ -143,8 +144,11 @@ trialList = trialList.concat(fillerList)
 
 trialList = _.shuffle(trialList) // randomise order of trials
 
-console.log('trialList')
-console.log(trialList)
+
+// console.log('filler list')
+// console.log(fillerList.length)
+// console.log('trialList')
+// console.log(trialList)
 
 
 
@@ -161,7 +165,6 @@ function makeExamples() {
 }
 
 exampleList = makeExamples()
-
 
 
 
@@ -242,7 +245,6 @@ function makeCard(canvasid = 'canvas',
         drawlist[j] = sym1
       }
     }
-    console.log(drawlist)
 
     if (rows > 1) {
       [rows, cols] = [cols, rows]
@@ -453,6 +455,7 @@ function specifyExampleCards(trialDict) {
   manyExample = trialCards["manyExample"];
   aboveExample = trialCards["aboveExample"];
   manyContrast = trialCards["manyContrast"];
+  responseCard = trialCards["response"];
 
   if (exampleCat == 0) { //
     exampleCardL = manyExample
@@ -492,4 +495,196 @@ function exampleSentence(condition, symbols) {
     condText = "" + examplePre[condition][0] + " " + symText[symbols[0]] + " " + examplePre[condition][1] + " " + symText[symbols[1]]
   }
   return condText
+}
+
+
+var i0Keys = function(event) {
+
+  if (event.defaultPrevented) {
+    return; // Do nothing if the event was already processed
+  }
+  switch (event.key) {
+    case " ":
+      $("#start_button").click()
+      break;
+    default:
+      return; // Quit when this doesn't handle the key event.
+  }
+  event.preventDefault();
+}
+
+
+var consentKeys = function(event) {
+
+  if (event.defaultPrevented) {
+    return;
+  }
+  switch (event.key) {
+    case " ":
+      $("#consentButton").click()
+      break;
+    default:
+      return;
+  }
+  event.preventDefault();
+}
+
+
+var instructionKeys = function(event) {
+  if (event.defaultPrevented) {
+    return;
+  }
+  switch (event.key) {
+    case " ":
+      $("#instructionButton").click()
+      break;
+    default:
+      return;
+  }
+  event.preventDefault();
+}
+
+
+
+var exampleKeys = function(event) {
+  if (event.defaultPrevented) {
+    return;
+  }
+  switch (event.key) {
+    case " ":
+      $("#continueButton").click()
+      break;
+    case "ArrowLeft":
+      $("#exampleChoiceL").click()
+      break;
+    case "ArrowRight":
+      $("#exampleChoiceR").click()
+      break;
+    default:
+      return;
+  }
+  event.preventDefault();
+}
+
+var primeOneKeys = function(event) {
+  if (event.defaultPrevented) {
+    return;
+  }
+  switch (event.key) {
+    case " ":
+      $("#continueButton").click()
+      break;
+    case "ArrowLeft":
+      $("#primeOneChoiceL").click()
+      break;
+    case "ArrowRight":
+      $("#primeOneChoiceR").click()
+      break;
+    default:
+      return;
+  }
+  event.preventDefault();
+}
+
+var primeTwoKeys = function(event) {
+  if (event.defaultPrevented) {
+    return;
+  }
+  switch (event.key) {
+    case " ":
+      $("#continueButton").click()
+      break;
+    case "ArrowLeft":
+      $("#primeTwoChoiceL").click()
+      break;
+    case "ArrowRight":
+      $("#primeTwoChoiceR").click()
+      break;
+    default:
+      return;
+  }
+  event.preventDefault();
+}
+
+var responseKeys = function(event) {
+  if (event.defaultPrevented) {
+    return;
+  }
+  switch (event.key) {
+    case " ":
+      $("#continueButton").click()
+      break;
+    case "ArrowLeft":
+      $("#responseChoiceL").click()
+      break;
+    case "ArrowRight":
+      $("#responseChoiceR").click()
+      break;
+    default:
+      return;
+  }
+  event.preventDefault();
+}
+
+function addi0Keys() {
+  window.addEventListener("keydown", i0Keys);
+}
+
+function cleari0Keys() {
+  window.removeEventListener("keydown", i0Keys);
+}
+
+function addConsentKeys() {
+  window.addEventListener("keydown", consentKeys);
+}
+
+function clearConsentKeys() {
+  window.removeEventListener("keydown", consentKeys);
+}
+
+function addInstructiontKeys() {
+  window.addEventListener("keydown", instructionKeys);
+}
+
+function clearInstructiontKeys() {
+  window.removeEventListener("keydown", instructionKeys);
+}
+
+function addExampleKeys() {
+  window.addEventListener("keydown", exampleKeys);
+}
+
+function clearExampleKeys() {
+  window.removeEventListener("keydown", exampleKeys);
+}
+
+function addPrimeOneKeys() {
+  window.addEventListener("keydown", primeOneKeys);
+}
+
+function clearPrimeOneKeys() {
+  window.removeEventListener("keydown", primeOneKeys);
+}
+
+function addPrimeTwoKeys() {
+  window.addEventListener("keydown", primeTwoKeys);
+}
+
+function clearPrimeTwoKeys() {
+  window.removeEventListener("keydown", primeTwoKeys);
+}
+
+function addResponseKeys() {
+  window.addEventListener("keydown", responseKeys);
+}
+
+function clearResponseKeys() {
+  window.removeEventListener("keydown", responseKeys);
+}
+
+function clearTrialKeys() {
+  window.removeEventListener("keydown", primeOneKeys);
+  window.removeEventListener("keydown", primeTwoKeys);
+  window.removeEventListener("keydown", responseKeys);
+
 }
