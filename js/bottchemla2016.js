@@ -232,7 +232,7 @@ function make_slides(f) {
         "correctPrimeTwoChoice": (this.stim.primeTwoChoice == this.stim["goodPrimeTwoChoice"]),
         "correctPrimeChoices": (this.stim.primeOneChoice == this.stim.primeTwoChoice == this.stim["goodPrimeTwoChoice"]),
         "responseChoice": this.stim.responseChoice, // rename response
-        "rt" : Date.now() - _s.trial_start,
+        "rt": Date.now() - _s.trial_start,
         // could include time of response as well
       });
       document.getElementById("responseChoiceL").accessKey = null; // disable quick keys after trials are over
