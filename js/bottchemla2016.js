@@ -41,8 +41,20 @@ function make_slides(f) {
     name: "instructions",
     start: function() {
       clearConsentKeys()
-      addInstructiontKeys();
+      addInstructionKeys();
 
+    },
+    button: function() {
+      exp.go(); //use exp.go() if and only if there is no "present" data.
+    }
+  });
+
+
+  slides.keyboard = slide({
+    name: "keyboard",
+    start: function() {
+      clearInstructionKeys();
+      addTestKeys();
     },
     button: function() {
       exp.go(); //use exp.go() if and only if there is no "present" data.
@@ -55,7 +67,7 @@ function make_slides(f) {
     name: "example",
     start: function() {
 
-      clearInstructiontKeys();
+      clearTestKeys();
       addExampleKeys();
     },
 
@@ -286,7 +298,7 @@ function make_slides(f) {
 /// init ///
 function init() {
   //blocks of the experiment:
-  exp.structure = ["i0", "consent", "instructions", "example", "trial", "subj_info", "thanks"];
+  exp.structure = ["i0", "consent", "instructions", "keyboard", "example", "trial", "subj_info", "thanks"];
 
   // generally no need to change anything below
   exp.trials = [];

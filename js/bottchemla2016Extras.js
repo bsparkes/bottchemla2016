@@ -38,14 +38,44 @@ var trialCards = {
   to the cross category matching that happens.
 */
 
+// function buildTrials() {
+//   list = [
+//     // {symbols: [] prime: [], response: [], strength : [], etc…}
+//   ]
+//   for (let n = 0; n < 4; n++) { // number of each
+//     for (let t = 0; t < 2; t++) { // response, skipping adhoc
+//       for (let s = 0; s < 2; s++) { // strength
+//         for (let p = 0; p < 2; p++) { // prime skipping adhoc
+//           dict = {};
+//           p1Split = _.shuffle([0, 1]);
+//           p2Split = _.shuffle([0, 1]);
+//           dict["response"] = t;
+//           dict["strength"] = s;
+//           dict["prime"] = p;
+//           dict["filler"] = false;
+//           dict["primeOneShuffle"] = p1Split;
+//           dict["primeTwoShuffle"] = p2Split;
+//           dict["goodPrimeOneChoice"] = p1Split.indexOf(1);
+//           dict["goodPrimeTwoChoice"] = p2Split.indexOf(1);
+//           dict["primeOneSymbols"] = symbolTriple();
+//           dict["primeTwoSymbols"] = symbolTriple();
+//           dict["responseSymbols"] = symbolTriple();
+//           list.push(dict);
+//         }
+//       }
+//     }
+//   }
+//   return list
+// }
+
 function buildTrials() {
   list = [
     // {symbols: [] prime: [], response: [], strength : [], etc…}
   ]
   for (let n = 0; n < 1; n++) { // number of each
-    for (let t = 0; t < 2; t++) { // response, skipping adhoc
-      for (let s = 0; s < 2; s++) { // strength
-        for (let p = 0; p < 2; p++) { // prime skipping adhoc
+    for (let t = 0; t < 1; t++) { // response, skipping adhoc
+      for (let s = 0; s < 1; s++) { // strength
+        for (let p = 0; p < 1; p++) { // prime skipping adhoc
           dict = {};
           p1Split = _.shuffle([0, 1]);
           p2Split = _.shuffle([0, 1]);
@@ -498,6 +528,34 @@ function exampleSentence(condition, symbols) {
 }
 
 
+var testKeys = function(event) {
+  if (event.defaultPrevented) {
+    return;
+  }
+  switch (event.key) {
+    case " ":
+      $("#test").html('The keyboard button you pressed takes you to the next slide.')
+      break;
+    case "ArrowLeft":
+      $("#test").html('The keyboard button you pressed selects the left card.')
+      break;
+    case "ArrowRight":
+      $("#test").html('The keyboard button you pressed selects the right card.')
+      break;
+    default:
+      $("#test").html('The keyboard button you pressed does not have a function in this experiment.')
+  }
+  event.preventDefault();
+}
+
+function addTestKeys() {
+  window.addEventListener("keydown", testKeys);
+}
+
+function clearTestKeys() {
+  window.removeEventListener("keydown", testKeys);
+}
+
 var i0Keys = function(event) {
 
   if (event.defaultPrevented) {
@@ -529,7 +587,6 @@ var consentKeys = function(event) {
   event.preventDefault();
 }
 
-
 var instructionKeys = function(event) {
   if (event.defaultPrevented) {
     return;
@@ -543,8 +600,6 @@ var instructionKeys = function(event) {
   }
   event.preventDefault();
 }
-
-
 
 var exampleKeys = function(event) {
   if (event.defaultPrevented) {
@@ -626,6 +681,7 @@ var responseKeys = function(event) {
   event.preventDefault();
 }
 
+
 function addi0Keys() {
   window.addEventListener("keydown", i0Keys);
 }
@@ -642,11 +698,11 @@ function clearConsentKeys() {
   window.removeEventListener("keydown", consentKeys);
 }
 
-function addInstructiontKeys() {
+function addInstructionKeys() {
   window.addEventListener("keydown", instructionKeys);
 }
 
-function clearInstructiontKeys() {
+function clearInstructionKeys() {
   window.removeEventListener("keydown", instructionKeys);
 }
 
