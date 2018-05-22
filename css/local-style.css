@@ -81,6 +81,10 @@ div {
 text-align: center;
 }
 
+ul {
+ text-align: left;
+}
+
 /*input {
 text-align:center;
 float:inherit
@@ -106,4 +110,14 @@ top:0%;
 left:50%;
 text-align: center;
 transform: translate(10%, 33%)
+}
+
+#trialCondition {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+#exampleCondition {
+  font-size: 1.2em;
+  font-weight: bold;
 }

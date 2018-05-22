@@ -99,12 +99,11 @@
     <div class="slide" id="instructions">
       <h3>Instructions</h3>
       <p>
-        You will read a number English sentences and for each sentence you will be asked to select a card which best reflects the sentence.
+        You will read a number English sentences and for each sentence you will be asked to select one of two cards which best reflects the sentence.
       </p>
       <p>
         The following slides explains how you can use your computer to interact with this experiment.
         <br />
-
         Then, two slides will help to familiarise you with the task before the experiment begins.
       </p>
       <button id="instructionButton" onclick="_s.button()">Continue</button>
@@ -116,12 +115,13 @@
       <p>
         To complete this task you may use either your keyboard or your mouse.
       </p>
+      <ul>
+      <li>To use your mouse, click on a card or the button under a card to select it, and click on the continue button to go to the next slide.
+      </li>
 
-      <p>To use your mouse, click on a card or the button under a card to select it, and click on the 'continue' to continue to the next slide.
-
-        <p>To use your keyboard, use the left arrow on your keyboard to select the left card, the right arrow on your keyboard to select the right card, and use your space bar to continue.<br />
-        These keys are highlighted in the image below.</p>
-
+        <li>To use your keyboard, use the left arrow on your keyboard to select the left card, the right arrow on your keyboard to select the right card, and use your space bar to continue.<br />
+        These keys are highlighted in the image below.</li>
+      </ul>
       <img src="../images/keyboardshortcuts.jpg" alt="alternative text" width=700>
 
       <p id="test">This message will be replaced with the functionality assigned to a keyboard key when pressed, for testing purposes.</p>
@@ -131,7 +131,8 @@
     </div>
 
     <div class="slide" id="example">
-      <p>Here is a concrete example to familiarize you with the task.</p>
+      <!-- <h3>Example</h3> -->
+      <p id="exampleStatus"></p>
 
       <p id="exampleCondition"></p>
 
@@ -157,11 +158,19 @@
 
     </div>
 
+
+    <div class="slide" id="begin">
+      <h3>Instructions</h3>
+      <p>
+        The experiment begins on the next slide.
+      </p>
+      <button id="beginButton" onclick="_s.button()">Continue</button>
+    </div>
+
+
     <div class="slide" id="trial">
 
-      <p>
-        Here is a single trial. Depending on the condition, you'll see different words below:
-      </p>
+      <p id="exampleStatus">&nbsp;</p>
       <p id="trialCondition"></p>
 
       <div class="primeOneContainerL" id="container">

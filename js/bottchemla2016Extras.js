@@ -116,7 +116,7 @@ function buildFillers() {
     for (let t = 3; t < 5; t++) { // response, skipping adhoc
       for (let s = 0; s < 2; s++) { // strength
         // for (let p = 0; p < 3; p++) { // prime
-        for (let f = 0; f < 3; f++) { // filler
+        for (let f = 3; f < 6; f++) { // filler
           dict = {};
           p1Split = _.shuffle([0, 1]);
           p2Split = _.shuffle([0, 1]);
@@ -401,66 +401,49 @@ function specifyTrialCards(trialDict) {
       primeTwo[primeTwo.indexOf(0)] = adhocWeak
       primeTwo[primeTwo.indexOf(1)] = adhocStrong
     }
-    // } else if (stregth == 2) { // if filler, but we don't need to any anything special.
-    //   if (primeCat == 0 || primeCat == 3) {
-    //     primeOne[primeOne.indexOf(0)] = someFalse
-    //     primeOne[primeOne.indexOf(1)] = someWeak
-    //     primeTwo[primeTwo.indexOf(0)] = someFalse
-    //     primeTwo[primeTwo.indexOf(1)] = someWeak
-    //   } else if (primeCat == 1 || primeCat == 4) {
-    //     primeOne[primeOne.indexOf(0)] = fourFalse
-    //     primeOne[primeOne.indexOf(1)] = fourWeak
-    //     primeTwo[primeTwo.indexOf(0)] = fourFalse
-    //     primeTwo[primeTwo.indexOf(1)] = fourWeak
-    //   } else if (primeCat == 2 || primeCat == 5) {
-    //     primeOne[primeOne.indexOf(0)] = adhocFalse
-    //     primeOne[primeOne.indexOf(1)] = adhocWeak
-    //     primeTwo[primeTwo.indexOf(0)] = adhocFalse
-    //     primeTwo[primeTwo.indexOf(1)] = adhocWeak
-    //   }
   } else {
     console.log('oh no!')
   }
 
   if (responseCat == 0) { // someStrong
-    responseL = someStrong;
+    responseL = someWeak;
     responseR = responseCard;
-  } else if (responseCat == 1) {
-    responseL = fourStrong;
+  } else if (responseCat == 1) { //
+    responseL = fourWeak;
     responseR = responseCard;
-  } else if (responseCat == 2) {
-    responseL = adhocStrong;
-    responseR = responseCard;
-  } else if (responseCat == 3) {
-    if (fillerType == 0) {
+  // } else if (responseCat == 2) { //
+  //   responseL = adhocWeak;
+  //   responseR = responseCard;
+  } else if (responseCat == 3) { // filler
+    if (fillerType == 3) {
       responseL = someFalse;
       responseR = responseCard;
-    } else if (fillerType == 1) {
+    } else if (fillerType == 4) {
       responseL = someWeak;
       responseR = responseCard;
-    } else if (fillerType == 2) {
+    } else if (fillerType == 5) {
       responseL = someWeak;
       responseR = someStrong;
     }
-  } else if (responseCat == 4) {
-    if (fillerType == 0) {
+  } else if (responseCat == 4) { // filler
+    if (fillerType == 3) {
       responseL = fourFalse;
       responseR = responseCard;
-    } else if (fillerType == 1) {
+    } else if (fillerType == 4) {
       responseL = fourWeak;
       responseR = responseCard;
-    } else if (fillerType == 2) {
+    } else if (fillerType == 5) {
       responseL = fourWeak;
       responseR = fourStrong;
     }
-  } else if (responseCat == 5) {
-    if (fillerType == 0) {
+  } else if (responseCat == 5) { // filler
+    if (fillerType == 3) {
       responseL = adhocFalse;
       responseR = responseCard;
-    } else if (fillerType == 1) {
+    } else if (fillerType == 4) {
       responseL = adhocWeak;
       responseR = responseCard;
-    } else if (fillerType == 2) {
+    } else if (fillerType == 5) {
       responseL = adhocWeak;
       responseR = adhocStrong;
     }
@@ -503,7 +486,6 @@ function specifyExampleCards(trialDict) {
 
 
 function conditionSentence(condition, symbols) {
-
   if (condition != 5) {
     condText = "" + symPre[condition] + " " + symText[symbols[0]]
     if (condition != 2) {
@@ -518,7 +500,6 @@ function conditionSentence(condition, symbols) {
 
 
 function exampleSentence(condition, symbols) {
-
   if (condition == 0) {
     condText = examplePre[condition] + " " + symText[symbols[0]] + "s"
   } else if (condition == 1) {
@@ -534,13 +515,13 @@ var testKeys = function(event) {
   }
   switch (event.key) {
     case " ":
-      $("#test").html('The keyboard button you pressed takes you to the next slide.')
+      $("#test").html('The keyboard button you pressed will take you to the next slide.')
       break;
     case "ArrowLeft":
-      $("#test").html('The keyboard button you pressed selects the left card.')
+      $("#test").html('The keyboard button you pressed will select the left card.')
       break;
     case "ArrowRight":
-      $("#test").html('The keyboard button you pressed selects the right card.')
+      $("#test").html('The keyboard button you pressed will select the right card.')
       break;
     default:
       $("#test").html('The keyboard button you pressed does not have a function in this experiment.')
@@ -614,6 +595,21 @@ var exampleKeys = function(event) {
       break;
     case "ArrowRight":
       $("#exampleChoiceR").click()
+      break;
+    default:
+      return;
+  }
+  event.preventDefault();
+}
+
+
+var beginExperimentKeys = function(event) {
+  if (event.defaultPrevented) {
+    return;
+  }
+  switch (event.key) {
+    case " ":
+      $("#beginExperimentButton").click()
       break;
     default:
       return;
@@ -714,6 +710,14 @@ function clearExampleKeys() {
   window.removeEventListener("keydown", exampleKeys);
 }
 
+function addBeginExperimentKeys() {
+  window.addEventListener("keydown", beginExperimentKeys);
+}
+
+function clearBeginExperimentKeys() {
+  window.removeEventListener("keydown", beginExperimentKeys);
+}
+
 function addPrimeOneKeys() {
   window.addEventListener("keydown", primeOneKeys);
 }
@@ -742,5 +746,4 @@ function clearTrialKeys() {
   window.removeEventListener("keydown", primeOneKeys);
   window.removeEventListener("keydown", primeTwoKeys);
   window.removeEventListener("keydown", responseKeys);
-
 }

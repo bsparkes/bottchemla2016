@@ -2,6 +2,8 @@ function make_slides(f) {
 
   var slides = {};
 
+
+
   slides.i0 = slide({
     name: "i0",
     start: function() {
@@ -48,6 +50,7 @@ function make_slides(f) {
   });
 
 
+
   slides.keyboard = slide({
     name: "keyboard",
     start: function() {
@@ -67,6 +70,8 @@ function make_slides(f) {
 
       clearTestKeys();
       addExampleKeys();
+
+      $("#exampleStatus").html("Here is the first example to help familiarise you with the task.");
     },
 
     present: exampleList,
@@ -81,26 +86,18 @@ function make_slides(f) {
 
       specifyExampleCards(this.stim); // use trial dictionary build cards.
 
-      document.getElementById("exampleChoiceL").accessKey = ",";
-      document.getElementById("exampleChoiceR").accessKey = ".";
-      document.getElementById("continueButton").accessKey = "/";
-
       slide.condition = 0;
     },
-
 
     cardButton: function() { // if a card is selected
       $('.err').hide(); // hide error
       slide.condition = 1; // note that something is selected
     },
 
-
     button: function() {
       if (slide.condition == 1) {
         if (this.stim["example"] == $('input[name=exampleChoice]:checked').val()) { // make sure correct response on examples
-          document.getElementById("exampleChoiceL").accessKey = null; // disable quick keys after trials are over
-          document.getElementById("exampleChoiceR").accessKey = null;
-          document.getElementById("continueButton").accessKey = null;
+          $("#exampleStatus").html("Here is the second example to help familiarise you with the task.");
           this.log_responses(); // log responses
           _stream.apply(this); // store data}
         } else {
@@ -113,13 +110,26 @@ function make_slides(f) {
       }
     },
 
-
     log_responses: function() {
 
       exp.data_trials.push({ // data to be stored
         "trial_type": "example",
       });
     },
+  });
+
+  slides.begin = slide({
+
+    name: "begin",
+    start: function() {
+      clearExampleKeys();
+      addBeginExperimentKeys();
+    },
+
+    button: function() {
+      exp.go(); //use exp.go() if and only if there is no "present" data.
+    }
+
   });
 
 
@@ -129,7 +139,7 @@ function make_slides(f) {
     name: "trial",
     start: function() {
 
-      clearExampleKeys();
+      clearBeginExperimentKeys();
     },
 
 
@@ -229,18 +239,21 @@ function make_slides(f) {
         "goodPrimeTwoChoice": this.stim["goodPrimeTwoChoice"],
         "correctPrimeTwoChoice": (this.stim.primeTwoChoice == this.stim["goodPrimeTwoChoice"]),
         "correctPrimeChoices": (this.stim.primeOneChoice == this.stim.primeTwoChoice == this.stim["goodPrimeTwoChoice"]),
+        "responseRequestMatchesPrime": ((this.stim["filler"] == false) ? (this.stim["prime"] == this.stim["response"]) : "filler"),
+        "choseEnrichment": (this.stim.responseChoice == 0),
         "responseChoice": this.stim.responseChoice, // rename response
         "rt": Date.now() - _s.trial_start,
         // could include time of response as well
       });
-      document.getElementById("responseChoiceL").accessKey = null; // disable quick keys after trials are over
-      document.getElementById("responseChoiceR").accessKey = null;
-      document.getElementById("continueButton").accessKey = null;
       /* console logs for testing */
-      // console.log('this trial…')
-      // console.log(this.stim)
-      // console.log('prime test')
-      // console.log(exp.primeOneChoice == this.stim["goodPrimeOneChoice"] && exp.primeTwoChoice == this.stim["goodPrimeTwoChoice"])
+      console.log('this trial…')
+      console.log(this.stim)
+      console.log('prime test')
+      console.log((this.stim.primeOneChoice == this.stim["goodPrimeOneChoice"]) && (this.stim.primeTwoChoice == this.stim["goodPrimeTwoChoice"]))
+      console.log('prime matches response')
+      // console.log(this.stim.responseChoice)
+      console.log('chose strong')
+      console.log((this.stim.responseChoice == 0) ? "weak" : "better")
       // console.log(exp.data_trials) // show the data, for testing
     }
   });
@@ -296,7 +309,7 @@ function make_slides(f) {
 /// init ///
 function init() {
   //blocks of the experiment:
-  exp.structure = ["i0", "consent", "instructions", "keyboard", "example", "trial", "subj_info", "thanks"];
+  exp.structure = ["i0", "consent", "instructions", "keyboard", "example", "begin", "trial", "subj_info", "thanks"];
 
   // generally no need to change anything below
   exp.trials = [];
