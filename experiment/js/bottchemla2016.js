@@ -111,9 +111,10 @@ function make_slides(f) {
 
     log_responses: function() {
 
-      exp.data_trials.push({ // data to be stored
-        "trial_type": "example",
-      });
+      // exp.data_trials.push({ // data to be stored
+      //   "trial_type": "example",
+      // });
+      // probably shouldn't log this unless it's going to be exactly the same format
     },
   });
 
@@ -237,7 +238,7 @@ function make_slides(f) {
     log_responses: function() {
       exp.data_trials.push({ // data to be stored
         "trial_type": "response",
-        "trial_data": this.stim, // store all trial data, as who knows…
+        // "trial_data": this.stim, // store all trial data, as who knows… but this will cause csv problems
         "primeOneChoice": this.stim.primeOneChoice,
         "goodPrimeOneChoice": this.stim["goodPrimeOneChoice"],
         "correctPrimeOneChoice": (this.stim.primeOneChoice == this.stim["goodPrimeOneChoice"]),
@@ -294,6 +295,7 @@ function make_slides(f) {
       setTimeout(function() {
         turk.submit(exp.data);
       }, 1000);
+      $("#csv").html(JSON.stringify(exp.data))
     }
   });
 
@@ -301,6 +303,26 @@ function make_slides(f) {
 }
 
 
+  var htmlify = function(obj) {
+    if (obj instanceof Array) {
+      return "[" + obj.map(function(o) { return htmlify(o) } ).join(",") + "]";
+    } else if (typeof obj == "object") {
+      var strs = [];
+      for(var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          var str = "<li>" + htmlify(key) + ": " + htmlify(obj[key]) + "</li>";
+          strs.push(str);
+        }
+      }
+      return "{<ul>" + strs.join("") + "</ul>}";
+    } else if (typeof obj == "string")  {
+      return '"' + obj + '"';
+    } else if (typeof obj == "undefined" ) {
+      return "[undefined]"
+    } else {
+      return obj.toString();
+    }
+  };
 
 /// init ///
 function init() {
