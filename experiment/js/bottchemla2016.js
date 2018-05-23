@@ -42,7 +42,6 @@ function make_slides(f) {
     start: function() {
       clearConsentKeys()
       addInstructionKeys();
-
     },
     button: function() {
       exp.go(); //use exp.go() if and only if there is no "present" data.
@@ -138,7 +137,7 @@ function make_slides(f) {
 
     name: "trial",
     start: function() {
-
+      trialMode = true
       clearBeginExperimentKeys();
     },
 
@@ -172,8 +171,11 @@ function make_slides(f) {
       $(".primeTwoContainerL").hide();
       $(".primeTwoContainerR").hide();
       $(".primeOneContainerL").show();
+
       $(".primeOneContainerR").show();
       addPrimeOneKeys();
+      rpPrimeOne = true
+      rpResponse = false
 
       // show primeOne stimulus
       $("#trialCondition").html(conditionSentence(this.stim["prime"], this.stim["primeOneSymbols"]));
@@ -211,6 +213,8 @@ function make_slides(f) {
           clearPrimeTwoKeys();
           $(".responseContainerL").show();
           $(".responseContainerR").show();
+          rpResponse = true
+          rpPrimeTwo = false
           addResponseKeys();
           slide.condition = 0;
         } else if (this.stim.primeOneChoice != null) { // if one has chosen the first prime…
@@ -220,6 +224,8 @@ function make_slides(f) {
           clearPrimeOneKeys();
           $(".primeTwoContainerL").show();
           $(".primeTwoContainerR").show();
+          rpPrimeTwo = true
+          rpPrimeOne = false
           addPrimeTwoKeys();
           slide.condition = 0;
         }
@@ -252,7 +258,7 @@ function make_slides(f) {
 
   slides.subj_info = slide({
     start: function() {
-
+      trialMode = false
       clearTrialKeys();
     },
     name: "subj_info",

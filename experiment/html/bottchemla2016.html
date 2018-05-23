@@ -32,11 +32,14 @@
     <title>Cards and Symbols Experiment</title>
     <script src="../js/bottchemla2016Extras.js"></script>
     <script src="../js/bottchemla2016.js"></script>
+    <script src="../js/randomParticipant.js"></script>
     <link href="../css/local-style.css" rel="stylesheet" type="text/css"/>
 
   </head>
 
-  <body onload="init();">
+  <body onload="init();
+  // randomParticipant();
+  ">
 
     <noscript>This task requires JavaScript.</noscript>
 
@@ -285,7 +288,7 @@
         <p>We would be interested in any comments you have about this experiment. Please type them here:</p>
         <textarea id="comments" rows="3" cols="50"></textarea>
         <br/>
-        <button onclick="_s.submit()">Click this button to submit</button>
+        <button id="submitButton" onclick="_s.submit()">Click this button to submit</button>
       </div>
     </div>
 

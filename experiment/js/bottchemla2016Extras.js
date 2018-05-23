@@ -305,7 +305,7 @@ function makeCard(canvasid = 'canvas',
     textDimensions = ctx.measureText(unisym);
     x = (x - (textDimensions.width / 2))
     if (unisym == "●") {
-      y = (y - (-4*(76/46)))
+      y = (y - (-4 * (76 / 46)))
     }
     ctx.fillText(unisym, x, y);
   }
