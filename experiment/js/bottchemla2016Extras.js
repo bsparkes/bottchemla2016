@@ -1,4 +1,4 @@
-var symlist = ["♦", "♣", "✓", "♠", "♥", "■", "★", "●", "♩", "▲"];
+var symlist = ["♦", "♣", "✓", "♠", "♥", "◼", "★", "●", "♩", "▲"];
 var symText = ["diamond", "club", "tick", "spade", "heart", "square", "star", "circle", "note", "triangle"];
 var symPre = ["Some of the symbols are", "There are four", "There is a", "All of the symbols are", "There are six", "There is a"]
 var examplePre = ["Many of the symbols are", ["There is a", "above a"]]
@@ -10,7 +10,7 @@ var examplePre = ["Many of the symbols are", ["There is a", "above a"]]
 */
 
 var trialCards = {
-  someStrong: [6, 3, 0, 9],
+  someStrong: [3, 6, 0, 9],
   someWeak: [9, 0, 0, 9],
   someFalse: [0, 9, 0, 9],
   fourStrong: [4, 0, 0, 4],
@@ -175,12 +175,6 @@ trialList = trialList.concat(fillerList)
 trialList = _.shuffle(trialList) // randomise order of trials
 
 
-// console.log('filler list')
-// console.log(fillerList.length)
-// console.log('trialList')
-// console.log(trialList)
-
-
 
 function makeExamples() {
   list = []
@@ -302,10 +296,17 @@ function makeCard(canvasid = 'canvas',
   }
 
   function symbols(x, y, color, unisym) {
-    ctx.font = "46px serif";
+    if (unisym == "●") {
+      ctx.font = "76px serif"
+    } else {
+      ctx.font = "46px serif"
+    }
     ctx.fillStyle = color;
     textDimensions = ctx.measureText(unisym);
     x = (x - (textDimensions.width / 2))
+    if (unisym == "●") {
+      y = (y - (-4*(76/46)))
+    }
     ctx.fillText(unisym, x, y);
   }
 }
@@ -411,9 +412,9 @@ function specifyTrialCards(trialDict) {
   } else if (responseCat == 1) { //
     responseL = fourWeak;
     responseR = responseCard;
-  // } else if (responseCat == 2) { //
-  //   responseL = adhocWeak;
-  //   responseR = responseCard;
+  } else if (responseCat == 2) { //
+    responseL = adhocWeak;
+    responseR = responseCard;
   } else if (responseCat == 3) { // filler
     if (fillerType == 3) {
       responseL = someFalse;
@@ -609,7 +610,7 @@ var beginExperimentKeys = function(event) {
   }
   switch (event.key) {
     case " ":
-      $("#beginExperimentButton").click()
+      $("#beginButton").click()
       break;
     default:
       return;

@@ -97,11 +97,11 @@ function make_slides(f) {
     button: function() {
       if (slide.condition == 1) {
         if (this.stim["example"] == $('input[name=exampleChoice]:checked').val()) { // make sure correct response on examples
-          $("#exampleStatus").html("Here is the second example to help familiarise you with the task.");
+          $("#exampleStatus").html("Here is the second example to help familiarise you with the task. Remember, the 'Better Picture?' picture should be selected if you do not feel that the other picture sufficiently captures the sentence meaning.");
           this.log_responses(); // log responses
           _stream.apply(this); // store data}
         } else {
-          $("#exampleErr").html("Are you sure? Please consider which card best matches the sentence and and try again.")
+          $("#exampleErr").html("Are you sure? Please consider which card best matches the sentence.")
           $('.err').show();
         }
       } else {
@@ -242,19 +242,9 @@ function make_slides(f) {
         "responseRequestMatchesPrime": ((this.stim["filler"] == false) ? (this.stim["prime"] == this.stim["response"]) : "filler"),
         "choseEnrichment": (this.stim.responseChoice == 0),
         "responseChoice": this.stim.responseChoice, // rename response
+        "responseChoiceText": (this.stim.responseChoice == 0) ? "weak" : "better",
         "rt": Date.now() - _s.trial_start,
-        // could include time of response as well
       });
-      /* console logs for testing */
-      console.log('this trial…')
-      console.log(this.stim)
-      console.log('prime test')
-      console.log((this.stim.primeOneChoice == this.stim["goodPrimeOneChoice"]) && (this.stim.primeTwoChoice == this.stim["goodPrimeTwoChoice"]))
-      console.log('prime matches response')
-      // console.log(this.stim.responseChoice)
-      console.log('chose strong')
-      console.log((this.stim.responseChoice == 0) ? "weak" : "better")
-      // console.log(exp.data_trials) // show the data, for testing
     }
   });
 

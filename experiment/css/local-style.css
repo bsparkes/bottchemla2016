@@ -1,7 +1,7 @@
 .canvas {
 border-radius: 5px;
 background-color: white;
-border: 1px solid #000;
+border: 1px solid #808080;
 overflow: hidden;
 margin: auto;
 }
@@ -85,17 +85,6 @@ ul {
  text-align: left;
 }
 
-/*input {
-text-align:center;
-float:inherit
-}*/
-
-/*.center-block {
-display: block;
-margin-right: auto;
-margin-left: auto;
-}*/
-
 .exampleContainerL {
 position: absolute;
 top:0%;
@@ -113,11 +102,26 @@ transform: translate(10%, 33%)
 }
 
 #trialCondition {
-  font-size: 1.2em;
-  font-weight: bold;
+/*  position: absolute;
+  top:0%;
+  left:50%;*/
+  font-size: 1.4em;
+  /*font-weight: bold;*/
+  font-family: sans-serif;
+  transform: translate(0%, -40%)
 }
 
 #exampleCondition {
-  font-size: 1.2em;
-  font-weight: bold;
+/*  position: absolute;
+  top:0%;
+  left:50%;*/
+  font-size: 1.4em;
+  /*font-weight: bold;*/
+  font-family: sans-serif;
+  transform: translate(0%, -40%)
+}
+
+#exampleStatus {
+  font-size: .8em;
+  color: #808080;
 }
