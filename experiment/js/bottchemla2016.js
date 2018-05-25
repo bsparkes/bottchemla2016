@@ -237,20 +237,30 @@ function make_slides(f) {
 
     log_responses: function() {
       exp.data_trials.push({ // data to be stored
-        "trial_type": "response",
-        // "trial_data": this.stim, // store all trial data, as who knows… but this will cause csv problems
-        "primeOneChoice": this.stim.primeOneChoice,
-        "goodPrimeOneChoice": this.stim["goodPrimeOneChoice"],
-        "correctPrimeOneChoice": (this.stim.primeOneChoice == this.stim["goodPrimeOneChoice"]),
-        "primeTwoChoice": this.stim.primeTwoChoice,
-        "goodPrimeTwoChoice": this.stim["goodPrimeTwoChoice"],
-        "correctPrimeTwoChoice": (this.stim.primeTwoChoice == this.stim["goodPrimeTwoChoice"]),
-        "correctPrimeChoices": (this.stim.primeOneChoice == this.stim.primeTwoChoice == this.stim["goodPrimeTwoChoice"]),
-        "responseRequestMatchesPrime": ((this.stim["filler"] == false) ? (this.stim["prime"] == this.stim["response"]) : "filler"),
-        "choseEnrichment": (this.stim.responseChoice == 0),
+        "trial_type": (this.stim["filler"] == false) ? "response" : "filler",
+        "primeType" : this.stim["prime"],
+        "primeTypeText" : (this.stim["prime"] == 0) ? "some" : "four",
+        "responseType" : this.stim["response"],
+        "responseTypeText" : (this.stim["response"] == 0) ? "some" : "four",
+        "primeStrength" : this.stim["strength"],
+        "primeStrengthText" : (this.stim["strength"] == 0) ? "weak" : "strong",
+        "pOChoice": this.stim.primeOneChoice,
+        "goodPOChoice": this.stim["goodPrimeOneChoice"],
+        "correctPOChoice": (this.stim.primeOneChoice == this.stim["goodPrimeOneChoice"]),
+        "pTChoice": this.stim.primeTwoChoice,
+        "goodPTChoice": this.stim["goodPrimeTwoChoice"],
+        "correctPTChoice": (this.stim.primeTwoChoice == this.stim["goodPrimeTwoChoice"]),
+        "correctPChoices": ((this.stim.primeOneChoice == this.stim["goodPrimeOneChoice"] == true) && (this.stim.primeTwoChoice == this.stim["goodPrimeTwoChoice"]) == true),
+        // "responseCatMatchesPrimeCat": ((this.stim["prime"] == this.stim["response"]) ? (this.stim["prime"] == this.stim["response"]) : "false"),
+        "WithBet": ((this.stim["prime"] == this.stim["response"]) ? 1 : 0), // within/between category
+        "WithCat": this.stim["prime"], // this returns the category, assuming everything is the same
+        "BetCat": ((this.stim["prime"] != this.stim["response"]) ? Math.pow(2, this.stim["prime"] + 1) * Math.pow(3, this.stim["response"] + 1) : false), // use godel encoding to get unique number for cross cat trials
         "responseChoice": this.stim.responseChoice, // rename response
         "responseChoiceText": (this.stim.responseChoice == 0) ? "weak" : "better",
         "rt": Date.now() - _s.trial_start,
+        // "primeOneSymbols": this.stim["primeOneSymbols"],
+        // "primeTwoSymbols": this.stim["primeTwoSymbols"],
+        // "responseSymbols": this.stim["responseSymbols"],
       });
     }
   });

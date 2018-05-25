@@ -9,7 +9,13 @@ from selenium import webdriver
 # On a mac, install 'geckodriver' via homebrew to get selenium working
 
 # Set the browser to Safari
-browser = webdriver.Safari()
+browser = webdriver.Firefox()
+
+def participate():
+  with open('../experiment/js/randomParticipant.js', 'r') as randomParticipant:
+      participantScript = randomParticipant.read()
+      browser.execute_script(participantScript)
+      browser.execute_script('randomParticipant()')
 
 # This function runs an instance
 def generateRandomCSV(participants):
@@ -24,7 +30,9 @@ def generateRandomCSV(participants):
   localURL = 'file:///' + os.path.join(parentDir, 'experiment/html/bottchemla2016.html')
 
   browser.get(localURL)
-  time.sleep(2)
+  time.sleep(1)
+  participate()
+  time.sleep(1)
   # print(browser.title)
   csv = browser.find_element_by_id("csv")
   csvjson = json.loads(csv.text)
@@ -43,7 +51,9 @@ def generateRandomCSV(participants):
     uniqueID = i
 
     browser.get(localURL)
-    time.sleep(2)
+    time.sleep(1)
+    participate()
+    time.sleep(1)
     # print(browser.title)
     csv = browser.find_element_by_id("csv")
     csvjson = json.loads(csv.text)
@@ -59,4 +69,7 @@ def generateRandomCSV(participants):
 
   browser.quit()
 
-generateRandomCSV(3)
+generateRandomCSV(100)
+
+
+
