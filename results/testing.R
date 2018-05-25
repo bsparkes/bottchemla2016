@@ -59,7 +59,6 @@ table(wrp$responseChoice)
 table(wrp$uniqueID)
 wrp$primeStrength <- factor(wrp$primeStrength)
 wrp$WithCat <- factor(wrp$WithCat)
-wrp.random = glm(responseChoice ~ primeStrength * WithCat +  (1 + primeStrength * WithCat | uniqueID), data=wrp, family = binomial(link = "logit"))
 wrp.random = glmer(responseChoice ~ primeStrength * WithCat +  (1 + primeStrength * WithCat | uniqueID), data=wrp, family = binomial(link = "logit"))
 summary(wrp.random)
 
@@ -67,5 +66,8 @@ summary(wrp)
 cor(wrp)
 
 # Between detail
-
-
+brp = subset(rp, WithBet==0)
+wrp$primeStrength <- factor(wrp$primeStrength)
+wrp$BetCat <- factor(wrp$BetCat)
+wrp.random = glmer(responseChoice ~ primeStrength * BetCat  +  (1 + primeStrength * BetCat | uniqueID), data=brp, family = binomial(link = "logit"))
+summary(wrp.random)
