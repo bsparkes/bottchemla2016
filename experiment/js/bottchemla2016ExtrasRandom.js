@@ -42,10 +42,10 @@ function buildTrials() {
   list = [
     // {symbols: [] prime: [], response: [], strength : [], etc…}
   ]
-  for (let n = 0; n < 4; n++) { // number of each, note that we need a decent number to ensure that the R analysis will work out (with a fair degree of certainty)
-    for (let t = 0; t < 2; t++) { // response, skipping adhoc
+  for (let n = 0; n < 16; n++) { // number of each, note that we need a decent number to ensure that the R analysis will work out (with a fair degree of certainty)
+    for (let t = 0; t < 3; t++) { // response, skipping adhoc
       for (let s = 0; s < 2; s++) { // strength
-        for (let p = 0; p < 2; p++) { // prime skipping adhoc
+        for (let p = 0; p < 3; p++) { // prime skipping adhoc
           dict = {};
           p1Split = _.shuffle([0, 1]);
           p2Split = _.shuffle([0, 1]);
@@ -68,7 +68,7 @@ function buildTrials() {
   return list
 }
 
-/* Function to turn card number into text description. */
+
 function NumToText(nums) {
   let output = ""
   let names = ["SOME", "NUM4", "ADH", "ALL", "NUM6"]
@@ -77,8 +77,6 @@ function NumToText(nums) {
   }
   return output
 }
-
-console.log(NumToText([2]))
 
 // function buildTrials() {
 //   list = [
@@ -127,7 +125,8 @@ function buildFillers() {
   for (let n = 1; n <= 1; n++) { // number of each
     for (let t = 3; t < 5; t++) { // response, skipping adhoc
       for (let s = 0; s < 2; s++) { // strength
-        for (let f = 3; f < 6; f++) { // filler (switched from prime)
+        // for (let p = 0; p < 3; p++) { // prime
+        for (let f = 3; f < 6; f++) { // filler
           dict = {};
           p1Split = _.shuffle([0, 1]);
           p2Split = _.shuffle([0, 1]);
@@ -146,6 +145,7 @@ function buildFillers() {
         }
       }
     }
+    // }
   }
   return list
 }
@@ -171,6 +171,9 @@ fourFiller = _.sample(fillerList.slice(6, 12), 5)
 // adhocFiller = _.sample(fillerList.slice(12, 18), 4)
 
 fillerList = someFiller.concat(fourFiller) //.concat(adhocFiller)
+
+// console.log('filler list')
+// console.log(fillerList)
 
 trialList = trialList.concat(fillerList)
 // trialList = fillerList

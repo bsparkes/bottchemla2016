@@ -27,7 +27,7 @@ def generateRandomCSV(participants):
   # relative path to experiment file
   fileDir = os.path.dirname(os.path.abspath(__file__))
   parentDir = os.path.dirname(fileDir)
-  localURL = 'file:///' + os.path.join(parentDir, 'experiment/html/bottchemla2016.html')
+  localURL = 'file:///' + os.path.join(parentDir, 'experiment/html/bottchemla2016random.html')
 
   browser.get(localURL)
   time.sleep(1)

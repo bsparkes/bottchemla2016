@@ -1,0 +1,210 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+% \usepackage[margin=1in]{geometry}
+% \newcommand\hmmax{0}
+% \newcommand\bmmax{0}
+
+% % % Fonts% %
+   \usepackage[T1]{fontenc}
+   % \usepackage{textcomp}
+   % \usepackage{newtxtext}
+   % \renewcommand\rmdefault{Pym} %\usepackage{mathptmx} %\usepackage{times}
+   \usepackage[complete, subscriptcorrection, slantedGreek, mtpfrak, mtpbbi, mtpcal]{mtpro2}
+   \usepackage{bm}% Access to bold math symbols
+   % \usepackage[onlytext]{MinionPro}
+   \usepackage[no-math]{fontspec}
+   \defaultfontfeatures{Ligatures=TeX,Numbers={Proportional}}
+   \newfontfeature{Microtype}{protrusion=default;expansion=default;}
+   \setmainfont[Ligatures=TeX]{TimesNRMTPro}
+   \setsansfont[Microtype,Scale=MatchLowercase,Ligatures=TeX,BoldFont={* Semibold}]{Myriad Pro}
+   \setmonofont[Scale=0.8]{Atlas Typewriter}
+
+   % \usepackage{selnolig}% For suppressing certain typographic ligatures automatically
+   \usepackage{microtype}
+% % % % % % % % %
+\usepackage{amsthm}         % (in part) For the defined environments
+\usepackage{mathtools}      % Improves  on amsmaths/mtpro2
+\usepackage{bbding}         % For hand pointers, etc.
+
+% % The bibliography % % %
+\usepackage[backend=biber,
+            style=authoryear-comp,
+            citestyle=authoryear-comp,
+            backref=false,
+            hyperref=true,
+            url=false,
+            isbn=false,
+           ]{biblatex}
+% % \renewcommand*{\bibfont}{\small}
+\DeclareFieldFormat{postnote}{#1}
+\DeclareFieldFormat{multipostnote}{#1}
+% \setlength\bibitemsep{1.5\itemsep}
+\addbibresource{ling245.bib}
+
+% \newcommand{\seccite}[1]{\citeauthor{#1}, \citetitle{#1}, \citeyear{#1}}
+% % % % % % % % % % % % % % %
+
+% % % The following section relates to theorems, etc. % % %
+\usepackage{thmtools}
+% \usepackage{thm-restate} % For restating theorems
+
+\declaretheoremstyle[
+spaceabove=6pt, spacebelow=6pt,
+headfont=\normalfont\bfseries,
+notefont=\mdseries, notebraces={(}{)},
+bodyfont=\normalfont,
+% postheadspace=1em,
+% qed=\qedsymbol
+]{defstyle}
+
+\declaretheoremstyle[
+spaceabove=6pt, spacebelow=6pt,
+headfont=\normalfont\bfseries,
+notefont=\normalfont\bfseries, notebraces={}{},
+bodyfont=\normalfont,
+% postheadspace=1em,
+% qed=\qedsymbol
+]{defsstyle}
+
+\declaretheorem[name=Theorem,numberwithin=section]{theorem}
+\declaretheorem[sibling=theorem,style=remark]{remark}
+\declaretheorem[sibling=theorem,name=Corollary]{corollary}
+\declaretheorem[sibling=theorem,name=Lemma]{lemma}
+\declaretheorem[sibling=theorem,name=Fact]{fact}
+\declaretheorem[sibling=theorem,name=Proposition]{proposition}
+\declaretheorem[sibling=theorem,name=Argument]{argument}
+\declaretheorem[sibling=theorem,name=Definition,style=defstyle]{definition}
+\declaretheorem[name=Definitions,numbered=no,style=defsstyle]{definitions}
+\declaretheorem[sibling=theorem,name=Example,style=defstyle]{example}
+\declaretheorem[sibling=theorem,name=Scenario,style=defstyle]{scenario}
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+% % % Custom Commands % % %
+% \newcommand{\subfor}[2]{[\sfrac{#1}{#2}]}
+\usepackage{xfrac,nicefrac} % For \sfrac{i}{j} and for nicer fractions
+\newcommand{\sem}[1]{\ensuremath{[\kern-.5mm[{#1}]\kern-.5mm]}}
+% % % % % % % % % % % % % %
+
+\usepackage[inline]{enumitem}
+        % \setlist[enumerate]{itemsep=.03125em}
+        \setlist[itemize]{noitemsep}
+        \setlist[description]{noitemsep,style=unboxed,leftmargin=.5cm,font=\normalfont\space}
+        \setlist[enumerate]{noitemsep}
+
+% % For Figures % % %
+\usepackage{tikz,subfig} % For drawings
+
+    \tikzstyle{index on}=[inner sep=2pt, white, circle, fill=black]
+    \tikzstyle{index off}=[inner sep=2pt, black, circle, draw]
+    \tikzstyle{index gray}=[inner sep=2pt, black, circle, fill=lightgray]
+    \tikzstyle{opaque}=[fill=gray,fill opacity=.1]
+    \tikzstyle{counter}=[densely dashed]
+\usepackage{wrapfig}
+\usepackage{float} % For correctly placed floats
+% % % % % % % % % % %
+% \usepackage{graphicx}
+
+% % % Misc packages % % %
+
+% \usepackage{refcheck} % Can be used for checking references
+% \usepackage{lineno}   % For line numbers
+\usepackage{multicol} % For multiple columns
+% \usepackage{mathrsfs} % For elegant Latin math letters
+\usepackage{proof}    % For natural deduction proofs
+% \usepackage{hyphenat} % For \hyp{} hyphenation command, and general hyphenation stuff
+% \usepackage{titling} % for multiple titles
+% % % % % % % % % % % % %
+
+\usepackage{chngcntr}
+\counterwithout{paragraph}{subsubsection}
+\renewcommand{\theparagraph}{\arabic{paragraph}.}
+\setcounter{secnumdepth}{4}
+\usepackage{titlesec}
+% \titleformat{\paragraph}[runin]{\normalfont}{\indent}{\wordsep}{}
+% \titlespacing{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{5\wordsep}
+% \titleformat{\paragraph}[runin]{\normalfont}{}{\wordsep}{}
+% \titlespacing{\paragraph}{0pt}{1ex plus .2ex minus .2ex}{0pt}
+\titleformat{\paragraph}[runin]{\normalfont}{\indent\theparagraph}{\wordsep}{}
+\titlespacing{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{5\wordsep}
+
+\usepackage{adjustbox}
+
+\usepackage[hidelinks,breaklinks]{hyperref}
+
+
+
+\title{Ling 245 Class Project Writeup}
+\author{Benjamin Sparkes}
+% \date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:introduction}
+
+Recreating Experiment 1 from \textcite{Bott:2016aa}.
+
+\section{Things to Note}
+\label{sec:things-note}
+
+Need a decent number of observations from each individual on each trial for the analysis \citeauthor{Bott:2016aa} perform to work.
+Here, `decent number' means that we need at least one primeStrength and (WithCat/BetCat) trial with correct prime choices, else there are going to be fewer observations than random effects.
+
+\begin{table}[h]
+  \caption{Experiment 1 results.}\vspace{-20pt}
+  \begin{center}
+    \begin{adjustbox}{width=1.2\textwidth,center=\textwidth}
+    \begin{tabular}{llrrrr}
+      \hline
+      & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
+      \hline
+      Overview & \multicolumn{2}{l}{\(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\)}  & & & \\
+      & (Intercept) & -0.594 & 0.198 & -2.991 & .003 \\
+      & Prime & 0.563 & 0.034 & 16.342 & <.001 \\
+      & WithBet & 0.126 & 0.029 & 4.284 & <.001 \\
+      & Prime:WithBet & -0.430 & 0.033 & -13.177 & <.001 \\
+      Within simple & Prime & 0.993 & 0.059 & 16.950 & <.001 \\
+      Between Simple & Prime & 0.133 & 0.033 & 4.082 & <.001 \\
+      Within detail & \multicolumn{2}{l}{\(\text{Prime} * \text{WithCat} + (1 + \text{Prime} * \text{WithCat} \mid \text{subject})\)}  & & & \\
+      & (Intercept)  & -2.088 & 0.255 & -8.185 & <.001\\
+      & Prime & 1.239 & 0.109 & 11.374 & <.001 \\
+      & WithCatNUM4 & 2.068 & 0.195 & 10.588 & <.001 \\
+      & WithCatSOME & 1.823 & 0.157 & 11.598 & <.001 \\
+      & Prime:WithCatNUM4 & 0.174 & 0.166 & 1.046 & .269 \\
+      & Prime:WithCatSOME & -0.138 & 0.137 & -1.007 & .314 \\
+      Between detail & \multicolumn{2}{l}{\(\text{Prime} * \text{BetCat} + (1 + \text{Prime} * \text{BetCat} \mid \text{subject})\)}  & & & \\
+      & (Intercept)  & -0.691 & 0.204 & -3.384 & <.001\\
+      & Prime & 0.145 & 0.058 & 0.058 & .012 \\
+      & BetCatSOMEADH & -0.054 & 0.089 & -0.611 & .540 \\
+      & BetCatSOMENUM4 & 0.889 & 0.112 & 7.915 & <.001 \\
+      & Prime:BetCatSOMEADH & -0.069 & 0.079 & -0.873 & .383 \\
+      & Prime:BetCatSOMENUM4 & 0.078 & 0.088 & 0.888 & .374 \\
+      \hline
+    \end{tabular}
+  \end{adjustbox}
+  \end{center}
+
+% \begin{adjustbox}{width=1.2\textwidth,center=\textwidth}
+  % {\footnotesize
+    \emph{Note}. R-pseudo code shown in the first line of every section.
+  \emph{Prime} = priming factor (2 levels: strong, weak).
+  \emph{WithBet} = within/between factor (2 levels: within, between).
+  \emph{WithCat} = within expression category factor (3 levels: \emph{some}, number4, \emph{ad hoc}).
+  \emph{Betcat} = between expression category factor (3 levels: \emph{some} \(\leftrightarrow\) number4, \emph{some} \(\leftrightarrow\) \emph{ad hoc}, number4 \(\leftrightarrow\) \emph{ad hoc}).
+  % }
+% \end{adjustbox}
+\end{table}
+
+
+\vfill
+\printbibliography
+
+
+
+
+
+\end{document}

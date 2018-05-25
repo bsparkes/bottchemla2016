@@ -238,12 +238,12 @@ function make_slides(f) {
     log_responses: function() {
       exp.data_trials.push({ // data to be stored
         "trial_type": (this.stim["filler"] == false) ? "response" : "filler",
-        "primeType" : this.stim["prime"],
-        "primeTypeText" : (this.stim["prime"] == 0) ? "some" : "four",
-        "responseType" : this.stim["response"],
-        "responseTypeText" : (this.stim["response"] == 0) ? "some" : "four",
-        "primeStrength" : this.stim["strength"],
-        "primeStrengthText" : (this.stim["strength"] == 0) ? "weak" : "strong",
+        "primeType": this.stim["prime"],
+        "primeTypeText": (this.stim["prime"] == 0) ? "some" : "four",
+        "responseType": this.stim["response"],
+        "responseTypeText": (this.stim["response"] == 0) ? "some" : "four",
+        "primeStrength": this.stim["strength"],
+        "primeStrengthText": (this.stim["strength"] == 0) ? "weak" : "strong",
         "pOChoice": this.stim.primeOneChoice,
         "goodPOChoice": this.stim["goodPrimeOneChoice"],
         "correctPOChoice": (this.stim.primeOneChoice == this.stim["goodPrimeOneChoice"]),
@@ -252,9 +252,12 @@ function make_slides(f) {
         "correctPTChoice": (this.stim.primeTwoChoice == this.stim["goodPrimeTwoChoice"]),
         "correctPChoices": ((this.stim.primeOneChoice == this.stim["goodPrimeOneChoice"] == true) && (this.stim.primeTwoChoice == this.stim["goodPrimeTwoChoice"]) == true),
         // "responseCatMatchesPrimeCat": ((this.stim["prime"] == this.stim["response"]) ? (this.stim["prime"] == this.stim["response"]) : "false"),
-        "WithBet": ((this.stim["prime"] == this.stim["response"]) ? 1 : 0), // within/between category
-        "WithCat": this.stim["prime"], // this returns the category, assuming everything is the same
-        "BetCat": ((this.stim["prime"] != this.stim["response"]) ? Math.pow(2, this.stim["prime"] + 1) * Math.pow(3, this.stim["response"] + 1) : false), // use godel encoding to get unique number for cross cat trials
+        "WithBet": ((this.stim["prime"] == this.stim["response"]) ? "within" : "between"), // within/between category
+        "WithCat": NumToText([this.stim["prime"]]),
+        "BetCat": NumToText([this.stim["prime"], this.stim["response"]]),
+        "WithBetN": ((this.stim["prime"] == this.stim["response"]) ? 1 : 0), // within/between category
+        "WithCatN": this.stim["prime"], // this returns the category, assuming everything is the same
+        "BetCatN": ((this.stim["prime"] != this.stim["response"]) ? Math.pow(2, this.stim["prime"] + 1) * Math.pow(3, this.stim["response"] + 1) : false), // use godel encoding to get unique number for cross cat trials
         "responseChoice": this.stim.responseChoice, // rename response
         "responseChoiceText": (this.stim.responseChoice == 0) ? "weak" : "better",
         "rt": Date.now() - _s.trial_start,
@@ -311,28 +314,6 @@ function make_slides(f) {
 
   return slides;
 }
-
-
-  var htmlify = function(obj) {
-    if (obj instanceof Array) {
-      return "[" + obj.map(function(o) { return htmlify(o) } ).join(",") + "]";
-    } else if (typeof obj == "object") {
-      var strs = [];
-      for(var key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          var str = "<li>" + htmlify(key) + ": " + htmlify(obj[key]) + "</li>";
-          strs.push(str);
-        }
-      }
-      return "{<ul>" + strs.join("") + "</ul>}";
-    } else if (typeof obj == "string")  {
-      return '"' + obj + '"';
-    } else if (typeof obj == "undefined" ) {
-      return "[undefined]"
-    } else {
-      return obj.toString();
-    }
-  };
 
 /// init ///
 function init() {
