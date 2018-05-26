@@ -42,7 +42,7 @@ function buildTrials() {
   list = [
     // {symbols: [] prime: [], response: [], strength : [], etc…}
   ]
-  for (let n = 0; n < 16; n++) { // number of each, note that we need a decent number to ensure that the R analysis will work out (with a fair degree of certainty)
+  for (let n = 0; n < 16; n++) { // number of each, note that we need a decent number (more than on actual participants as chances are random will fail the prime test) to ensure that the R analysis will work out (with a fair degree of certainty)
     for (let t = 0; t < 3; t++) { // response, skipping adhoc
       for (let s = 0; s < 2; s++) { // strength
         for (let p = 0; p < 3; p++) { // prime skipping adhoc

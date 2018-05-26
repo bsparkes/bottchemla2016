@@ -239,9 +239,9 @@ function make_slides(f) {
       exp.data_trials.push({ // data to be stored
         "trial_type": (this.stim["filler"] == false) ? "response" : "filler",
         "primeType": this.stim["prime"],
-        "primeTypeText": (this.stim["prime"] == 0) ? "some" : "four",
+        "primeTypeText": NumToText([this.stim["prime"]]),
         "responseType": this.stim["response"],
-        "responseTypeText": (this.stim["response"] == 0) ? "some" : "four",
+        "responseTypeText": NumToText([this.stim["response"]]),
         "primeStrength": this.stim["strength"],
         "primeStrengthText": (this.stim["strength"] == 0) ? "weak" : "strong",
         "pOChoice": this.stim.primeOneChoice,
@@ -254,10 +254,11 @@ function make_slides(f) {
         // "responseCatMatchesPrimeCat": ((this.stim["prime"] == this.stim["response"]) ? (this.stim["prime"] == this.stim["response"]) : "false"),
         "WithBet": ((this.stim["prime"] == this.stim["response"]) ? "within" : "between"), // within/between category
         "WithCat": NumToText([this.stim["prime"]]),
-        "BetCat": NumToText([this.stim["prime"], this.stim["response"]]),
+
         "WithBetN": ((this.stim["prime"] == this.stim["response"]) ? 1 : 0), // within/between category
         "WithCatN": this.stim["prime"], // this returns the category, assuming everything is the same
-        "BetCatN": ((this.stim["prime"] != this.stim["response"]) ? Math.pow(2, this.stim["prime"] + 1) * Math.pow(3, this.stim["response"] + 1) : false), // use godel encoding to get unique number for cross cat trials
+        "BetCat": NumToText([this.stim["prime"], this.stim["response"]]),
+        "BetCatN": (Math.pow(2, this.stim["prime"] + 1) * Math.pow(3, this.stim["response"] + 1)), // use godel encoding to get unique number for cross cat trials
         "responseChoice": this.stim.responseChoice, // rename response
         "responseChoiceText": (this.stim.responseChoice == 0) ? "weak" : "better",
         "rt": Date.now() - _s.trial_start,
