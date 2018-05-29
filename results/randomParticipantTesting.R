@@ -84,7 +84,10 @@ summary(p)
 
 # So, general problem here is that I need to get a percentage, which means adding, I guess
 
-ggplot(p, aes(x=factor(BetCat), y=sum(responseChoice)/length(responseChoice), label=paste(round(sum(responseChoice)/length(responseChoice)*100)), "%" ))  + geom_bar(stat="identity") + geom_text(position="stack", aes(ymax=1),vjust=5) + scale_y_continuous(labels = percent)
+ggplot(p, aes(x=factor(BetCat), y=sum(responseChoice)/length(responseChoice), label=paste(round(sum(responseChoice)/length(responseChoice)*100)), "%" ))  +
+  geom_bar(stat="identity") +
+  geom_text(position="stack", aes(ymax=1),vjust=5) +
+  scale_y_continuous(labels = percent)
 
 # + stat_bin(geom ="text", aes(label = paste(round((sum(responseChoice)/length(responseChoice))*100), "%")),  vjust = 5)
           # + scale_y_continuous(labels = percent)
@@ -128,12 +131,13 @@ ggplot(psswp.perc,aes(x=factor(primeStrengthText),y=prop,label=paste(round(prop*
 # simply, uses this ddply to combine the results of applying the proportion function to each trial type.
 cc = subset(p, trial_type=='response' & (BetCat=="ADHSOME" | BetCat=="SOMEADH"))
 summary(cc)
-cc.perc <- ddply(test,.(primeStrengthText),summarise,prop = sum(responseChoice)/length(responseChoice))
+cc.perc <- ddply(cc,.(primeStrengthText),summarise,prop = sum(responseChoice)/length(responseChoice))
 cc.perc
 
-ggplot(cc.perc,aes(x=factor(primeStrengthText),y=prop,label=paste(round(prop*100), "%")),fill=primeStrength) +
+# Here I can't figure out how to make the bars different colours.
+ggplot(cc.perc,aes(x=factor(primeStrengthText),y=prop,label=paste(round(prop*100), "%"))) +
   geom_bar(colour="black", stat="identity", position=position_dodge()) +
   ylab("Proportion Strong responses") +
   xlab("Prime Type") +
-  scale_fill_manual(values=c("black", "lightgray"))
+  scale_fill_manual(values=c("black", "lightgrey"))
 

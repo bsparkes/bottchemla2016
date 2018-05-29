@@ -3,7 +3,7 @@
   It's very simple, but gets the job done, and the idea is that this can be used a) for testing, and b) to see how the results of actual participants compare to what we get with random participants (which seems like it could be interesting as who knows how this may play out in practice).
 */
 
-function randomParticipant() {
+function  () {
   $("#start_button").click()
   $("#consentButton").click()
   $("#consentButton").click()
