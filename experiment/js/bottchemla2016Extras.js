@@ -78,39 +78,6 @@ function NumToText(nums) {
   return output
 }
 
-console.log(NumToText([2]))
-
-// function buildTrials() {
-//   list = [
-//     // {symbols: [] prime: [], response: [], strength : [], etc…}
-//   ]
-//   for (let n = 0; n < 1; n++) { // number of each
-//     for (let t = 0; t < 1; t++) { // response, skipping adhoc
-//       for (let s = 0; s < 1; s++) { // strength
-//         for (let p = 0; p < 1; p++) { // prime skipping adhoc
-//           dict = {};
-//           p1Split = _.shuffle([0, 1]);
-//           p2Split = _.shuffle([0, 1]);
-//           dict["response"] = t;
-//           dict["strength"] = s;
-//           dict["prime"] = p;
-//           dict["filler"] = false;
-//           dict["primeOneShuffle"] = p1Split;
-//           dict["primeTwoShuffle"] = p2Split;
-//           dict["goodPrimeOneChoice"] = p1Split.indexOf(1);
-//           dict["goodPrimeTwoChoice"] = p2Split.indexOf(1);
-//           dict["primeOneSymbols"] = symbolTriple();
-//           dict["primeTwoSymbols"] = symbolTriple();
-//           dict["responseSymbols"] = symbolTriple();
-//           list.push(dict);
-//         }
-//       }
-//     }
-//   }
-//   return list
-// }
-
-
 /*
   Adding filler trials
   To my understanding we only change the 'response' card when doing filler trials,
@@ -155,19 +122,22 @@ trialList = buildTrials()
 fillerList = buildFillers()
 
 
-
 /* We now build the filler list, as we're dropping adhoc, we cannot keep the same ratio between response
    and filler trials.
    We had 4*18 = 72 different trials before, and 12 fillers, so a ratio of one filler to every six responses.
    Now we have 4*8 = 32 different trials, so as 32/6 = 5.3, we'd need 5.3… fillers total. We round down to 5.
+   Of course, it isn't like we can add half a filler, so we randomly select a category to sample an extra from.
 */
 // someFiller = fillerList.slice(0, 6)
 // someFiller = someFiller.concat(_.sample(fillerList.slice(0, 6), 2))
 // fourFiller = fillerList.slice(6, 12)
 // fourFiller = fourFiller.concat(_.sample(fillerList.slice(6, 12), 2))
 
-someFiller = _.sample(fillerList.slice(0, 6), 5)
-fourFiller = _.sample(fillerList.slice(6, 12), 5)
+extraFiller = _.sample([0,1], 1)[0]
+
+someFiller = _.sample(fillerList.slice(0, 6), 2 + extraFiller)
+fourFiller = _.sample(fillerList.slice(6, 12), 2 + Math.abs(1 - extraFiller))
+
 // adhocFiller = _.sample(fillerList.slice(12, 18), 4)
 
 fillerList = someFiller.concat(fourFiller) //.concat(adhocFiller)
