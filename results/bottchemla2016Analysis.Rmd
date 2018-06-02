@@ -1,0 +1,253 @@
+---
+title: "Scripts to analyse a replication of Bott and Chemla 2016.Scripts to analyse a replication of Bott and Chemla 2016"
+author: "bsparkes"
+date: "24th May 2018"
+output: html_document
+---
+
+# Packages
+
+Let's load of few packages which will help us go through the data.
+```{r}
+library(tidyverse)
+library(lme4)
+library(languageR)
+library(plyr) # for figuring out percentages
+# library(quantmod)
+```
+
+# Preliminaries
+
+## Setting the current directory
+
+For whatever reason, RStidio has troubles with figuring out where stuff is.
+The following commands set the current file path as the working directory.
+
+```{r}
+# currentDir = dirname(rstudioapi::getActiveDocumentContext()$path)
+# setwd(currentDir)
+# getwd()
+```
+
+## Loading the data
+
+First, let's load up the example CSV
+```{r}
+p = read.csv("bottchemla2016trialRun.csv")
+# head(p)
+summary(p)
+```
+
+## Reformatting the data
+
+In our analysis we'll want to get the percentage of 'better' as a responsepercentage of 'better' as a response.
+One way to do this is to use the fact that 'responseChoice' returns 1 if 'better' was chosen, and 0 otherwise.
+For, then the percentage of 'better' responses will be the sum of the response vector, divided by the length of the response vector.
+In pseudo code: responsePercent = sum(responses)/length(responses).
+There's a slight snag, as the data we get from mturk isn't in quite the right format for this operation.
+In short, responses are marked "1" and "0", respectively, as opposed to 1 and 0.
+While the primary case of interest is response choices, this issues holds for each type of response, and can be seen by uncommenting the following lines.
+```{r}
+# p$responseChoice
+# p$pOChoice
+# p$pTChoice
+```
+To solve this problem, we use the 'revalue' function to substitute the factors with quotation marks for factors without.
+This will then allow us to use the 'as.integer' and 'as.character' functions to read off the data as integers.
+```{r}
+p$responseChoice = revalue(p$responseChoice, c("\"0\""="0", "\"1\""="1"))
+p$pOChoice = revalue(p$pOChoice, c("\"0\""="0", "\"1\""="1"))
+p$pTChoice = revalue(p$pTChoice, c("\"0\""="0", "\"1\""="1"))
+```
+We can check the revaluing worked by running the following lines.
+```{r}
+p$responseChoice
+# p$pOChoice
+# p$pTChoice
+```
+And, the percentage of 'better' responses can now be obtained by running the following code.
+```{r}
+sum(as.integer(as.character(p$responseChoice)))/length(p$responseChoice)
+```
+
+## Refining the data
+
+Our dataset contains a lot of information, and before proceeding there are two operations which we'll perform.
+First, we'll exclude filler trails, which will allow for more straightforward analysis code.
+Second, we'll exclude trains in which the respondents did not choose the 'correct' primes, in line with Bott and Chemla.
+
+Tthe following table will be useful to keep in mind as it shows that raw counts of trails relative to prime and response type.
+```{r}
+table(p$responseTypeText, p$primeTypeText)
+```
+
+So, let's filter out the filler trials from the CSV
+First, we can check how many fillers we have.
+```{r}
+table(p$trial_type)
+```
+Second, we filter the CSV using the subset operation.
+```{r}
+rp = subset(p, trial_type=='"response"')
+```
+Finally, we can check we've done the right thing.
+```{r}
+table(rp$trial_type)
+```
+
+Next, we can now filter the CSV so that we only have entries for correct prime responses.
+
+First, we see how many correct/incorrect prime responses there were.
+```{r}
+table(rp$correctPChoices)
+prop.table(table(rp$correctPChoices))
+```
+Second, filter using the fact that we had the foresight to log whether the respondant chose the correct primes.
+```{r}
+rp = subset(rp, correctPChoices=='true')
+```
+And again, we can check we've done the right thing
+```{r}
+table(rp$correctPChoices)
+```
+We can now have a peak at how the strength of primes influences the responses of participants.
+```{r}
+table(rp$primeStrengthText, rp$responseChoiceText)
+```
+We can now look at the raw counts of prime and reponse types again, if we like.
+```{r}
+table(p$responseTypeText, p$primeTypeText)
+```
+
+## Further Subsets of data
+
+There are two important subsets of the data we'll be interested in analysing.
+The first is within category priming, and the second is between category priming.
+In the following two subsections we create two distinct datasets from the original data.
+We won't actually use these in creating models, but they can be useful to look at the details.
+
+### Within category priming dataset
+
+For the within category priming dataset we need to ensure that the prime category and the response category are the same.
+So, we use the 'subset' function to exclude the results for which the prime category differs from the response category, using the fact that we've logged the relation between primes and response.
+```{r}
+table(rp$withBet)
+wrp = subset(rp, WithBet=='"within"')
+```
+We can look at the refined dataset, if we wish, by uncommeting the following code.
+```{r}
+# summary(wrp)
+```
+We can also check that we've got the right restrictions, we're aiming for the diagonal (ignoring fillers categories)
+```{r}
+table(wrp$responseTypeText, wrp$primeTypeText)
+```
+
+### Between category priming dataset
+
+As in the case of within category priming, we use the fact that we've logged the relation between primes and responses to exclude cases in which the prime and response category differs.
+```{r}
+brp = subset(rp, WithBet=='"between"')
+```
+As before, we can check that we've got the right restrictions.
+```{r}
+table(brp$responseTypeText, brp$primeTypeText)
+```
+
+We're now ready to create a model!
+
+# Modelling
+
+## The broad dataset
+First, let's look at the dataset where the only operation we've performed is removing fillers, and trails for which the participant did not choose the correct responses for the primes they saw.
+Follow Bott and Chemla, we'll be using a logit mixed-effect model, so 'gmler' does the trick.
+```{r}
+rp.model = glmer(responseChoice ~ primeStrength*WithBet + (1 + primeStrength*WithBet | workerid), data=rp, family="binomial")
+```
+Sucess! So let's look at a summary.
+```{r}
+summary(rp.model)
+```
+
+## Within detail
+Now let's take a look at the case of within category priming.
+The parameters we use follow those of Bott and Chemla
+```{r}
+rp.modelWithin = glmer(responseChoice ~ primeStrength * WithCat +  (1 + primeStrength * WithCat | workerid), data=rp, family = binomial(link = "logit"))
+summary(rp.modelWithin)
+```
+
+##  Between detail
+
+```{r}
+rp.modelBetween = glmer(responseChoice ~ primeStrength * BetCat  +  (1 + primeStrength * BetCat | workerid), data=rp, family = binomial(link = "logit"))
+summary(rp.modelBetween)
+```
+# Visualising the data
+
+## Set the theme
+```{r}
+theme_set(theme_bw())
+```
+
+```{r}
+summary(p)
+```
+
+# Visualisationn
+
+First, let's construct percentages of 'better' responses for each prime and response category pairing.
+Recall, responseChoice returns 0 for a weak selection, and 1 for a selection of 'better', which Bott and Chemla take to indicate the desire for a pragmatically enriched 'strong' card.
+
+```{r}
+p.perc <- ddply(p,.(BetCat, primeStrengthText),summarise,prop = sum(as.numeric(as.character(responseChoice)))/length(responseChoice))
+p.perc
+```
+
+
+```{r}
+ggplot(p.perc, aes(x=factor(BetCat),y=prop, fill=primeStrengthText, label=paste(round(prop*100), "%"))) +
+  geom_bar(stat="identity", colour="black", position=position_dodge()) +
+  ylab("Proportion Strong responses") +
+  xlab("Prime Type") +
+  scale_fill_manual(values=c("black", "lightgray"))
+```
+
+## Individual plots
+
+An alernative approach seems to be to generate plots for each category indepndently.
+Here's some example code to do this.
+```{r}
+psswp = subset(p, trial_type=='response' & BetCat=="SOMESOME")
+summary(psswp)
+psswp.perc <- ddply(psswp,.(primeStrengthText),summarise,prop = sum(as.integer(as.character(responseChoice)))/length(responseChoice))
+
+# ggplot(psswp.perc,aes(x=factor(primeStrengthText),y=psswp.perc,label=paste(round(psswp.perc*100), "%")),fill=primeStrength) +
+#   geom_bar(colour="black", stat="identity", position=position_dodge()) +
+#   ylab("Proportion Strong responses") +
+#   xlab("Prime Type") +
+#   scale_fill_manual(values=c("black", "lightgray"))
+```
+
+## Combining between category primes and responses
+
+Bott and Chemla combine each direction of cross category trials when illustrating their results.
+Here's an easy way to do it.
+The idea, basically, is to make a new dataframe with only the results from the relevant trials, then one simply, uses this ddply to combine the results of applying the proportion function to each trial type.
+
+As we're only interested in visualising the data in this case, we'll make things easier by filtering our initial dataset, refined to exlude filler trails and cases where the respondant did not select the 'correct' prime choices, by the two between category prime and response type pairs of interest.
+```{r}
+cc = subset(rp, trial_type=='response' & (BetCat=="ADHSOME" | BetCat=="SOMEADH"))
+summary(cc)
+cc.perc <- ddply(cc,.(primeStrengthText),summarise,prop = sum(responseChoice)/length(responseChoice))
+cc.perc
+```
+
+Here I can't figure out how to make the bars different colours, but the bar chart works…
+```{r}
+ggplot(cc.perc,aes(x=factor(primeStrengthText),y=prop,label=paste(round(prop*100), "%"))) +
+  geom_bar(colour="black", stat="identity", position=position_dodge()) +
+  ylab("Proportion Strong responses") +
+  xlab("Prime Type") +
+  scale_fill_manual(values=c("black", "lightgrey"))
+```
