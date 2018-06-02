@@ -2,10 +2,13 @@
 # created by bsparkes on 24 May, 2018
 # modified by bsparkes on ??
 
+# # Packages
+
 library(tidyverse)
 library(lme4)
 library(languageR)
 library(plyr) # for figuring out percentages
+# library(quantmod)
 
 # For whatever reason, RStidio has troubles with figuring out where stuff is.
 # The following commands set the current file path as the working directory.
@@ -14,79 +17,93 @@ setwd(currentDir)
 getwd()
 
 #load up the example CSV
-p = read.csv("../additionalScripts/randomParticipants.csv")
+p = read.csv("bottchemla2016trialRun.csv")
 head(p)
+summary(p)
 
-# Modelling
+# need to replace the factors, as turk includes these annoying quotes, this can be seen by uncommenting the following lines
+# p$responseChoice
+# p$pOChoice
+# p$pTChoice
+
+# Here we replace
+p$responseChoice = revalue(p$responseChoice, c("\"0\""="0", "\"1\""="1"))
+p$pOChoice = revalue(p$pOChoice, c("\"0\""="0", "\"1\""="1"))
+p$pTChoice = revalue(p$pTChoice, c("\"0\""="0", "\"1\""="1"))
+# And, we can check this was fine by running the following lines
+# p$responseChoice
+# p$pOChoice
+# p$pTChoice
+
+# # # Modelling
 
 # In the following we'll do a number of restrictions, and the following table will be useful to keep in mind as it shows that raw counts of prime
 # and reponse types.
-table(p$responseTypeText, rp$primeTypeText)
+table(p$responseTypeText, p$primeTypeText)
 
 
 # Now, let's filter out the filler trials from the CSV
 # First, see how many fillers we have
 table(p$trial_type)
 # Second, filter the CSV
-rp = subset(p, trial_type=='response')
+rp = subset(p, trial_type=='"response"')
 # Then, check we've done the right thing
 table(rp$trial_type)
 
-# Next, we can now filter the CSV so that we only have entries for correct prime responses.
+# # Next, we can now filter the CSV so that we only have entries for correct prime responses.
+
 # First, see how many correct/incorrect prime responses there were.
 table(rp$correctPChoices)
 prop.table(table(rp$correctPChoices))
 # Second, filter
-rp = subset(rp, correctPChoices=='True')
+rp = subset(rp, correctPChoices=='true')
 # Then, check we've done the right thing
 table(rp$correctPChoices)
 
-
-head(rp)
-
+# # We can now see how strength influences response
 table(rp$primeStrengthText, rp$responseChoiceText)
 
 # Now, let's look at the data as a whole
 # We're getting a logit mixed-effect model, so 'gmler' does the trick.
-rp.random = glmer(responseChoice ~ primeStrength*WithBet + (1 + primeStrength*WithBet | uniqueID), data=rp, family="binomial")
+rp.random = glmer(responseChoice ~ primeStrength*WithBet + (1 + primeStrength*WithBet | workerid), data=rp, family="binomial")
 summary(rp.random)
 
 
 # # Within detail
 # First, exclude the results for which the prime cat differs from the response cat
-wrp = subset(rp, WithBet=='within')
+table(rp$withBet)
+wrp = subset(rp, WithBet=='"within"')
 # We can look at the refined dataset if we wish
-# wrp
+# summary(wrp)
+
 # We can also check that we've got the right restrictions, we're aiming for the diagonal (ignoring fillers categories)
 table(wrp$responseTypeText, wrp$primeTypeText)
 
 # All of this looks good, so we can run our model
-wrp.random = glmer(responseChoice ~ primeStrength * WithCat +  (1 + primeStrength * WithCat | uniqueID), data=wrp, family = binomial(link = "logit"))
-wrpP.random = glmer(responseChoice ~ primeStrength * WithCat +  (1 + primeStrength * WithCat | uniqueID), data=rp, family = binomial(link = "logit"))
+wrp.random = glmer(responseChoice ~ primeStrength * WithCat +  (1 + primeStrength * WithCat | workerid), data=wrp, family = binomial(link = "logit"))
 summary(wrp.random)
-summary(wrpP.random)
 
 summary(wrp)
 
 # #  Between detail
-brp = subset(rp, WithBet=='between')
+brp = subset(rp, WithBet=='"between"')
 
 # We can now check that we've got the right restrictions again
 table(brp$responseTypeText, brp$primeTypeText)
 
-brp.random = glmer(responseChoice ~ primeStrength * BetCat  +  (1 + primeStrength * BetCat | uniqueID), data=brp, family = binomial(link = "logit"))
+brp.random = glmer(responseChoice ~ primeStrength * BetCat  +  (1 + primeStrength * BetCat | workerid), data=brp, family = binomial(link = "logit"))
 summary(brp.random)
 
 # Visualising the data
 
-# Set the theme
+# # Set the theme
 theme_set(theme_bw())
 
 summary(p)
 
 # So, general problem here is that I need to get a percentage, which means adding, I guess
 
-ggplot(p, aes(x=factor(BetCat), y=sum(responseChoice)/length(responseChoice), label=paste(round(sum(responseChoice)/length(responseChoice)*100)), "%" ))  +
+ggplot(p, aes(x=factor(BetCat), y=sum(responseChoice)/length(as.integer(responseChoice)), label=paste(round(sum(as.integer(responseChoice))/length(as.integer(responseChoice))*100)), "%" ))  +
   geom_bar(stat="identity") +
   geom_text(position="stack", aes(ymax=1),vjust=5) +
   scale_y_continuous(labels = percent)
@@ -97,7 +114,13 @@ ggplot(p, aes(x=responseChoice)) + geom_bar()
 
 
 
-p.perc <- ddply(p,.(BetCat, primeStrengthText),summarise,prop = sum(responseChoice)/length(responseChoice))
+p$responseChoice
+
+summary(p)
+
+as.numeric(as.character(p$responseChoice))
+
+p.perc <- ddply(p,.(BetCat, primeStrengthText),summarise,prop = sum(as.numeric(as.character(responseChoice)))/length(as.numeric(as.character(responseChoice))))
 p.perc
 
 # responseChoice returns 0 for a weak selection, and 1 for a selection of 'better card', which B&C take to be strong
@@ -106,6 +129,11 @@ ggplot(p.perc,aes(x=factor(BetCat),y=prop, fill=primeStrengthText, label=paste(r
   ylab("Proportion Strong responses") +
   xlab("Prime Type") +
   scale_fill_manual(values=c("black", "lightgray"))
+  # We could try doing something a little more fancy, but it gets messy quite quickly.
+  # annotate("rect", xmin = .5, xmax = 1.5, ymin = .6, ymax = .7,
+  #          alpha = 1, fill="grey") +
+  # annotate("text", x = "ADHADH", y = .675, label = "Within priming") +
+  # annotate("text", x = "ADHADH", y = .625, label = "ADHOC\nADHOC")
 
 
 
