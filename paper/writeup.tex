@@ -1,7 +1,7 @@
 \documentclass[10pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-% \usepackage[margin=1in]{geometry}
+\usepackage[margin=1in]{geometry}
 % \newcommand\hmmax{0}
 % \newcommand\bmmax{0}
 
@@ -95,7 +95,6 @@ bodyfont=\normalfont,
 
 % % For Figures % % %
 \usepackage{tikz,subfig} % For drawings
-
     \tikzstyle{index on}=[inner sep=2pt, white, circle, fill=black]
     \tikzstyle{index off}=[inner sep=2pt, black, circle, draw]
     \tikzstyle{index gray}=[inner sep=2pt, black, circle, fill=lightgray]
@@ -126,7 +125,7 @@ bodyfont=\normalfont,
 % \titlespacing{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{5\wordsep}
 % \titleformat{\paragraph}[runin]{\normalfont}{}{\wordsep}{}
 % \titlespacing{\paragraph}{0pt}{1ex plus .2ex minus .2ex}{0pt}
-\titleformat{\paragraph}[runin]{\normalfont}{\indent\theparagraph}{\wordsep}{}
+\titleformat{\paragraph}[hang]{\em}{}{0em}{}
 \titlespacing{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{5\wordsep}
 
 \usepackage{adjustbox}
@@ -135,7 +134,7 @@ bodyfont=\normalfont,
 
 
 
-\title{Ling 245 Class Project Writeup}
+\title{Ling 245 Class Project Paper}
 \author{Benjamin Sparkes}
 % \date{}
 
@@ -143,26 +142,55 @@ bodyfont=\normalfont,
 
 \maketitle
 
-\section{Introduction}
-\label{sec:introduction}
+\begin{multicols}{2}
 
-Recreating Experiment 1 from \textcite{Bott:2016aa}.
-
-\section{Things to Note}
+  \section{Things to Note}
 \label{sec:things-note}
 
 Need a decent number of observations from each individual on each trial for the analysis \citeauthor{Bott:2016aa} perform to work.
 Here, `decent number' means that we need at least one primeStrength and (WithCat/BetCat) trial with correct prime choices, else there are going to be fewer observations than random effects.
 
-\begin{table}[h]
-  \caption{Experiment 1 results.}\vspace{-20pt}
+\section{Introduction/Background/Hypotheses/Predictions}
+\label{sec:introduction}
+
+\begin{quote}
+  Whether you're doing a replication or running an original design, explain the motivation for the study.
+  What is the problem/question that's being addressed?
+  What are the hypotheses and behavioral predictions?
+  What are the linking assumptions?
+\end{quote}
+
+This paper contains the results of a (partial) replication of Experiment 1 of \textcite{Bott:2016aa}.
+The replication is partial for two reasons:
+\begin{enumerate*}[label=\arabic*)]
+\item the replication ran with half the number of participants compared with \citeauthor{Bott:2016aa}'s original experiment (100 and 200 participants, respectively), and
+\item the replication contained only two enrichment categories, as opposed to three in the original.
+\end{enumerate*}
+The basis for both modifications was straightforward cost considerations, and by uncommenting a few lines of code (and fixing any bugs that this may cause) allows for the full experiment to be run.
+We will discuss the second aspect of this modification in detail after reviewing \citeauthor{Bott:2016aa}'s paper.
+
+The code for the experiment, data collected, analysis scripts, and other relevant resources can be found at \url{https://github.com/bsparkes/bottchemla2016}, and one can experience the experiment at \url{https://bsparkes.github.io/bottchemla2016/experiment/html/bottchemla2016.html}.
+
+
+
+
+
+
+The experiment was registered with OSF, though due to forgetfulness this was not strictly a \emph{pre}registration as the experiment had been initialised earlier the same day.
+However, as the analysis of the experiment will follow that of \citeauthor{Bott:2016aa}, there isn't much room for funny business.
+The registration is available at the following url: \url{https://osf.io/5bnmr/register/5771ca429ad5a1020de2872e}.
+
+
+
+\begin{table*}[ht]
+  \caption{Experiment 1 results from \textcite[125]{Bott:2016aa}.}\vspace{-20pt}
   \begin{center}
-    \begin{adjustbox}{width=1.2\textwidth,center=\textwidth}
+    % \begin{adjustbox}{width=1\textwidth,center=\textwidth}
     \begin{tabular}{llrrrr}
       \hline
       & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
       \hline
-      Overview & \multicolumn{2}{l}{\(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\)}  & & & \\
+      Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & \& & & \\
       & (Intercept) & -0.594 & 0.198 & -2.991 & .003 \\
       & Prime & 0.563 & 0.034 & 16.342 & <.001 \\
       & WithBet & 0.126 & 0.029 & 4.284 & <.001 \\
@@ -185,20 +213,133 @@ Here, `decent number' means that we need at least one primeStrength and (WithCat
       & Prime:BetCatSOMENUM4 & 0.078 & 0.088 & 0.888 & .374 \\
       \hline
     \end{tabular}
-  \end{adjustbox}
-  \end{center}
-
-% \begin{adjustbox}{width=1.2\textwidth,center=\textwidth}
-  % {\footnotesize
-    \emph{Note}. R-pseudo code shown in the first line of every section.
+  % \end{adjustbox}
+\end{center}
+\emph{Note}. R-pseudo code shown in the first line of every section.
   \emph{Prime} = priming factor (2 levels: strong, weak).
   \emph{WithBet} = within/between factor (2 levels: within, between).
   \emph{WithCat} = within expression category factor (3 levels: \emph{some}, number4, \emph{ad hoc}).
   \emph{Betcat} = between expression category factor (3 levels: \emph{some} \(\leftrightarrow\) number4, \emph{some} \(\leftrightarrow\) \emph{ad hoc}, number4 \(\leftrightarrow\) \emph{ad hoc}).
-  % }
-% \end{adjustbox}
-\end{table}
+\end{table*}
 
+
+
+\section{The Experiment}
+\label{sec:experiment}
+
+
+
+\subsection{Method}
+\label{sec:method}
+
+
+\paragraph{Participants}
+
+One hundred participants were recruited using Amazon Turk.
+Following \citeauthor{Bott:2016aa} we removed 7 participants who did not declare English as their native language, and the data from the remaining 93 participants were used in the experiment.
+In the discussion section we will explore relaxations and restrictions of this constraint.
+
+\paragraph{Materials}
+
+Each trail involved a sentence presented above two pictures.
+Participants were asked to select one of the two pictures which best reflects the sentence.
+The sentence was constructed using one of two frames:
+\begin{enumerate*}[label=(\roman*)]
+\item Some of the symbols are [symbol]
+\item There are four [symbol]
+\end{enumerate*}
+\citeauthor{Bott:2016aa} included a third frame:
+\begin{enumerate*}[label=(\roman*), resume]
+\item There is a [symbol].
+\end{enumerate*}
+As mentioned in the introduction, this frame was excluded for cost considerations.
+We shall keep track of the differences to the experiment which follow from using two frames as opposed to three in this section, and engage in a broader discussion in the Discussion portion of this paper.
+
+The symbols were one of diamonds, clubs, ticks, spades, hearts, squares, stars, circles, notes, or triangles.
+Pictures consisted of rectangles in the style of playing cards which contained either symbols of the test ``Better Picture?''.
+In prime trials both pictures contained symbols, while from target trials the left picture contained symbols and the other the ``Better Picture?'' text.
+
+Pictures which contained symbols could be strong, weak, or false.
+Strong prime trails involved a strong and a weak picture.
+Weak prime trails involved a weak and a false picture.
+
+For each prime trials there was a `correct' response, either due to the semantic content of the sentence in the case of weak trials, or due to pragmatics in the case of strong trials.
+As \citeauthor{Bott:2016aa} write `in the presence of both a weak picture and a strong picture, participants could not make a non-arbitrary choice solely based on the truth conditions of the weak interpretation which is true in both cases, hence the strong reading is a favored option in that it provides a non-arbitrary way to resolve the task.' (\citeyear[124]{Bott:2016aa})
+
+In \emph{some} trials strong pictures involved three symbols matching the predicate in the sentence, and six of another type.
+For example, the picture corresponding to the sentence ``Some of the symbols are spades'' would be three spades and six of instances of some other symbols, such as diamonds.
+\citeauthor{Bott:2016aa} do not specify how these symbols are arranged, and so we randomised between a line of three symbols matching the predicate at the top of the picture, and at the bottom of the picture.
+Weak pictures involved nine symbols matching the predicate in the sentence, and false pictures involved nine symbols of the same type which did not match the predicate.
+
+In \emph{number4} trials strong pictures involved symbols matching the number and predicate in the sentence, the number was always `four'.
+For example, the picture corresponding to the sentence ``There are four circles'' would be four circles.
+Weak pictures involved a greater number of symbols than in the sentence which matched the predicate, following \citeauthor{Bott:2016aa} this was always six.
+False pictures involved a smaller number of symbols than in the sentence which matched the predicate, following \citeauthor{Bott:2016aa} this was always two.
+
+Details for \emph{ad hoc} trails can be found in \textcite[123--124]{Bott:2016aa}.
+In addition to ad hoc trials, \citeauthor{Bott:2016aa} included \emph{ad hoc bias} trials at the start of the experiment.
+To quote \citeauthor{Bott:2016aa}; `The idea behind the bias trials was to facilitate participants in imagining what the appropriate ``better picture'' might be for the enriched expression.' (\citeyear[124]{Bott:2016aa})
+As we did not include ad hoc trials we did not include these ad hoc bias trials.
+
+\paragraph{Design}
+There were two types or enrichment category (\emph{some} and \emph{number4}), and for each category there were two prime and target types (\emph{strong} and \emph{weak}.
+So, there were \(2 \times 2 \times 2 = 8\) distinct prime-target combinations, \emph{prime} \(\rightarrow\) (\emph{strength} \(\times\) \emph{target}).
+Following \citeauthor{Bott:2016aa} there were four examples of each prime-target combination, so there were \(4\) (examples) \(\times 8\) (prime-target combinations) \(\times 3\) (triplets) \(= 96\) experimental trials, or \(32\) experimental triplets.
+
+In contrast, as \citeauthor{Bott:2016aa} included \emph{ad hoc} trials, and do there were \(3 \times 2 \times 3 = 18\) distinct prime-target combinations, and so  \(4\) (examples) \(\times 18\) (prime-target combinations) \(\times 3\) (triplets) \(= 216\) experimental trials, or \(54\) experimental triplets.
+
+\citeauthor{Bott:2016aa} included a further \(36\) filler trials, \(12\) per enrichment category.
+So, there was one filler trial for every \(6\) target trials.
+To keep this ratio between filler and target trials we included \(15\) filler trials.
+This gives a filler trial for every \(6.4\) target trials.
+
+\paragraph{Randomisation and `counterbalancing'}
+
+Following \citeauthor{Bott:2016aa} all participants saw the same set of target trials, though as we included fewer filler trials than there were filler trial types, we took two filler trial types from the \emph{many} category, two from \emph{number\(6\)}, and an additional from either filler type \emph{many} or \emph{number\(6\)} chosen at random for each participant.
+The symbol in the sentence and the pictures was always chosen at random for each trial.
+Prime-target triplets had a distinct construction as discussed above, however the order of these triplets was randomised for each participant (both target and filler triplets were included in the randomisation).
+
+As noted above, for each prime trial there was a `correct' response, and the position of this correct response was randomised.
+This contrasts with \citeauthor{Bott:2016aa} who ensured that the position of the correct response was counterbalanced across trials so that in half of the trails it was to the left, and in half to the right and that in half of the trials the correct response was the same side as the previous trial and in the other half it was on the opposite side (\citeyear[124]{Bott:2016aa}).
+So, again we have not quite exactly replicated \citeauthor{Bott:2016aa}'s experiment, but \citeauthor{Bott:2016aa} only specify that the position of the correct picture was counterbalanced, and do not, for example, say that this counterbalancing was spread evenly across prime-target triplets, was held fixed across participants, etc.
+Rather than think through a series of design choices with unclear details and motivation, randomisation of placement on each trial for each participant seemed far more straightforward.
+However, in the case of target trials we followed \citeauthor{Bott:2016aa} in always placing the ``Better Picture?'' option to the right (\citeyear[124]{Bott:2016aa}).
+
+\paragraph{Procedure}
+
+\begin{itemize}
+\item Note the keyboard shortcuts added, and the help screen at the start.
+\end{itemize}
+
+
+\subsection{Results}
+\label{sec:results}
+
+\begin{quote}
+  Look back at some of the readings if you're not certain what goes in each section. If you're doing a replication, include in Methods the ways in which you deviated from the original or weren't able to completely reproduce the original (e.g., because of lack of information or because you only chose to run a subset of conditions, etc.). If you're doing a replication, also include in Results the extent to which you replicated the original result(s). Include intuitive visualizations of the data in the Results section.
+\end{quote}
+
+Each target trial was preceded by two prime trials.
+\citeauthor{Bott:2016aa} use this design to filter out target responses where they cannot be sure that the participant understood the correct interpretation of the prime sentence.
+For \citeauthor{Bott:2016aa} this led to the removal of 875 out of 13,360 target responses (\citeyear[124]{Bott:2016aa}).
+In our replication the same procedure led to the removal of 295 target responses.
+In terms of a comparison of relative target response removals, the numbers are 6.5\% and 8.3\% of all trials, respectively.
+\citeauthor{Bott:2016aa} note that a slightly larger number of \emph{some} trials were removed in comparison to \emph{ad hoc} and \emph{number} targets (\citeyear[124]{Bott:2016aa}) and as we did not include \emph{ad hoc} trials this may explain the slight difference between the experiments.
+However, as \citeauthor{Bott:2016aa} do not include information about the categories the incorrect primes were removed from, we don't have sufficient information to establish this explanation in any robust sense.
+
+
+\section{Discussion}
+\label{sec:discussion}
+
+\begin{quote}
+  Begin by briefly summing up the motivating question and main results and end on a brief concluding paragraph. In between:
+
+  If you're doing a replication: (to what extent) did the original results replicate? Discuss potential reasons for any differences, and any other qualms you may have with the design or other aspects of the experiment.
+
+  If you're not doing a replication: to what extent were the predictions borne out? If not borne out, what are some potential reasons why?
+\end{quote}
+
+\end{multicols}
 
 \vfill
 \printbibliography

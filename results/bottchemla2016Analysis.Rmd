@@ -33,7 +33,7 @@ The following commands set the current file path as the working directory.
 
 First, let's load up the example CSV
 ```{r}
-p = read.csv("bottchemla2016trialRun.csv")
+p = read.csv("../data/bottchemla2016.csv")
 # head(p)
 summary(p)
 ```
@@ -185,18 +185,12 @@ summary(rp.modelBetween)
 ```
 # Visualising the data
 
-## Set the theme
+First we set the theme.
 ```{r}
 theme_set(theme_bw())
 ```
 
-```{r}
-summary(p)
-```
-
-# Visualisationn
-
-First, let's construct percentages of 'better' responses for each prime and response category pairing.
+Now, let's construct percentages of 'better' responses for each prime and response category pairing.
 Recall, responseChoice returns 0 for a weak selection, and 1 for a selection of 'better', which Bott and Chemla take to indicate the desire for a pragmatically enriched 'strong' card.
 
 ```{r}
@@ -237,9 +231,9 @@ The idea, basically, is to make a new dataframe with only the results from the r
 
 As we're only interested in visualising the data in this case, we'll make things easier by filtering our initial dataset, refined to exlude filler trails and cases where the respondant did not select the 'correct' prime choices, by the two between category prime and response type pairs of interest.
 ```{r}
-cc = subset(rp, trial_type=='response' & (BetCat=="ADHSOME" | BetCat=="SOMEADH"))
+cc = subset(rp, trial_type=='response' & (BetCat=="NUM4SOME" | BetCat=="SOMENUM4"))
 summary(cc)
-cc.perc <- ddply(cc,.(primeStrengthText),summarise,prop = sum(responseChoice)/length(responseChoice))
+cc.perc <- ddply(cc,.(primeStrengthText),summarise,prop = sum(as.integer(as.character(responseChoice)))/length(responseChoice))
 cc.perc
 ```
 
