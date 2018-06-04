@@ -13,6 +13,7 @@ library(tidyverse)
 library(lme4)
 library(languageR)
 library(plyr) # for figuring out percentages
+library(stargazer) # for latex export
 # library(quantmod)
 ```
 
@@ -36,6 +37,7 @@ First, let's load up the example CSV
 p = read.csv("../data/bottchemla2016.csv")
 # head(p)
 summary(p)
+
 ```
 
 ## Reformatting the data
@@ -71,6 +73,14 @@ sum(as.integer(as.character(p$responseChoice)))/length(p$responseChoice)
 ```
 
 ## Refining the data
+
+```{r}
+summary(p$language)
+table(p$language)
+p = subset(p, language!='""' & language!='"Chinese"' & language!='"Russian"' & language!='"Urdu"' & language!='"spanish"') #& language!='"English, Chinese"' & language!='"english and vietnamese"')
+summary(lp$language)
+length(p$workerid)
+```
 
 Our dataset contains a lot of information, and before proceeding there are two operations which we'll perform.
 First, we'll exclude filler trails, which will allow for more straightforward analysis code.
@@ -175,6 +185,12 @@ The parameters we use follow those of Bott and Chemla
 ```{r}
 rp.modelWithin = glmer(responseChoice ~ primeStrength * WithCat +  (1 + primeStrength * WithCat | workerid), data=rp, family = binomial(link = "logit"))
 summary(rp.modelWithin)
+```
+
+
+```{r}
+wrp.modelWithin = glmer(responseChoice ~ primeStrength * WithCat +  (1 + primeStrength * WithCat | workerid), data=wrp, family = binomial(link = "logit"))
+summary(wrp.modelWithin)
 ```
 
 ##  Between detail
