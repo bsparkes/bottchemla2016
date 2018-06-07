@@ -36,13 +36,16 @@ The following commands set the current file path as the working directory.
 
 ## Loading the data
 
-First, let's load up the example CSV
+First, let's load up the CSV
 ```{r}
 p = read.csv("../data/bottchemla2016.csv", quote = "\"")
 pOrig = p
 # head(p)
 summary(p)
 
+
+
+head(p)
 ```
 
 ## Reformatting the data
@@ -95,7 +98,7 @@ There were a number of participants who delcared more than one language (includi
 ```{r}
 summary(p$language)
 table(p$language)
- p = subset(p, language!='""' & language!='"Chinese"' & language!='"Russian"' & language!='"Urdu"' & language!='"spanish"') #& language!='"English, Chinese"' & language!='"english and vietnamese"')
+p = subset(p, language!='""' & language!='"Chinese"' & language!='"Russian"' & language!='"Urdu"' & language!='"spanish"') #& language!='"English, Chinese"' & language!='"english and vietnamese"')
 # summary(lp$language)
 # length(p$workerid)
 summary(p)
@@ -112,9 +115,6 @@ A roundabout, but working solution.
 
 ```{r}
 table(p$Answer.time_in_minutes)
-
-
-pt = p
 
 p$Answer.time_in_minutes <- gsub("\"", "", p$Answer.time_in_minutes)
 p$Answer.time_in_minutes <- as.numeric(as.character(p$Answer.time_in_minutes))
@@ -561,11 +561,75 @@ cc.perc <- ddply(cc,.(primeStrengthText),summarise, prop = sum(as.integer(as.cha
 cc.perc
 ```
 
-Here I can't figure out how to make the bars different colours, but the bar chart works…
+
+# Splitting the data
+
+Unfortunately, we did not explicity record the order in which the trials were presented to the participants in the experiment.
+An unfortunate oversight, as Bott and Chemla play around with splitting the data to test whether there are effects on priming in the first or second half of the trial.
+However, there's a somewhat easy fix, as the CSV implicitly contains the order of the trials, following the order of the rows in the CSV.
+So, using a quick python script we can add a column for the trial number to the dataset.
+We save this to the bottchemla2016Numbered CSV.
+Let's load this up, and observe the newely added column 'trialNumber' at the end of each row.
+Whether or not filler trials should be taken into account is not clear from what Bott and Chemla say.
+So, as a design choice we decided not to include these in our counts, to get an even split.
+This means all filler trails have the number 0, and counting for response trials starts at 1 and goes to 32.
+
 ```{r}
-ggplot(cc.perc,aes(x=factor(primeStrengthText),y=prop,label=paste(round(prop*100), "%"))) +
-  geom_bar(colour="black", stat="identity", position=position_dodge()) +
-  ylab("Proportion Strong responses") +
-  xlab("Prime Type") +
-  scale_fill_manual(values=c("black", "lightgrey"))
+pn = read.csv("../data/bottchemla2016Numbered.csv", quote = "\"")
+head(pn)
+```
+
+Now we've got our enhanced dataset, let's do the same refinements as before.
+First is to clean up some factors, ensure English is a native language, and ensure the participant spent a reasonable amount of time on the task.
+
+```{r}
+pn$responseChoice = revalue(pn$responseChoice, c("\"0\""="0", "\"1\""="1"))
+pn$pOChoice = revalue(pn$pOChoice, c("\"0\""="0", "\"1\""="1"))
+pn$pTChoice = revalue(pn$pTChoice, c("\"0\""="0", "\"1\""="1"))
+
+pn = subset(pn, language!='""' & language!='"Chinese"' & language!='"Russian"' & language!='"Urdu"' & language!='"spanish"')
+
+pn$Answer.time_in_minutes <- gsub("\"", "", pn$Answer.time_in_minutes)
+pn$Answer.time_in_minutes <- as.numeric(as.character(pn$Answer.time_in_minutes))
+
+pn = subset(pn, Answer.time_in_minutes >= 3)
+```
+
+Now, let's filter the dataset for response trials, and those response trails for which the participant got the prime choices correct.
+
+```{r}
+rpn = subset(pn, trial_type=='"response"')
+rpn = subset(rpn, correctPChoices=='true')
+```
+
+Now we're ready to split the data.
+We'll create two datasets:
+'rpnFst' and 'rpnSnd' for the first and second halves of the dataset, respectively.
+
+```{r}
+rpnFst = subset(rpn, trialNumber <= 16)
+rpnSnd = subset(rpn, trialNumber > 16)
+# summary(rpnFst)
+# summary(rpnSnd)
+```
+
+Now, let's run the basic model on both datasets
+
+```{r}
+rpnFst.model = glmer(responseChoice ~ primeStrength*WithBet + (1 + primeStrength*WithBet | workerid), data=rp, family="binomial")
+rpnSnd.model = glmer(responseChoice ~ primeStrength*WithBet + (1 + primeStrength*WithBet | workerid), data=rp, family="binomial")
+```
+
+Sucess! So let's look at the summaries.
+
+Here's the first:
+
+```{r}
+summary(rpnFst.model)
+```
+
+And here's the second:
+
+```{r}
+summary(rpnSnd.model)
 ```
