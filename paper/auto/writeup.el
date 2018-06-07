@@ -49,7 +49,7 @@
     "sec:experiment"
     "sec:method"
     "sec:results"
-    "tab:results"
+    "tab:barresults"
     "sec:discussion")
    (LaTeX-add-bibliographies
     "ling245"))

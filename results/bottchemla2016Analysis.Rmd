@@ -1,6 +1,5 @@
 ---
-title: Scripts to analyse a replication of Bott and Chemla 2016.Scripts to analyse
-  a replication of Bott and Chemla 2016
+title: Scripts to analyse a replication of Bott and Chemla 2016.
 author: "bsparkes"
 date: "24th May 2018"
 output:
@@ -616,8 +615,8 @@ rpnSnd = subset(rpn, trialNumber > 16)
 Now, let's run the basic model on both datasets
 
 ```{r}
-rpnFst.model = glmer(responseChoice ~ primeStrength*WithBet + (1 + primeStrength*WithBet | workerid), data=rp, family="binomial")
-rpnSnd.model = glmer(responseChoice ~ primeStrength*WithBet + (1 + primeStrength*WithBet | workerid), data=rp, family="binomial")
+rpnFst.model = glmer(responseChoice ~ primeStrength*WithBet + (1 + primeStrength*WithBet | workerid), data=rpnFst, family="binomial")
+rpnSnd.model = glmer(responseChoice ~ primeStrength*WithBet + (1 + primeStrength*WithBet | workerid), data=rpnSnd, family="binomial")
 ```
 
 Sucess! So let's look at the summaries.
@@ -632,4 +631,40 @@ And here's the second:
 
 ```{r}
 summary(rpnSnd.model)
+```
+
+# Ordering Models
+
+There are two further models we should consider.
+These correspond to between category priming, where the prime is taken into account.
+These relevant datasets are pretty easy to get using the wrp dataset, and the subset operation.
+
+```{r}
+
+head(brp)
+
+brpNumF <- subset(brp, primeTypeText=='"NUM4"')
+brpSome <- subset(brp, primeTypeText=='"SOME"')
+
+summary(wrpNumF)
+summary(wrpSome)
+```
+
+Now we've got the right data, let's run the appropriate models.
+
+```{r}
+brpNumF.model = glmer(responseChoice ~ primeStrength + (1 + primeStrength | workerid), data=brpNumF, family="binomial")
+brpSome.model = glmer(responseChoice ~ primeStrength + (1 + primeStrength | workerid), data=brpSome, family="binomial")
+```
+
+And, we can see the summary for the number prime:
+
+```{r}
+summary(brpNumF.model)
+```
+
+And for the some prime:
+
+```{r}
+summary(brpSome.model)
 ```
