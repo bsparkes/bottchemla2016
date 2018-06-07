@@ -1,8 +1,11 @@
 ---
-title: "Scripts to analyse a replication of Bott and Chemla 2016.Scripts to analyse a replication of Bott and Chemla 2016"
+title: Scripts to analyse a replication of Bott and Chemla 2016.Scripts to analyse
+  a replication of Bott and Chemla 2016
 author: "bsparkes"
 date: "24th May 2018"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 # Packages
@@ -15,6 +18,7 @@ library(languageR)
 library(plyr) # for figuring out percentages
 library(stargazer) # for latex export
 # library(quantmod)
+library(dplyr)
 ```
 
 # Preliminaries
@@ -34,7 +38,8 @@ The following commands set the current file path as the working directory.
 
 First, let's load up the example CSV
 ```{r}
-p = read.csv("../data/bottchemla2016.csv")
+p = read.csv("../data/bottchemla2016.csv", quote = "\"")
+pOrig = p
 # head(p)
 summary(p)
 
@@ -49,58 +54,103 @@ In pseudo code: responsePercent = sum(responses)/length(responses).
 There's a slight snag, as the data we get from mturk isn't in quite the right format for this operation.
 In short, responses are marked "1" and "0", respectively, as opposed to 1 and 0.
 While the primary case of interest is response choices, this issues holds for each type of response, and can be seen by uncommenting the following lines.
+
 ```{r}
 # p$responseChoice
 # p$pOChoice
 # p$pTChoice
 ```
+
 To solve this problem, we use the 'revalue' function to substitute the factors with quotation marks for factors without.
 This will then allow us to use the 'as.integer' and 'as.character' functions to read off the data as integers.
+
 ```{r}
 p$responseChoice = revalue(p$responseChoice, c("\"0\""="0", "\"1\""="1"))
 p$pOChoice = revalue(p$pOChoice, c("\"0\""="0", "\"1\""="1"))
 p$pTChoice = revalue(p$pTChoice, c("\"0\""="0", "\"1\""="1"))
 ```
+
 We can check the revaluing worked by running the following lines.
+
 ```{r}
 p$responseChoice
 # p$pOChoice
 # p$pTChoice
 ```
+
 And, the percentage of 'better' responses can now be obtained by running the following code.
+
 ```{r}
 sum(as.integer(as.character(p$responseChoice)))/length(p$responseChoice)
 ```
 
 ## Refining the data
 
+First, we'll remove those participatns who did not declare English as their native language.
+We also exclude those who did not delcare a native langauge.
+One might reasonably assume that those who did not delcare a language spoke English, as all participatns of the HIT had to be located in the US.
+However, as only two participants did not enter a language, this is only a minor impoverishment of our trial data, and with what is intuitively an imporvement to our data as a whole.
+There were a number of participants who delcared more than one language (including English), and as the prompt in the experiment asked for native language (more or less explicitly) we kept these data from these participants.
+
 ```{r}
 summary(p$language)
 table(p$language)
-p = subset(p, language!='""' & language!='"Chinese"' & language!='"Russian"' & language!='"Urdu"' & language!='"spanish"') #& language!='"English, Chinese"' & language!='"english and vietnamese"')
-summary(lp$language)
-length(p$workerid)
+ p = subset(p, language!='""' & language!='"Chinese"' & language!='"Russian"' & language!='"Urdu"' & language!='"spanish"') #& language!='"English, Chinese"' & language!='"english and vietnamese"')
+# summary(lp$language)
+# length(p$workerid)
+summary(p)
 ```
+
+Second, there's also good reason to remove participants who answered the questions /far/ too quickly.
+It's arguable where the line should be drawn, but less than three minutes certainly seems to fast, as going through the experiment as fast as possible (using the keyboard, not reading the sentnces, etc.) takes around 40 seconds.
+Further, if we restict to three minutes this amounts to roughly one and a half a seconds per trial, which seems a reasonable lower bound.
+
+We have a similar problem to before, in that the time of the experiment is recorded as a string.
+Further, here we cannot easily use the revalue function, as there are simply too many different values to consider, and these would change on each run of the experiment.
+So, we use the 'gsub' function, to replace each of the problematic quotation marks, which will allow us then to treat the string as a number using the 'as.numeric' and 'as.character' functions.
+A roundabout, but working solution.
+
+```{r}
+table(p$Answer.time_in_minutes)
+
+
+pt = p
+
+p$Answer.time_in_minutes <- gsub("\"", "", p$Answer.time_in_minutes)
+p$Answer.time_in_minutes <- as.numeric(as.character(p$Answer.time_in_minutes))
+
+p = subset(p, Answer.time_in_minutes >= 3)
+
+table(p$Answer.time_in_minutes)
+
+```
+
 
 Our dataset contains a lot of information, and before proceeding there are two operations which we'll perform.
 First, we'll exclude filler trails, which will allow for more straightforward analysis code.
 Second, we'll exclude trains in which the respondents did not choose the 'correct' primes, in line with Bott and Chemla.
 
 Tthe following table will be useful to keep in mind as it shows that raw counts of trails relative to prime and response type.
+
 ```{r}
 table(p$responseTypeText, p$primeTypeText)
 ```
 
 So, let's filter out the filler trials from the CSV
 First, we can check how many fillers we have.
+
 ```{r}
 table(p$trial_type)
 ```
+
 Second, we filter the CSV using the subset operation.
+
 ```{r}
 rp = subset(p, trial_type=='"response"')
 ```
+
 Finally, we can check we've done the right thing.
+
 ```{r}
 table(rp$trial_type)
 ```
@@ -108,11 +158,14 @@ table(rp$trial_type)
 Next, we can now filter the CSV so that we only have entries for correct prime responses.
 
 First, we see how many correct/incorrect prime responses there were.
+
 ```{r}
 table(rp$correctPChoices)
 prop.table(table(rp$correctPChoices))
 ```
+
 Second, filter using the fact that we had the foresight to log whether the respondant chose the correct primes.
+
 ```{r}
 rp = subset(rp, correctPChoices=='true')
 ```
@@ -120,14 +173,24 @@ And again, we can check we've done the right thing
 ```{r}
 table(rp$correctPChoices)
 ```
+
 We can now have a peak at how the strength of primes influences the responses of participants.
+
 ```{r}
 table(rp$primeStrengthText, rp$responseChoiceText)
 ```
+
 We can now look at the raw counts of prime and reponse types again, if we like.
+
 ```{r}
 table(p$responseTypeText, p$primeTypeText)
+
+table(rp$responseTypeText, rp$primeTypeText)
 ```
+
+
+
+
 
 ## Further Subsets of data
 
@@ -180,13 +243,15 @@ summary(rp.model)
 ```
 
 ## Within detail
+
 Now let's take a look at the case of within category priming.
-The parameters we use follow those of Bott and Chemla
+The parameters we use follow those of Bott and Chemla, and we can first look at their effect of the main dataset.
 ```{r}
 rp.modelWithin = glmer(responseChoice ~ primeStrength * WithCat +  (1 + primeStrength * WithCat | workerid), data=rp, family = binomial(link = "logit"))
 summary(rp.modelWithin)
 ```
 
+Of course, our interest is in a restriction of the main dataset so that 
 
 ```{r}
 wrp.modelWithin = glmer(responseChoice ~ primeStrength * WithCat +  (1 + primeStrength * WithCat | workerid), data=wrp, family = binomial(link = "logit"))
@@ -199,6 +264,12 @@ summary(wrp.modelWithin)
 rp.modelBetween = glmer(responseChoice ~ primeStrength * BetCat  +  (1 + primeStrength * BetCat | workerid), data=rp, family = binomial(link = "logit"))
 summary(rp.modelBetween)
 ```
+
+```{r}
+brp.modelBetween = glmer(responseChoice ~ primeStrength * BetCat  +  (1 + primeStrength * BetCat | workerid), data=brp, family = binomial(link = "logit"))
+summary(brp.modelBetween)
+```
+
 # Visualising the data
 
 First we set the theme.
@@ -208,6 +279,257 @@ theme_set(theme_bw())
 
 Now, let's construct percentages of 'better' responses for each prime and response category pairing.
 Recall, responseChoice returns 0 for a weak selection, and 1 for a selection of 'better', which Bott and Chemla take to indicate the desire for a pragmatically enriched 'strong' card.
+What we're going to want is the percentage for each individual, and from this we'll be able to extract the mean, standard deviation, and so on…
+How exactly to do this took a little working.
+
+First, we create a new frame using the 'aggregate' function, which sums the responseChoice, but keeps these separate according to the workerid and primeType.
+Then, we reshape the dataframe so that we've got weak primes and strong primes by worker.
+Then, we do a little renaming to make things clear.
+After this is done, we can go and calculate the mean, standard error, and adjusted mean, etc.
+It's all quite tedious, but … at least we now have everything that we need for a plot.
+At least, in terms of how to figure it out, the thing is that this doesn't take the category of the prime and response into account, which would've been nice.
+
+```{r}
+# table(rp$workerid, rp$responseChoice)
+exl <- aggregate(as.numeric(as.character(rp$responseChoice)), list(rp$workerid, rp$primeStrength), sum)
+exl <- reshape(exl, timevar="Group.2", idvar="Group.1", direction="wide")
+
+colnames(exl)[colnames(exl) =="Group.1"] <- "workerid"
+colnames(exl)[colnames(exl) =="x.0"] <- "weakPrimeSum"
+colnames(exl)[colnames(exl) =="x.1"] <- "strongPrimeSum"
+head(exl)
+
+exl$weakPercentage <- exl$weakPrimeSum/16
+exl$strongPercentage <- exl$strongPrimeSum/16
+exl$responseTotal <- (exl$weakPrimeSum + exl$strongPrimeSum)
+exl$responsePercentage <- (exl$weakPercentage + exl$strongPercentage)/2
+
+exlWeakMean <- mean(exl$weakPrimeSum)
+exlStrongMean <- mean(exl$strongPrimeSum)
+
+exlWeakSD <- sd(exl$weakPrimeSum)
+exlStrongSD <- sd(exl$strongPrimeSum)
+
+exlWeakSE <- exlWeakSD/sqrt(length(exl$workerid))
+exlStrongSE <- exlStrongSD/sqrt(length(exl$workerid))
+
+exlWeakMeanWiSE <- (exlWeakMean + exlWeakSE)
+exlWeakMeanWoSE <-(exlWeakMean - exlWeakSE)
+
+exlWeakMeanP <- exlWeakMean/16
+exlWeakMeanWiSEP <- exlWeakMeanWiSE/16
+exlWeakMeanWoSEP <- exlWeakMeanWoSE/16
+
+
+exlStrongMeanWiSE <- (exlStrongMean + exlStrongSE)
+exlStrongMeanWoSE <-(exlStrongMean - exlStrongSE)
+
+exlStrongMeanP <- exlStrongMean/16
+exlStrongMeanWiSEP <- exlStrongMeanWiSE/16
+exlStrongMeanWoSEP <- exlStrongMeanWoSE/16
+
+exlWeakMeanP
+exlWeakMeanWiSEP
+exlWeakMeanWoSEP
+exlStrongMeanP
+exlStrongMeanWiSEP
+exlStrongMeanWoSEP
+```
+
+Ok, so we're going to try and do this by category.
+First, we'll use 'aggregate' to pick up the relevant columns and their sum.
+We include workerid here because we want to be precise.
+The consideration of precision comes in when we want to calculate the standard error, as here we need the number of samples.
+But, as we've excluded some of the data, it's quite possible that the number of samples for a prime-category pairing is going to be fewer than desired, as a particular participant to the experiment may have failed to respond correctly to the prime.
+So, once we've done this we'll make a new coloumn to capture the prime-category pair, and then we'll make a new dataframe with the workerid, prime-category pair, and the raw count of the strong responses given the prime-category pair.
+We then rename the columns to make things a little easier to deal with.
+Now, the task is to get the appropriate counts for each prime-category pair.
+There are two things we need to do.
+For, to do standard arithmetic operations we need to remove the NAs.
+But, we also want to make a count of these for each prime-category to make sure that we get the right mean, sd, etc
+So, here we use the 'is.na' function with 'sum' and the rest.
+It's rather laborious, but the results look to be sound.
+
+
+
+
+
+```{r}
+exlx <- aggregate(as.numeric(as.character(rp$responseChoice)), list(rp$workerid, rp$primeStrengthText, rp$BetCat), sum)
+head(rp)
+
+
+exly <- aggregate(as.numeric(as.character(rp$correctPChoices)), list(rp$workerid, rp$primeStrengthText, rp$BetCat), length)
+
+
+colnames(exlx)[colnames(exlx) =="Group.1"] <- "workerid"
+colnames(exlx)[colnames(exlx) =="Group.2"] <- "primeStrength"
+colnames(exlx)[colnames(exlx) =="Group.3"] <- "categories"
+colnames(exlx)[colnames(exlx) =="x"] <- "rawCount"
+exlx$compact <- paste(exlx$primeStrength, exlx$categories, sep="")
+
+
+colnames(exly)[colnames(exly) =="Group.1"] <- "workerid"
+colnames(exly)[colnames(exly) =="Group.2"] <- "primeStrength"
+colnames(exly)[colnames(exly) =="Group.3"] <- "categories"
+colnames(exly)[colnames(exly) =="x"] <- "rawSamples"
+exly$compact <- paste(exlx$primeStrength, exlx$categories, sep="")
+
+
+
+dd <- data.frame(exlx$workerid, exlx$compact,  exlx$rawCount)
+dd <- reshape(dd, timevar="exlx.compact", idvar="exlx.workerid", direction="wide")
+dd
+
+de <- data.frame(exly$workerid, exly$compact,  exly$rawSamples)
+de <- reshape(de, timevar="exly.compact", idvar="exly.workerid", direction="wide")
+de
+
+colnames(dd)[colnames(dd) =="exlx.workerid"]  <- "workerid"
+colnames(dd)[colnames(dd) =="exlx.rawCount.\"strong\"\"NUM4NUM4\""] <- "strongNUM4NUM4"
+colnames(dd)[colnames(dd) =="exlx.rawCount.\"weak\"\"NUM4NUM4\""] <- "weakNUM4NUM4"
+colnames(dd)[colnames(dd) =="exlx.rawCount.\"strong\"\"NUM4SOME\""] <- "strongNUM4SOME"
+colnames(dd)[colnames(dd) =="exlx.rawCount.\"weak\"\"NUM4SOME\""] <- "weakNUM4SOME"
+colnames(dd)[colnames(dd) =="exlx.rawCount.\"strong\"\"SOMENUM4\""] <- "strongSOMENUM4"
+colnames(dd)[colnames(dd) =="exlx.rawCount.\"weak\"\"SOMENUM4\""] <- "weakSOMENUM4"
+colnames(dd)[colnames(dd) =="exlx.rawCount.\"strong\"\"SOMESOME\""] <- "strongSOMESOME"
+colnames(dd)[colnames(dd) =="exlx.rawCount.\"weak\"\"SOMESOME\""] <- "weakSOMESOME"
+
+colnames(de)[colnames(de) =="exly.workerid"]  <- "workerid"
+colnames(de)[colnames(de) =="exly.rawSamples.\"strong\"\"NUM4NUM4\""] <- "strongNUM4NUM4"
+colnames(de)[colnames(de) =="exly.rawSamples.\"weak\"\"NUM4NUM4\""] <- "weakNUM4NUM4"
+colnames(de)[colnames(de) =="exly.rawSamples.\"strong\"\"NUM4SOME\""] <- "strongNUM4SOME"
+colnames(de)[colnames(de) =="exly.rawSamples.\"weak\"\"NUM4SOME\""] <- "weakNUM4SOME"
+colnames(de)[colnames(de) =="exly.rawSamples.\"strong\"\"SOMENUM4\""] <- "strongSOMENUM4"
+colnames(de)[colnames(de) =="exly.rawSamples.\"weak\"\"SOMENUM4\""] <- "weakSOMENUM4"
+colnames(de)[colnames(de) =="exly.rawSamples.\"strong\"\"SOMESOME\""] <- "strongSOMESOME"
+colnames(de)[colnames(de) =="exly.rawSamples.\"weak\"\"SOMESOME\""] <- "weakSOMESOME"
+
+
+strongNUM4NUM4Counts <- sum(dd$strongNUM4NUM4, na.rm=TRUE)
+weakNUM4NUM4Counts <- sum(dd$weakNUM4NUM4, na.rm=TRUE)
+strongNUM4SOMECounts <- sum(dd$strongNUM4SOME, na.rm=TRUE)
+weakNUM4SOMECounts <- sum(dd$weakNUM4SOME, na.rm=TRUE)
+strongSOMENUM4Counts <- sum(dd$strongSOMENUM4, na.rm=TRUE)
+weakSOMENUM4Counts <- sum(dd$weakSOMENUM4, na.rm=TRUE)
+strongSOMESOMECounts <- sum(dd$strongSOMESOME, na.rm=TRUE)
+weakSOMESOMECounts <- sum(dd$weakSOMESOME, na.rm=TRUE)
+
+strongNUM4NUM4Samples <- sum(de$strongNUM4NUM4, na.rm=TRUE)
+weakNUM4NUM4Samples <- sum(de$weakNUM4NUM4, na.rm=TRUE)
+strongNUM4SOMESamples <- sum(de$strongNUM4SOME, na.rm=TRUE)
+weakNUM4SOMESamples <- sum(de$weakNUM4SOME, na.rm=TRUE)
+strongSOMENUM4Samples <- sum(de$strongSOMENUM4, na.rm=TRUE)
+weakSOMENUM4Samples <- sum(de$weakSOMENUM4, na.rm=TRUE)
+strongSOMESOMESamples <- sum(de$strongSOMESOME, na.rm=TRUE)
+weakSOMESOMESamples <- sum(de$weakSOMESOME, na.rm=TRUE)
+
+strongNUM4NUM4Mean <- mean(dd$strongNUM4NUM4, na.rm=TRUE)
+weakNUM4NUM4Mean <- mean(dd$weakNUM4NUM4, na.rm=TRUE)
+strongNUM4SOMEMean <- mean(dd$strongNUM4SOME, na.rm=TRUE)
+weakNUM4SOMEMean <- mean(dd$weakNUM4SOME, na.rm=TRUE)
+strongSOMENUM4Mean <- mean(dd$strongSOMENUM4, na.rm=TRUE)
+weakSOMENUM4Mean <- mean(dd$weakSOMENUM4, na.rm=TRUE)
+strongSOMESOMEMean <- mean(dd$strongSOMESOME, na.rm=TRUE)
+weakSOMESOMEMean <- mean(dd$weakSOMESOME, na.rm=TRUE)
+
+strongNUM4NUM4SD <- sd(dd$strongNUM4NUM4, na.rm=TRUE)
+weakNUM4NUM4SD <- sd(dd$weakNUM4NUM4, na.rm=TRUE)
+strongNUM4SOMESD <- sd(dd$strongNUM4SOME, na.rm=TRUE)
+weakNUM4SOMESD <- sd(dd$weakNUM4SOME, na.rm=TRUE)
+strongSOMENUM4SD <- sd(dd$strongSOMENUM4, na.rm=TRUE)
+weakSOMENUM4SD <- sd(dd$weakSOMENUM4, na.rm=TRUE)
+strongSOMESOMESD <- sd(dd$strongSOMESOME, na.rm=TRUE)
+weakSOMESOMESD <- sd(dd$weakSOMESOME, na.rm=TRUE)
+
+strongNUM4NUM4SE <- strongNUM4NUM4SD/sqrt(length(dd$workerid))
+weakNUM4NUM4SE <- weakNUM4NUM4SD/sqrt(length(dd$workerid))
+strongNUM4SOMESE <- strongNUM4SOMESD/sqrt(length(dd$workerid))
+weakNUM4SOMESE <- weakNUM4SOMESD/sqrt(length(dd$workerid))
+strongSOMENUM4SE <- strongSOMENUM4SD/sqrt(length(dd$workerid))
+weakSOMENUM4SE <- weakSOMENUM4SD/sqrt(length(dd$workerid))
+strongSOMESOMESE <- strongSOMESOMESD/sqrt(length(dd$workerid))
+weakSOMESOMESE <- weakSOMESOMESD/sqrt(length(dd$workerid))
+
+strongNUM4NUM4MeanPlusSE <- (strongNUM4NUM4Mean + strongNUM4NUM4SE)
+weakNUM4NUM4MeanPlusSE <- (weakNUM4NUM4Mean + weakNUM4NUM4SE)
+strongNUM4SOMEMeanPlusSE <- (strongNUM4SOMEMean + strongNUM4SOMESE)
+weakNUM4SOMEMeanPlusSE <- (weakNUM4SOMEMean + weakNUM4SOMESE)
+strongSOMENUM4MeanPlusSE <- (strongSOMENUM4Mean + strongSOMENUM4SE)
+weakSOMENUM4MeanPlusSE <- (weakSOMENUM4Mean + weakSOMENUM4SE)
+strongSOMESOMEMeanPlusSE <- (strongSOMESOMEMean + strongSOMESOMESE)
+weakSOMESOMEMeanPlusSE <- (weakSOMESOMEMean + weakSOMESOMESE)
+
+strongNUM4NUM4MeanPlusSEPercentage <- (length(dd$workerid) * strongNUM4NUM4MeanPlusSE)/strongNUM4NUM4Samples
+weakNUM4NUM4MeanPlusSEPercentage <- (length(dd$workerid) * weakNUM4NUM4MeanPlusSE)/weakNUM4NUM4Samples
+strongNUM4SOMEMeanPlusSEPercentage <- (length(dd$workerid) * strongNUM4SOMEMeanPlusSE)/strongNUM4SOMESamples
+weakNUM4SOMEMeanPlusSEPercentage <- (length(dd$workerid) * weakNUM4SOMEMeanPlusSE)/weakNUM4SOMESamples
+strongSOMENUM4MeanPlusSEPercentage <- (length(dd$workerid) * strongSOMENUM4MeanPlusSE)/strongSOMENUM4Samples
+weakSOMENUM4MeanPlusSEPercentage <- (length(dd$workerid) * weakSOMENUM4MeanPlusSE)/weakSOMENUM4Samples
+strongSOMESOMEMeanPlusSEPercentage <- (length(dd$workerid) * strongSOMESOMEMeanPlusSE)/strongSOMESOMESamples
+weakSOMESOMEMeanPlusSEPercentage <- (length(dd$workerid) * weakSOMESOMEMeanPlusSE)/weakSOMESOMESamples
+
+strongNUM4NUM4MeanMinusSE <- (strongNUM4NUM4Mean - strongNUM4NUM4SE)
+weakNUM4NUM4MeanMinusSE <- (weakNUM4NUM4Mean - weakNUM4NUM4SE)
+strongNUM4SOMEMeanMinusSE <- (strongNUM4SOMEMean - strongNUM4SOMESE)
+weakNUM4SOMEMeanMinusSE <- (weakNUM4SOMEMean - weakNUM4SOMESE)
+strongSOMENUM4MeanMinusSE <- (strongSOMENUM4Mean - strongSOMENUM4SE)
+weakSOMENUM4MeanMinusSE <- (weakSOMENUM4Mean - weakSOMENUM4SE)
+strongSOMESOMEMeanMinusSE <- (strongSOMESOMEMean - strongSOMESOMESE)
+weakSOMESOMEMeanMinusSE <- (weakSOMESOMEMean - weakSOMESOMESE)
+
+strongNUM4NUM4MeanMinusSEPercentage <- (length(dd$workerid) * strongNUM4NUM4MeanMinusSE)/strongNUM4NUM4Samples
+weakNUM4NUM4MeanMinusSEPercentage <- (length(dd$workerid) * weakNUM4NUM4MeanMinusSE)/weakNUM4NUM4Samples
+strongNUM4SOMEMeanMinusSEPercentage <- (length(dd$workerid) * strongNUM4SOMEMeanMinusSE)/strongNUM4SOMESamples
+weakNUM4SOMEMeanMinusSEPercentage <- (length(dd$workerid) * weakNUM4SOMEMeanMinusSE)/weakNUM4SOMESamples
+strongSOMENUM4MeanMinusSEPercentage <- (length(dd$workerid) * strongSOMENUM4MeanMinusSE)/strongSOMENUM4Samples
+weakSOMENUM4MeanMinusSEPercentage <- (length(dd$workerid) * weakSOMENUM4MeanMinusSE)/weakSOMENUM4Samples
+strongSOMESOMEMeanMinusSEPercentage <- (length(dd$workerid) * strongSOMESOMEMeanMinusSE)/strongSOMESOMESamples
+weakSOMESOMEMeanMinusSEPercentage <- (length(dd$workerid) * weakSOMESOMEMeanMinusSE)/weakSOMESOMESamples
+
+strongNUM4NUM4MeanPercentage <- (length(dd$workerid) * strongNUM4NUM4Mean)/strongNUM4NUM4Samples
+weakNUM4NUM4MeanPercentage <- (length(dd$workerid) * weakNUM4NUM4Mean)/weakNUM4NUM4Samples
+strongNUM4SOMEMeanPercentage <- (length(dd$workerid) * strongNUM4SOMEMean)/strongNUM4SOMESamples
+weakNUM4SOMEMeanPercentage <- (length(dd$workerid) * weakNUM4SOMEMean)/weakNUM4SOMESamples
+strongSOMENUM4MeanPercentage <- (length(dd$workerid) * strongSOMENUM4Mean)/strongSOMENUM4Samples
+weakSOMENUM4MeanPercentage <- (length(dd$workerid) * weakSOMENUM4Mean)/weakSOMENUM4Samples
+strongSOMESOMEMeanPercentage <- (length(dd$workerid) * strongSOMESOMEMean)/strongSOMESOMESamples
+weakSOMESOMEMeanPercentage <- (length(dd$workerid) * weakSOMESOMEMeanMinusSE)/weakSOMESOMESamples
+
+
+strongNUM4NUM4MeanPlusSEPercentage
+weakNUM4NUM4MeanPlusSEPercentage
+strongNUM4SOMEMeanPlusSEPercentage
+weakNUM4SOMEMeanPlusSEPercentage
+strongSOMENUM4MeanPlusSEPercentage
+weakSOMENUM4MeanPlusSEPercentage
+strongSOMESOMEMeanPlusSEPercentage
+weakSOMESOMEMeanPlusSEPercentage
+
+strongNUM4NUM4MeanMinusSEPercentage
+weakNUM4NUM4MeanMinusSEPercentage
+strongNUM4SOMEMeanMinusSEPercentage
+weakNUM4SOMEMeanMinusSEPercentage
+strongSOMENUM4MeanMinusSEPercentage
+weakSOMENUM4MeanMinusSEPercentage
+strongSOMESOMEMeanMinusSEPercentage
+weakSOMESOMEMeanMinusSEPercentage
+
+strongNUM4NUM4MeanPercentage
+weakNUM4NUM4MeanPercentage
+strongNUM4SOMEMeanPercentage
+weakNUM4SOMEMeanPercentage
+strongSOMENUM4MeanPercentage
+weakSOMENUM4MeanPercentage
+strongSOMESOMEMeanPercentage
+weakSOMESOMEMeanPercentage
+
+# dn <- dd$exlx.workerid
+# dt <- as.data.frame(t(dd[,-1]))
+# colnames(dt) <- dn
+# head(dt)
+```
+
 
 ```{r}
 p.perc <- ddply(p,.(BetCat, primeStrengthText),summarise,prop = sum(as.numeric(as.character(responseChoice)))/length(responseChoice))
@@ -222,6 +544,7 @@ ggplot(p.perc, aes(x=factor(BetCat),y=prop, fill=primeStrengthText, label=paste(
   xlab("Prime Type") +
   scale_fill_manual(values=c("black", "lightgray"))
 ```
+
 
 ## Individual plots
 
@@ -247,9 +570,10 @@ The idea, basically, is to make a new dataframe with only the results from the r
 
 As we're only interested in visualising the data in this case, we'll make things easier by filtering our initial dataset, refined to exlude filler trails and cases where the respondant did not select the 'correct' prime choices, by the two between category prime and response type pairs of interest.
 ```{r}
-cc = subset(rp, trial_type=='response' & (BetCat=="NUM4SOME" | BetCat=="SOMENUM4"))
+summary(rp)
+cc = subset(rp, trial_type=='"response"' & (BetCat=='"NUM4SOME"' | BetCat=='"SOMENUM4"'))
 summary(cc)
-cc.perc <- ddply(cc,.(primeStrengthText),summarise,prop = sum(as.integer(as.character(responseChoice)))/length(responseChoice))
+cc.perc <- ddply(cc,.(primeStrengthText),summarise, prop = sum(as.integer(as.character(responseChoice)))/length(responseChoice))
 cc.perc
 ```
 

@@ -169,7 +169,9 @@ The replication is partial for two reasons:
 The basis for both modifications was straightforward cost considerations, and by uncommenting a few lines of code (and fixing any bugs that this may cause) allows for the full experiment to be run.
 We will discuss the second aspect of this modification in detail after reviewing \citeauthor{Bott:2016aa}'s paper.
 
-The code for the experiment, data collected, analysis scripts, and other relevant resources can be found at \url{https://github.com/bsparkes/bottchemla2016}, and one can experience the experiment at \url{https://bsparkes.github.io/bottchemla2016/experiment/html/bottchemla2016.html}.
+The code for the experiment, data collected, analysis scripts, and other relevant resources can be found at \url{https://github.com/bsparkes/bottchemla2016}\nolinebreak
+\footnote{Though \url{https://gitlab.com/bsparkes/bottchemla2016} is more likely to stick around.}\nolinebreak
+, and one can experience the experiment at \url{https://bsparkes.github.io/bottchemla2016/experiment/html/bottchemla2016.html}.
 
 
 
@@ -237,6 +239,9 @@ The registration is available at the following url: \url{https://osf.io/5bnmr/re
 
 One hundred participants were recruited using Amazon Turk.
 Following \citeauthor{Bott:2016aa} we removed 7 participants who did not declare English as their native language, and the data from the remaining 93 participants were used in the experiment.
+
+{\color{red} Further \dots we included keyboard shortcuts, which potentially, etc.\ And so we excluded \dots}
+
 In the discussion section we will explore relaxations and restrictions of this constraint.
 
 \paragraph{Materials}
@@ -328,6 +333,46 @@ In terms of a comparison of relative target response removals, the numbers are 6
 However, as \citeauthor{Bott:2016aa} do not include information about the categories the incorrect primes were removed from, we don't have sufficient information to establish this explanation in any robust sense.
 
 
+
+\begin{table*}[ht]
+  \caption{Experiment 1 results from our replication.}\vspace{-20pt}
+  \begin{center}
+    % \begin{adjustbox}{width=1\textwidth,center=\textwidth}
+    \begin{tabular}{llrrrr}
+      \hline
+      & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
+      \hline
+      Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & \& & & \\
+      & (Intercept) & -0.594 & 0.198 & -2.991 & .003 \\
+      & Prime & 0.563 & 0.034 & 16.342 & <.001 \\
+      & WithBet & 0.126 & 0.029 & 4.284 & <.001 \\
+      & Prime:WithBet & -0.430 & 0.033 & -13.177 & <.001 \\
+      Within simple & Prime & 0.993 & 0.059 & 16.950 & <.001 \\
+      Between Simple & Prime & 0.133 & 0.033 & 4.082 & <.001 \\
+      Within detail & \multicolumn{2}{l}{\(\text{Prime} * \text{WithCat} + (1 + \text{Prime} * \text{WithCat} \mid \text{subject})\)}  & & & \\
+      & (Intercept)  & -2.088 & 0.255 & -8.185 & <.001\\
+      & Prime & 1.239 & 0.109 & 11.374 & <.001 \\
+      & WithCatNUM4 & 2.068 & 0.195 & 10.588 & <.001 \\
+      & WithCatSOME & 1.823 & 0.157 & 11.598 & <.001 \\
+      & Prime:WithCatNUM4 & 0.174 & 0.166 & 1.046 & .269 \\
+      & Prime:WithCatSOME & -0.138 & 0.137 & -1.007 & .314 \\
+      Between detail & \multicolumn{2}{l}{\(\text{Prime} * \text{BetCat} + (1 + \text{Prime} * \text{BetCat} \mid \text{subject})\)}  & & & \\
+      & (Intercept)  & -0.691 & 0.204 & -3.384 & <.001\\
+      & Prime & 0.145 & 0.058 & 0.058 & .012 \\
+      & BetCatSOMEADH & -0.054 & 0.089 & -0.611 & .540 \\
+      & BetCatSOMENUM4 & 0.889 & 0.112 & 7.915 & <.001 \\
+      & Prime:BetCatSOMEADH & -0.069 & 0.079 & -0.873 & .383 \\
+      & Prime:BetCatSOMENUM4 & 0.078 & 0.088 & 0.888 & .374 \\
+      \hline
+    \end{tabular}
+  % \end{adjustbox}
+\end{center}
+\emph{Note}. R-pseudo code shown in the first line of every section.
+  \emph{Prime} = priming factor (2 levels: strong, weak).
+  \emph{WithBet} = within/between factor (2 levels: within, between).
+  \emph{WithCat} = within expression category factor (3 levels: \emph{some}, number4, \emph{ad hoc}).
+  \emph{Betcat} = between expression category factor (3 levels: \emph{some} \(\leftrightarrow\) number4, \emph{some} \(\leftrightarrow\) \emph{ad hoc}, number4 \(\leftrightarrow\) \emph{ad hoc}).
+\end{table*}
 
 
 \section{Discussion}
