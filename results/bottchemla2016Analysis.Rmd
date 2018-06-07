@@ -350,17 +350,10 @@ But, we also want to make a count of these for each prime-category to make sure 
 So, here we use the 'is.na' function with 'sum' and the rest.
 It's rather laborious, but the results look to be sound.
 
-
-
-
-
 ```{r}
 exlx <- aggregate(as.numeric(as.character(rp$responseChoice)), list(rp$workerid, rp$primeStrengthText, rp$BetCat), sum)
-head(rp)
-
 
 exly <- aggregate(as.numeric(as.character(rp$correctPChoices)), list(rp$workerid, rp$primeStrengthText, rp$BetCat), length)
-
 
 colnames(exlx)[colnames(exlx) =="Group.1"] <- "workerid"
 colnames(exlx)[colnames(exlx) =="Group.2"] <- "primeStrength"
@@ -368,22 +361,17 @@ colnames(exlx)[colnames(exlx) =="Group.3"] <- "categories"
 colnames(exlx)[colnames(exlx) =="x"] <- "rawCount"
 exlx$compact <- paste(exlx$primeStrength, exlx$categories, sep="")
 
-
 colnames(exly)[colnames(exly) =="Group.1"] <- "workerid"
 colnames(exly)[colnames(exly) =="Group.2"] <- "primeStrength"
 colnames(exly)[colnames(exly) =="Group.3"] <- "categories"
 colnames(exly)[colnames(exly) =="x"] <- "rawSamples"
 exly$compact <- paste(exlx$primeStrength, exlx$categories, sep="")
 
-
-
 dd <- data.frame(exlx$workerid, exlx$compact,  exlx$rawCount)
 dd <- reshape(dd, timevar="exlx.compact", idvar="exlx.workerid", direction="wide")
-dd
 
 de <- data.frame(exly$workerid, exly$compact,  exly$rawSamples)
 de <- reshape(de, timevar="exly.compact", idvar="exly.workerid", direction="wide")
-de
 
 colnames(dd)[colnames(dd) =="exlx.workerid"]  <- "workerid"
 colnames(dd)[colnames(dd) =="exlx.rawCount.\"strong\"\"NUM4NUM4\""] <- "strongNUM4NUM4"
@@ -497,37 +485,30 @@ strongSOMESOMEMeanPercentage <- (length(dd$workerid) * strongSOMESOMEMean)/stron
 weakSOMESOMEMeanPercentage <- (length(dd$workerid) * weakSOMESOMEMeanMinusSE)/weakSOMESOMESamples
 
 
-strongNUM4NUM4MeanPlusSEPercentage
-weakNUM4NUM4MeanPlusSEPercentage
-strongNUM4SOMEMeanPlusSEPercentage
-weakNUM4SOMEMeanPlusSEPercentage
-strongSOMENUM4MeanPlusSEPercentage
-weakSOMENUM4MeanPlusSEPercentage
-strongSOMESOMEMeanPlusSEPercentage
-weakSOMESOMEMeanPlusSEPercentage
+primeCategory <- c('strongNUM4NUM4', 'weakNUM4NUM4', 'strongNUM4SOME', 'weakNUM4SOME', 'strongSOMENUM4', 'weakSOMENUM4', 'strongSOMESOME', 'weakSOMESOME')
 
-strongNUM4NUM4MeanMinusSEPercentage
-weakNUM4NUM4MeanMinusSEPercentage
-strongNUM4SOMEMeanMinusSEPercentage
-weakNUM4SOMEMeanMinusSEPercentage
-strongSOMENUM4MeanMinusSEPercentage
-weakSOMENUM4MeanMinusSEPercentage
-strongSOMESOMEMeanMinusSEPercentage
-weakSOMESOMEMeanMinusSEPercentage
+meanPercent <- c(strongNUM4NUM4MeanPercentage, weakNUM4NUM4MeanPercentage, strongNUM4SOMEMeanPercentage, weakNUM4SOMEMeanPercentage, strongSOMENUM4MeanPercentage, weakSOMENUM4MeanPercentage, strongSOMESOMEMeanPercentage, weakSOMESOMEMeanPercentage)
 
-strongNUM4NUM4MeanPercentage
-weakNUM4NUM4MeanPercentage
-strongNUM4SOMEMeanPercentage
-weakNUM4SOMEMeanPercentage
-strongSOMENUM4MeanPercentage
-weakSOMENUM4MeanPercentage
-strongSOMESOMEMeanPercentage
-weakSOMESOMEMeanPercentage
+meanPlusSEPercent <- c(strongNUM4NUM4MeanPlusSEPercentage, weakNUM4NUM4MeanPlusSEPercentage, strongNUM4SOMEMeanPlusSEPercentage, weakNUM4SOMEMeanPlusSEPercentage, strongSOMENUM4MeanPlusSEPercentage, weakSOMENUM4MeanPlusSEPercentage, strongSOMESOMEMeanPlusSEPercentage, weakSOMESOMEMeanPlusSEPercentage)
 
-# dn <- dd$exlx.workerid
-# dt <- as.data.frame(t(dd[,-1]))
-# colnames(dt) <- dn
-# head(dt)
+meanMinusSEPercent <- c(strongNUM4NUM4MeanMinusSEPercentage, weakNUM4NUM4MeanMinusSEPercentage, strongNUM4SOMEMeanMinusSEPercentage, weakNUM4SOMEMeanMinusSEPercentage, strongSOMENUM4MeanMinusSEPercentage, weakSOMENUM4MeanMinusSEPercentage, strongSOMESOMEMeanMinusSEPercentage, weakSOMESOMEMeanMinusSEPercentage)
+
+rawMean <- c(strongNUM4NUM4Mean, weakNUM4NUM4Mean, strongNUM4SOMEMean, weakNUM4SOMEMean, strongSOMENUM4Mean, weakSOMENUM4Mean, strongSOMESOMEMean, weakSOMESOMEMean)
+
+rawSD <- c(strongNUM4NUM4SD, weakNUM4NUM4SD, strongNUM4SOMESD, weakNUM4SOMESD, strongSOMENUM4SD, weakSOMENUM4SD, strongSOMESOMESD, weakSOMESOMESD)
+
+rawSE <- c(strongNUM4NUM4SE, weakNUM4NUM4SE, strongNUM4SOMESE, weakNUM4SOMESE, strongSOMENUM4SE, weakSOMENUM4SE, strongSOMESOMESE, weakSOMESOMESE)
+
+rawMeanPlusSE <- c(strongNUM4NUM4MeanPlusSE, weakNUM4NUM4MeanPlusSE, strongNUM4SOMEMeanPlusSE, weakNUM4SOMEMeanPlusSE, strongSOMENUM4MeanPlusSE, weakSOMENUM4MeanPlusSE, strongSOMESOMEMeanPlusSE, weakSOMESOMEMeanPlusSE)
+
+rawMeanMinusSE <- c(strongNUM4NUM4MeanMinusSE, weakNUM4NUM4MeanMinusSE, strongNUM4SOMEMeanMinusSE, weakNUM4SOMEMeanMinusSE, strongSOMENUM4MeanMinusSE, weakSOMENUM4MeanMinusSE, strongSOMESOMEMeanMinusSE, weakSOMESOMEMeanMinusSE)
+
+
+
+bars.data <- data.frame(primeCategory, meanPercent, meanPlusSEPercent, meanMinusSEPercent, rawMean, rawSD,  rawSE, rawMeanPlusSE, rawMeanMinusSE)
+bars.data
+
+
 ```
 
 
