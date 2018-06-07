@@ -439,14 +439,36 @@ weakSOMENUM4SE <- weakSOMENUM4SD/sqrt(length(dd$workerid))
 strongSOMESOMESE <- strongSOMESOMESD/sqrt(length(dd$workerid))
 weakSOMESOMESE <- weakSOMESOMESD/sqrt(length(dd$workerid))
 
-strongNUM4NUM4MeanPlusSE <- (strongNUM4NUM4Mean + strongNUM4NUM4SE)
-weakNUM4NUM4MeanPlusSE <- (weakNUM4NUM4Mean + weakNUM4NUM4SE)
-strongNUM4SOMEMeanPlusSE <- (strongNUM4SOMEMean + strongNUM4SOMESE)
-weakNUM4SOMEMeanPlusSE <- (weakNUM4SOMEMean + weakNUM4SOMESE)
-strongSOMENUM4MeanPlusSE <- (strongSOMENUM4Mean + strongSOMENUM4SE)
-weakSOMENUM4MeanPlusSE <- (weakSOMENUM4Mean + weakSOMENUM4SE)
-strongSOMESOMEMeanPlusSE <- (strongSOMESOMEMean + strongSOMESOMESE)
-weakSOMESOMEMeanPlusSE <- (weakSOMESOMEMean + weakSOMESOMESE)
+CI <- 1.161
+
+strongNUM4NUM4MeanPlusSE <- (strongNUM4NUM4Mean + (CI * strongNUM4NUM4SE))
+weakNUM4NUM4MeanPlusSE <- (weakNUM4NUM4Mean + (CI * weakNUM4NUM4SE))
+strongNUM4SOMEMeanPlusSE <- (strongNUM4SOMEMean + (CI * strongNUM4SOMESE))
+weakNUM4SOMEMeanPlusSE <- (weakNUM4SOMEMean + (CI * weakNUM4SOMESE))
+strongSOMENUM4MeanPlusSE <- (strongSOMENUM4Mean + (CI * strongSOMENUM4SE))
+weakSOMENUM4MeanPlusSE <- (weakSOMENUM4Mean + (CI * weakSOMENUM4SE))
+strongSOMESOMEMeanPlusSE <- (strongSOMESOMEMean + (CI * strongSOMESOMESE))
+weakSOMESOMEMeanPlusSE <- (weakSOMESOMEMean + (CI * weakSOMESOMESE))
+
+strongNUM4NUM4MeanMinusSE <- (strongNUM4NUM4Mean - (CI * strongNUM4NUM4SE))
+weakNUM4NUM4MeanMinusSE <- (weakNUM4NUM4Mean - (CI * weakNUM4NUM4SE))
+strongNUM4SOMEMeanMinusSE <- (strongNUM4SOMEMean - (CI * strongNUM4SOMESE))
+weakNUM4SOMEMeanMinusSE <- (weakNUM4SOMEMean - (CI * weakNUM4SOMESE))
+strongSOMENUM4MeanMinusSE <- (strongSOMENUM4Mean - (CI * strongSOMENUM4SE))
+weakSOMENUM4MeanMinusSE <- (weakSOMENUM4Mean - (CI * weakSOMENUM4SE))
+strongSOMESOMEMeanMinusSE <- (strongSOMESOMEMean - (CI * strongSOMESOMESE))
+weakSOMESOMEMeanMinusSE <- (weakSOMESOMEMean - (CI * weakSOMESOMESE))
+
+
+
+strongNUM4NUM4MeanPercentage <- (length(dd$workerid) * strongNUM4NUM4Mean)/strongNUM4NUM4Samples
+weakNUM4NUM4MeanPercentage <- (length(dd$workerid) * weakNUM4NUM4Mean)/weakNUM4NUM4Samples
+strongNUM4SOMEMeanPercentage <- (length(dd$workerid) * strongNUM4SOMEMean)/strongNUM4SOMESamples
+weakNUM4SOMEMeanPercentage <- (length(dd$workerid) * weakNUM4SOMEMean)/weakNUM4SOMESamples
+strongSOMENUM4MeanPercentage <- (length(dd$workerid) * strongSOMENUM4Mean)/strongSOMENUM4Samples
+weakSOMENUM4MeanPercentage <- (length(dd$workerid) * weakSOMENUM4Mean)/weakSOMENUM4Samples
+strongSOMESOMEMeanPercentage <- (length(dd$workerid) * strongSOMESOMEMean)/strongSOMESOMESamples
+weakSOMESOMEMeanPercentage <- (length(dd$workerid) * weakSOMESOMEMeanMinusSE)/weakSOMESOMESamples
 
 strongNUM4NUM4MeanPlusSEPercentage <- (length(dd$workerid) * strongNUM4NUM4MeanPlusSE)/strongNUM4NUM4Samples
 weakNUM4NUM4MeanPlusSEPercentage <- (length(dd$workerid) * weakNUM4NUM4MeanPlusSE)/weakNUM4NUM4Samples
@@ -457,15 +479,6 @@ weakSOMENUM4MeanPlusSEPercentage <- (length(dd$workerid) * weakSOMENUM4MeanPlusS
 strongSOMESOMEMeanPlusSEPercentage <- (length(dd$workerid) * strongSOMESOMEMeanPlusSE)/strongSOMESOMESamples
 weakSOMESOMEMeanPlusSEPercentage <- (length(dd$workerid) * weakSOMESOMEMeanPlusSE)/weakSOMESOMESamples
 
-strongNUM4NUM4MeanMinusSE <- (strongNUM4NUM4Mean - strongNUM4NUM4SE)
-weakNUM4NUM4MeanMinusSE <- (weakNUM4NUM4Mean - weakNUM4NUM4SE)
-strongNUM4SOMEMeanMinusSE <- (strongNUM4SOMEMean - strongNUM4SOMESE)
-weakNUM4SOMEMeanMinusSE <- (weakNUM4SOMEMean - weakNUM4SOMESE)
-strongSOMENUM4MeanMinusSE <- (strongSOMENUM4Mean - strongSOMENUM4SE)
-weakSOMENUM4MeanMinusSE <- (weakSOMENUM4Mean - weakSOMENUM4SE)
-strongSOMESOMEMeanMinusSE <- (strongSOMESOMEMean - strongSOMESOMESE)
-weakSOMESOMEMeanMinusSE <- (weakSOMESOMEMean - weakSOMESOMESE)
-
 strongNUM4NUM4MeanMinusSEPercentage <- (length(dd$workerid) * strongNUM4NUM4MeanMinusSE)/strongNUM4NUM4Samples
 weakNUM4NUM4MeanMinusSEPercentage <- (length(dd$workerid) * weakNUM4NUM4MeanMinusSE)/weakNUM4NUM4Samples
 strongNUM4SOMEMeanMinusSEPercentage <- (length(dd$workerid) * strongNUM4SOMEMeanMinusSE)/strongNUM4SOMESamples
@@ -474,15 +487,6 @@ strongSOMENUM4MeanMinusSEPercentage <- (length(dd$workerid) * strongSOMENUM4Mean
 weakSOMENUM4MeanMinusSEPercentage <- (length(dd$workerid) * weakSOMENUM4MeanMinusSE)/weakSOMENUM4Samples
 strongSOMESOMEMeanMinusSEPercentage <- (length(dd$workerid) * strongSOMESOMEMeanMinusSE)/strongSOMESOMESamples
 weakSOMESOMEMeanMinusSEPercentage <- (length(dd$workerid) * weakSOMESOMEMeanMinusSE)/weakSOMESOMESamples
-
-strongNUM4NUM4MeanPercentage <- (length(dd$workerid) * strongNUM4NUM4Mean)/strongNUM4NUM4Samples
-weakNUM4NUM4MeanPercentage <- (length(dd$workerid) * weakNUM4NUM4Mean)/weakNUM4NUM4Samples
-strongNUM4SOMEMeanPercentage <- (length(dd$workerid) * strongNUM4SOMEMean)/strongNUM4SOMESamples
-weakNUM4SOMEMeanPercentage <- (length(dd$workerid) * weakNUM4SOMEMean)/weakNUM4SOMESamples
-strongSOMENUM4MeanPercentage <- (length(dd$workerid) * strongSOMENUM4Mean)/strongSOMENUM4Samples
-weakSOMENUM4MeanPercentage <- (length(dd$workerid) * weakSOMENUM4Mean)/weakSOMENUM4Samples
-strongSOMESOMEMeanPercentage <- (length(dd$workerid) * strongSOMESOMEMean)/strongSOMESOMESamples
-weakSOMESOMEMeanPercentage <- (length(dd$workerid) * weakSOMESOMEMeanMinusSE)/weakSOMESOMESamples
 
 
 primeCategory <- c('strongNUM4NUM4', 'weakNUM4NUM4', 'strongNUM4SOME', 'weakNUM4SOME', 'strongSOMENUM4', 'weakSOMENUM4', 'strongSOMESOME', 'weakSOMESOME')
@@ -506,9 +510,8 @@ rawMeanMinusSE <- c(strongNUM4NUM4MeanMinusSE, weakNUM4NUM4MeanMinusSE, strongNU
 
 
 bars.data <- data.frame(primeCategory, meanPercent, meanPlusSEPercent, meanMinusSEPercent, rawMean, rawSD,  rawSE, rawMeanPlusSE, rawMeanMinusSE)
+
 bars.data
-
-
 ```
 
 

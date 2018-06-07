@@ -28,16 +28,15 @@
     "mathtools"
     "bbding"
     "biblatex"
-    "thmtools"
     "xfrac"
     "nicefrac"
     "enumitem"
     "tikz"
-    "subfig"
+    "pgfplots"
     "wrapfig"
     "float"
+    "subcaption"
     "multicol"
-    "proof"
     "chngcntr"
     "titlesec"
     "adjustbox"
@@ -50,6 +49,7 @@
     "sec:experiment"
     "sec:method"
     "sec:results"
+    "tab:results"
     "sec:discussion")
    (LaTeX-add-bibliographies
     "ling245"))

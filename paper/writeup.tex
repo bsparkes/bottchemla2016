@@ -45,40 +45,6 @@
 % \newcommand{\seccite}[1]{\citeauthor{#1}, \citetitle{#1}, \citeyear{#1}}
 % % % % % % % % % % % % % % %
 
-% % % The following section relates to theorems, etc. % % %
-\usepackage{thmtools}
-% \usepackage{thm-restate} % For restating theorems
-
-\declaretheoremstyle[
-spaceabove=6pt, spacebelow=6pt,
-headfont=\normalfont\bfseries,
-notefont=\mdseries, notebraces={(}{)},
-bodyfont=\normalfont,
-% postheadspace=1em,
-% qed=\qedsymbol
-]{defstyle}
-
-\declaretheoremstyle[
-spaceabove=6pt, spacebelow=6pt,
-headfont=\normalfont\bfseries,
-notefont=\normalfont\bfseries, notebraces={}{},
-bodyfont=\normalfont,
-% postheadspace=1em,
-% qed=\qedsymbol
-]{defsstyle}
-
-\declaretheorem[name=Theorem,numberwithin=section]{theorem}
-\declaretheorem[sibling=theorem,style=remark]{remark}
-\declaretheorem[sibling=theorem,name=Corollary]{corollary}
-\declaretheorem[sibling=theorem,name=Lemma]{lemma}
-\declaretheorem[sibling=theorem,name=Fact]{fact}
-\declaretheorem[sibling=theorem,name=Proposition]{proposition}
-\declaretheorem[sibling=theorem,name=Argument]{argument}
-\declaretheorem[sibling=theorem,name=Definition,style=defstyle]{definition}
-\declaretheorem[name=Definitions,numbered=no,style=defsstyle]{definitions}
-\declaretheorem[sibling=theorem,name=Example,style=defstyle]{example}
-\declaretheorem[sibling=theorem,name=Scenario,style=defstyle]{scenario}
-
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 % % % Custom Commands % % %
@@ -94,15 +60,18 @@ bodyfont=\normalfont,
         \setlist[enumerate]{noitemsep}
 
 % % For Figures % % %
-\usepackage{tikz,subfig} % For drawings
-    \tikzstyle{index on}=[inner sep=2pt, white, circle, fill=black]
-    \tikzstyle{index off}=[inner sep=2pt, black, circle, draw]
-    \tikzstyle{index gray}=[inner sep=2pt, black, circle, fill=lightgray]
-    \tikzstyle{opaque}=[fill=gray,fill opacity=.1]
-    \tikzstyle{counter}=[densely dashed]
+        \usepackage{tikz} % For drawings
+\usepackage{pgfplots}
+% \pgfplotsset{compat=1.15}
 \usepackage{wrapfig}
 \usepackage{float} % For correctly placed floats
+\usepackage{subcaption}
+% \captionsetup{compatibility=false}
 % % % % % % % % % % %
+
+% For plots
+
+
 % \usepackage{graphicx}
 
 % % % Misc packages % % %
@@ -111,7 +80,6 @@ bodyfont=\normalfont,
 % \usepackage{lineno}   % For line numbers
 \usepackage{multicol} % For multiple columns
 % \usepackage{mathrsfs} % For elegant Latin math letters
-\usepackage{proof}    % For natural deduction proofs
 % \usepackage{hyphenat} % For \hyp{} hyphenation command, and general hyphenation stuff
 % \usepackage{titling} % for multiple titles
 % % % % % % % % % % % % %
@@ -139,6 +107,33 @@ bodyfont=\normalfont,
 % \date{}
 
 \begin{document}
+
+% % Begin data
+\pgfplotstableread[row sep=\\, col sep=&]{
+primeCategory  & meanPercent & meanPlusSEPercent& meanMinusSEPercent&  rawMean  &  rawSD   & rawSE & rawMeanPlusSE & rawMeanMinusSE & percentError \\
+strongNUM4NUM4 &  0.6767956 & 0.7208479 & 0.6327433 &  2.634409 & 1.653619 & 0.1714723 & 2.805881 & 2.462936 & 0.0511447 \\
+weakNUM4NUM4 &  0.5675553 & 0.6129002 & 0.5222103 &  2.184783 & 1.683334 & 0.1745536 & 2.359336 & 2.010229 & 0.0526454 \\
+}\NUMNUMData
+
+
+\pgfplotstableread[row sep=\\, col sep=&]{
+primeCategory  & meanPercent & meanPlusSEPercent& meanMinusSEPercent&  rawMean  &  rawSD   & rawSE & rawMeanPlusSE & rawMeanMinusSE & percentError \\
+strongNUM4SOME &  0.5762712 & 0.6226379 & 0.5299045 &  2.193548 & 1.702032 & 0.1764925 & 2.370041 & 2.017056 & 0.0538317 \\
+weakNUM4SOME &  0.5833029 & 0.6305801 & 0.5360257 &  2.239130 & 1.750162 & 0.1814834 & 2.420614 & 2.057647 & 0.0548888 \\
+}\NUMSOMEData
+
+\pgfplotstableread[row sep=\\, col sep=&]{
+primeCategory  & meanPercent& meanPlusSEPercent& meanMinusSEPercent&  rawMean  &  rawSD   & rawSE & rawMeanPlusSE & rawMeanMinusSE & percentError \\
+strongSOMENUM4 &  0.7414502 & 0.7903533 & 0.6925471 &  2.511364 & 1.597371 & 0.1656396 & 2.677003 & 2.345724 & 0.0567766 \\
+weakSOMENUM4 &  0.6498584 & 0.6947576 & 0.6049591 &  2.466667 & 1.643510 & 0.1704240 & 2.637091 & 2.296243 & 0.052128 \\
+}\SOMENUMData
+
+\pgfplotstableread[row sep=\\, col sep=&]{
+primeCategory  & meanPercent& meanPlusSEPercent& meanMinusSEPercent&  rawMean  &  rawSD   & rawSE & rawMeanPlusSE & rawMeanMinusSE & percentError \\
+strongSOMESOME &  0.6966165 & 0.7497500 & 0.6434830 &  2.329545 & 1.713514 & 0.1776831 & 2.507229 & 2.151862 & 0.061688 \\
+  weakSOMESOME &  0.4780198 & 0.5732846 & 0.4780198 &  1.978261 & 1.728737 & 0.1792617 & 2.157523 & 1.798999 & 0.1106024 \\
+}\SOMESOMEData
+% % End data
 
 \maketitle
 
@@ -320,6 +315,107 @@ However, in the case of target trials we followed \citeauthor{Bott:2016aa} in al
 \subsection{Results}
 \label{sec:results}
 
+\begin{figure*}[ht]
+\begin{subfigure}[]{.25\textwidth}
+  \begin{tikzpicture}
+    \begin{axis}[
+      align =center,
+      title = {Num4 \\ Num4},
+      width=\textwidth,
+      height=10cm,
+      ybar=2*\pgflinewidth,
+      enlarge x limits=1,
+      bar width=25pt,
+      symbolic x coords={strongNUM4NUM4, weakNUM4NUM4},
+      xticklabels = {Strong, Weak},
+      xtick={strongNUM4NUM4, weakNUM4NUM4},
+      grid=major,
+      ymax=1,
+      ymin=0,
+      enlarge x limits=.75,
+      ]
+      \addplot+[error bars/.cd,y dir=both,y explicit] table[x=primeCategory,y=meanPercent, y error=percentError]{\NUMNUMData};
+    \end{axis}
+  \end{tikzpicture}
+\end{subfigure}%\hspace{2pt}
+\begin{subfigure}[]{.25\textwidth}
+  \begin{tikzpicture}
+    \begin{axis}[
+      align =center,
+      title = {Num4 \\ Some},
+      width=\textwidth,
+      height=10cm,
+      ybar=2*\pgflinewidth,
+      enlarge x limits=1,
+      bar width=25pt,
+      symbolic x coords={strongNUM4SOME, weakNUM4SOME},
+      xticklabels = {Strong, Weak},
+      xtick={strongNUM4SOME, weakNUM4SOME},
+      grid=major,
+      ymax=1,
+      ymin=0,
+      yticklabels=\empty, % That's the trick
+      enlarge x limits=.75,
+      ]
+      \addplot+[error bars/.cd,y dir=both,y explicit] table[x=primeCategory,y=meanPercent, y error=percentError]{\NUMSOMEData};
+    \end{axis}
+  \end{tikzpicture}
+\end{subfigure}%\hspace{2pt}
+\begin{subfigure}[]{.25\textwidth}
+  \begin{tikzpicture}
+    \begin{axis}[
+      align =center,
+      title = {Some \\ Num4},
+      width=\textwidth,
+      height=10cm,
+      ybar=2*\pgflinewidth,
+      enlarge x limits=1,
+      bar width=25pt,
+      symbolic x coords={strongSOMENUM4, weakSOMENUM4},
+      xticklabels = {Strong, Weak},
+      xtick={strongSOMENUM4, weakSOMENUM4},
+      grid=major,
+      ymax=1,
+      ymin=0,
+      yticklabels=\empty, % That's the trick
+      enlarge x limits=.75,
+      ]
+      \addplot+[error bars/.cd,y dir=both,y explicit] table[x=primeCategory,y=meanPercent, y error=percentError]{\SOMENUMData};
+    \end{axis}
+  \end{tikzpicture}
+\end{subfigure}%\hspace{pt}
+\begin{subfigure}[]{.25\textwidth}
+  \begin{tikzpicture}
+    \begin{axis}[
+      align =center,
+      title = {Some \\ Some},
+      width=\textwidth,
+      height=10cm,
+      ybar=2*\pgflinewidth,
+      enlarge x limits=1,
+      bar width=25pt,
+      symbolic x coords={strongSOMESOME, weakSOMESOME},
+      xticklabels = {Strong, Weak},
+      xtick=data,
+      grid=major,
+      ymax=1,
+      ymin=0,
+      yticklabels=\empty, % That's the trick
+      enlarge x limits=.75,
+      ]
+      \addplot+[error bars/.cd,y dir=both,y explicit] table[x=primeCategory,y=meanPercent, y error=percentError]{\SOMESOMEData};
+    \end{axis}
+  \end{tikzpicture}
+\end{subfigure}
+
+\caption{\emph{Replication results}. Priming is shown by the difference between the strong and weak bars for each panel. The label at the top of each panel shows the prime and response types.
+  For example, the third panel, labelled `Some, Num4' corresponds to priming with \emph{some} and a \emph{number}4 response.
+  Unlike \citeauthor{Bott:2016aa} we keep the between category priming groups distinct.
+  The error bars correspond to 90\% confidence intervals.
+  It is unclear what the error bars for the corresponding panels are for \citeauthor{Bott:2016aa}.}
+  \label{tab:results}
+\end{figure*}
+
 \begin{quote}
   Look back at some of the readings if you're not certain what goes in each section. If you're doing a replication, include in Methods the ways in which you deviated from the original or weren't able to completely reproduce the original (e.g., because of lack of information or because you only chose to run a subset of conditions, etc.). If you're doing a replication, also include in Results the extent to which you replicated the original result(s). Include intuitive visualizations of the data in the Results section.
 \end{quote}
@@ -342,7 +438,7 @@ However, as \citeauthor{Bott:2016aa} do not include information about the catego
       \hline
       & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
       \hline
-      Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & \& & & \\
+      Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & & & \\
       & (Intercept) & -0.594 & 0.198 & -2.991 & .003 \\
       & Prime & 0.563 & 0.034 & 16.342 & <.001 \\
       & WithBet & 0.126 & 0.029 & 4.284 & <.001 \\
@@ -393,6 +489,34 @@ However, as \citeauthor{Bott:2016aa} do not include information about the catego
 
 
 
+
+
+
+
+
+
+\newpage
+\appendix
+\section{Additional Data}
+
+\begin{table*}[ht]
+  \centering
+  \begin{tabular}{rrr|rrrrr}
+    \hline
+    \multicolumn{2}{c}{Prime} & Response & & & & \\
+    Type & Category & Category  & Percentage mean & Raw mean & Raw S.D.\ & Raw S.E.\ \\
+    \hline
+ Strong & Num4 &  Num4 &   0.6767956 &  2.634409 & 1.653619 & 0.1714723     \\
+   Weak & Num4 &  Num4 &   0.5675553 &  2.184783 & 1.683334 & 0.1745536     \\
+ Strong & Num4 &  Some &   0.5762712 &  2.193548 & 1.702032 & 0.1764925     \\
+   Weak & Num4 &  Some &   0.5833029 &  2.239130 & 1.750162 & 0.1814834     \\
+ Strong & Some &  Num4 &   0.7414502 &  2.511364 & 1.597371 & 0.1656396     \\
+   Weak & Some &  Num4 &   0.6498584 &  2.466667 & 1.643510 & 0.1704240     \\
+ Strong & Some &  Some &   0.6966165 &  2.329545 & 1.713514 & 0.1776831     \\
+    Weak & Some &  Some &   0.4703510 &  1.978261 & 1.728737 & 0.1792617     \\
+    \hline
+  \end{tabular}
+\end{table*}
 
 
 \end{document}
