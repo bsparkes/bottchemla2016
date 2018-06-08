@@ -17,7 +17,7 @@
    \defaultfontfeatures{Ligatures=TeX,Numbers={Proportional}}
    \newfontfeature{Microtype}{protrusion=default;expansion=default;}
    \setmainfont[Ligatures=TeX]{TimesNRMTPro}
-   \setsansfont[Microtype,Scale=MatchLowercase,Ligatures=TeX,BoldFont={* Semibold}]{Myriad Pro}
+   \setsansfont[Scale=MatchLowercase,Ligatures=TeX]{Myriad Pro}
    \setmonofont[Scale=0.8]{Atlas Typewriter}
 
    % \usepackage{selnolig}% For suppressing certain typographic ligatures automatically
@@ -54,13 +54,15 @@
 % % % % % % % % % % % % % %
 
 \usepackage[inline]{enumitem}
-        % \setlist[enumerate]{itemsep=.03125em}
-        \setlist[itemize]{noitemsep}
-        \setlist[description]{noitemsep,style=unboxed,leftmargin=.5cm,font=\normalfont\space}
-        \setlist[enumerate]{noitemsep}
+% \setlist[enumerate]{itemsep=.03125em}
+  \setlist[itemize]{noitemsep}
+  \setlist[description]{noitemsep,style=unboxed,leftmargin=.5cm,font=\normalfont\space}
+  \setlist[enumerate]{noitemsep}
+% % %
 
 % % For Figures % % %
-        \usepackage{tikz} % For drawings
+\usepackage{tikz} % For drawings
+\usepackage{graphicx}
 \usepackage{pgfplots}
 % \pgfplotsset{compat=1.15}
 \usepackage{wrapfig}
@@ -96,7 +98,7 @@
 \titleformat{\paragraph}[hang]{\em}{}{0em}{}
 \titlespacing{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{5\wordsep}
 
-\usepackage{adjustbox}
+\usepackage[export]{adjustbox}
 
 \usepackage[hidelinks,breaklinks]{hyperref}
 
@@ -139,30 +141,44 @@ strongSOMESOME &  0.6966165 & 0.7497500 & 0.6434830 &  2.329545 & 1.713514 & 0.1
 
 \begin{multicols}{2}
 
-  \section{Things to Note}
-\label{sec:things-note}
+% \section*{Things to Note}
+% \label{sec:things-note}
 
-Need a decent number of observations from each individual on each trial for the analysis \citeauthor{Bott:2016aa} perform to work.
-Here, `decent number' means that we need at least one primeStrength and (WithCat/BetCat) trial with correct prime choices, else there are going to be fewer observations than random effects.
+% Need a decent number of observations from each individual on each trial for the analysis \citeauthor{Bott:2016aa} perform to work.
+% Here, `decent number' means that we need at least one primeStrength and (WithCat/BetCat) trial with correct prime choices, else there are going to be fewer observations than random effects.
 
-\section{Introduction/Background/Hypotheses/Predictions}
+\section{Introduction}
 \label{sec:introduction}
 
-\begin{quote}
-  Whether you're doing a replication or running an original design, explain the motivation for the study.
-  What is the problem/question that's being addressed?
-  What are the hypotheses and behavioral predictions?
-  What are the linking assumptions?
-\end{quote}
+The core question of \textcite{Bott:2016aa} is whether or not there are shared reasoning processes which apply to distinct instances of enrichment via alternatives, or whether each category of enrichment has its on specialised process.
+(\citeyear[118]{Bott:2016aa})
+One may worry that this begs the question with respect to what kind of explanation one should give to pragmatic reasoning of the kind considered by \citeauthor{Bott:2016aa} in favour of enrichment via alternatives.
+There are two items to note in this respect.
+First, assuming that an explanation is correct is not quite the same as begging the question.
+So long as we, or \citeauthor{Bott:2016aa}, are not attempting to support enrichment via alternatives as an explanation for (certain cases of) pragmatic reasoning, there's no worry in assuming that it's correct.
+Second, \citeauthor{Bott:2016aa}, indeed, are not attempting to support enrichment via alternatives as an explanation for (certain cases of) pragmatic reasoning.
+This may not appear to be consistent with statements such as:
+`Our approach was to test whether enrichments can be primed across expressions.' (\citeyear[118]{Bott:2016aa}).
+This may suggests that \citeauthor{Bott:2016aa} are interested in whether priming can occur at all, but when this is followed by:
+`If different sorts of enrichments can prime each other, there must be an abstract mechanism that is shared between them.
+By testing which enrichments prime each other and which don’t, we can specify what the common mechanism might be.' (\citeyear[118]{Bott:2016aa})
+It should be clear that \citeauthor{Bott:2016aa} are interested in whether priming can occur at all \emph{given} a prior assumption of enrichment via alternatives.
 
+The question of whether or not there are shared reasoning processes which apply to distinct instances of enrichment via alternatives, or whether each category of enrichment has its on specialised process has a nice cognitive feel.
+For, it would seem that there's some positive upshot whichever way the data points.
+If there is cross-category enrichment, then there is a need to posit shared reasonig processes.
+And, if there is no cross-category enrichment, then one should posit distinct reasoning processes.
+While the question has a nice cognitive feel given these resolutions, it is important to note that each of these carries a presupposition that the data can/should/will support one of these resolutions.
+However, (and as we shall see) there is no guarantee that the data will be so clean.
 
-\paragraph{\textcite{Bott:2016aa}}
+\citeauthor{Bott:2016aa} run three experiments, in which participants are presented with trials consisting of a setence and two picutures, and are asked to select the picture which best reflects the sentence.
+We'll go into the details below, as for now the relevant detail is that trials are split into \emph{prime} and \emph{response}, and every response trial is preceeded by two prime trials which are used to ensure the participant considers certain alternatives.
+For the two pictures in the response trial, one picture is consistent with the semantic content of the sentence, and the other contains the words `Better Picture?', which the participants were instructed to click if they felt the the other picture did not sufficiently capture the sentence meaning.
+This allows us to state the basic linking hypothesis, which is that prior trials will effect how participants evaluate sentences, and that in response trials participants click on `Better Picture?' if they process the setence pragmatically, and the semantically adequate picture otherwise.
 
-
-Our approach was to test whether enrichments can be primed across expressions. If different sorts of enrichments can prime each other, there must be an abstract mechanism that is shared between them. By testing which enrichments prime each other and which don’t, we can specify what the common mechanism might be.
-
-
-\paragraph{further stuff}
+\citeauthor{Bott:2016aa} do not make predictions regarding the results of the experiment.
+For, their core interest is in how the question noted above should be resolved.
+However, from the results of \citeauthor{Bott:2016aa}'s experiment, one should expect to see a significant effect of priming, both within and between categories.
 
 This paper contains the results of a (partial) replication of Experiment 1 of \textcite{Bott:2016aa}.
 The replication is partial for two reasons:
@@ -196,7 +212,7 @@ The registration is available at the following url: \url{https://osf.io/5bnmr/re
       \hline
       & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
       \hline
-      Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & \& & & \\
+      Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & & & \\
       & (Intercept) & -0.594 & 0.198 & -2.991 & .003 \\
       & Prime & 0.563 & 0.034 & 16.342 & <.001 \\
       & WithBet & 0.126 & 0.029 & 4.284 & <.001 \\
@@ -238,13 +254,46 @@ The registration is available at the following url: \url{https://osf.io/5bnmr/re
 \subsection{Method}
 \label{sec:method}
 
+\begin{figure*}[ht]
+ \centering
+  \begin{tikzpicture}[scale=1]
+    \draw (-7,0) -- (-2,0);
+    \node[text width=6cm] at (-2,5) {\emph{Prime}};
+    \node[text width=6cm] at (7,5) {\emph{Target}};
+    \node[text width=6cm] at (-5.75,2.125) {\emph{Strong}};
+    \node[text width=6cm] at (-5.75,-2.375) {\emph{Weak}};
+    \node[text width=6cm] at (-3.875,4) {\textsf{Some of the symbols are squares}};
+    \node[inner sep=0pt] (p1L) at (-6,2) {\includegraphics[width=.15\linewidth, frame]{images/p1LSpquares.png}};
+    \node[inner sep=0pt] (p1R) at (-3,2) {\includegraphics[width=.15\linewidth, frame]{images/p1RSquares.png}};
+    \node[text width=6cm] at (-3.6,-.5) {\textsf{Some of the symbols are stars}};
+    \node[inner sep=0pt] (p2L) at (-6,-2.5) {\includegraphics[width=.15\linewidth, frame]{images/p2LStars.png}};
+    \node[inner sep=0pt] (p2R) at (-3,-2.5) {\includegraphics[width=.15\linewidth, frame]{images/p2RStars.png}};
+    \node[text width=6cm] at (5.375,2) {\textsf{Four of the symbols are hearts}};
+    \node[inner sep=0pt] (rL) at (3,0) {\includegraphics[width=.15\linewidth, frame]{images/responseFourH.png}};
+    \node[inner sep=0pt] (rR) at (6,0) {\includegraphics[width=.15\linewidth, frame]{images/bp.png}};
+    \draw[->] (-1,2) -- (.75,1);
+    \draw[->] (-1,-2) -- (.75,-1);
+  \end{tikzpicture}
+  \caption{\emph{Example stimuli for the replication.} Participants see two instances of a prime type followed by a target.
+    The prime (left) consists of a sentence and two pictures, and the target (right) consists of one picture containing symbols and a `Better Picture?' option.
+    Here, the schema for a cross category triplet is shown, when the prime is taken from the \emph{some} category, and the prime from the \emph{number}4 category.
+    The symbols used were generated randomly, and the outlines for each picture had curved corners which I was too lazy to reproduce in tikz.
+  }
+\end{figure*}
+
 
 \paragraph{Participants}
 
 One hundred participants were recruited using Amazon Turk.
 Following \citeauthor{Bott:2016aa} we removed 7 participants who did not declare English as their native language, and the data from the remaining 93 participants were used in the experiment.
 
-{\color{red} Further \dots we included keyboard shortcuts, which potentially, etc.\ And so we excluded \dots}
+Further, we included keyboard shortcuts to help participants complete the experiment, where the left or right card could be selected by pressing the left or right arrow, respectively, and this could be confirmed by pressing on the space bar.
+  This meant that in principle the participants could complete the experiment very quickly.
+  For example, going through the experiment as fast as possible (using the keyboard, not reading the sentnces, etc.) takes around 40 seconds.
+  One and a half second seems a reasonable lower bound for time spent on a trail\nolinebreak
+  \footnote{After restricting by language, the mean completion time was just under 9 minutes.}\nolinebreak
+  , which would require participants to spend at least three minutes on the experiment, excluding time spent on instructions and other tasks.
+  So, we excluded a single participant who fell below this lower bound.
 
 In the discussion section we will explore relaxations and restrictions of this constraint.
 
@@ -418,12 +467,12 @@ However, in the case of target trials we followed \citeauthor{Bott:2016aa} in al
 \end{subfigure}
 
 \caption{\emph{Replication results}. Priming is shown by the difference between the strong and weak bars for each panel. The label at the top of each panel shows the prime and response types.
-  For example, the third panel, labelled `Some, Num4' corresponds to priming with \emph{some} and a \emph{number}4 response.
-  Unlike \citeauthor{Bott:2016aa}'s results for the specific experiment, we keep the between category priming groups distinct (see \textcite[Fig.\ 2, 122]{Bott:2016aa}).
-  However, \citeauthor{Bott:2016aa} also present distinct results for \emph{some} and \emph{number}4 respones when compiling the results from all three of their experiments, and so the panels may be compared to these (see \textcite[Fig.\ 6, 133]{Bott:2016aa})
-  It is unclear what the error bars for the corresponding panels are for \citeauthor{Bott:2016aa}, here the error bars correspond to 90\% confidence intervals.}
+  For example, the third panel, labelled `Some, Num4' corresponds to priming with \emph{some} and a \emph{number}4 response.\protect\footnotemark
+  \space It is unclear what the error bars for the corresponding panels are for \citeauthor{Bott:2016aa}, here the error bars correspond to 90\% confidence intervals.}
   \label{tab:barresults}
 \end{figure*}
+\footnotetext{Unlike \citeauthor{Bott:2016aa}'s results for the experiment 1, we keep the between category priming groups distinct (see \textcite[Fig.\ 2, 122]{Bott:2016aa}).
+  However, \citeauthor{Bott:2016aa} also present distinct results for \emph{some} and \emph{number}4 respones when compiling the results from all three of their experiments, and so the panels may be compared to these (see \textcite[Fig.\ 6, 133]{Bott:2016aa}).}
 
 \begin{quote}
   Look back at some of the readings if you're not certain what goes in each section. If you're doing a replication, include in Methods the ways in which you deviated from the original or weren't able to completely reproduce the original (e.g., because of lack of information or because you only chose to run a subset of conditions, etc.). If you're doing a replication, also include in Results the extent to which you replicated the original result(s). Include intuitive visualizations of the data in the Results section.
@@ -517,6 +566,9 @@ However, as \citeauthor{Bott:2016aa} do not include information about the catego
   \end{tabular}
   \caption{Details for the plots contained in Figure \ref{tab:barresults}.}
 \end{table*}
+
+
+
 
 
 \end{document}

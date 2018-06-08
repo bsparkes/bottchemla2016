@@ -38,13 +38,9 @@ The following commands set the current file path as the working directory.
 First, let's load up the CSV
 ```{r}
 p = read.csv("../data/bottchemla2016.csv", quote = "\"")
-pOrig = p
-# head(p)
+# pOrig = p
 summary(p)
-
-
-
-head(p)
+# head(p)
 ```
 
 ## Reformatting the data
@@ -75,12 +71,12 @@ p$pTChoice = revalue(p$pTChoice, c("\"0\""="0", "\"1\""="1"))
 We can check the revaluing worked by running the following lines.
 
 ```{r}
-p$responseChoice
+# p$responseChoice
 # p$pOChoice
 # p$pTChoice
 ```
 
-And, the percentage of 'better' responses can now be obtained by running the following code.
+And, the percentage of 'strong' responses can now be obtained by running the following code.
 
 ```{r}
 sum(as.integer(as.character(p$responseChoice)))/length(p$responseChoice)
@@ -100,7 +96,7 @@ table(p$language)
 p = subset(p, language!='""' & language!='"Chinese"' & language!='"Russian"' & language!='"Urdu"' & language!='"spanish"') #& language!='"English, Chinese"' & language!='"english and vietnamese"')
 # summary(lp$language)
 # length(p$workerid)
-summary(p)
+# summary(p)
 ```
 
 Second, there's also good reason to remove participants who answered the questions /far/ too quickly.
@@ -113,14 +109,11 @@ So, we use the 'gsub' function, to replace each of the problematic quotation mar
 A roundabout, but working solution.
 
 ```{r}
-table(p$Answer.time_in_minutes)
-
+# table(p$Answer.time_in_minutes)
 p$Answer.time_in_minutes <- gsub("\"", "", p$Answer.time_in_minutes)
 p$Answer.time_in_minutes <- as.numeric(as.character(p$Answer.time_in_minutes))
-
 p = subset(p, Answer.time_in_minutes >= 3)
-
-table(p$Answer.time_in_minutes)
+# table(p$Answer.time_in_minutes)
 
 ```
 
@@ -129,7 +122,7 @@ Our dataset contains a lot of information, and before proceeding there are two o
 First, we'll exclude filler trails, which will allow for more straightforward analysis code.
 Second, we'll exclude trains in which the respondents did not choose the 'correct' primes, in line with Bott and Chemla.
 
-Tthe following table will be useful to keep in mind as it shows that raw counts of trails relative to prime and response type.
+The following table will be useful to keep in mind as it shows that raw counts of trails relative to prime and response type.
 
 ```{r}
 table(p$responseTypeText, p$primeTypeText)
@@ -160,7 +153,6 @@ First, we see how many correct/incorrect prime responses there were.
 
 ```{r}
 table(rp$correctPChoices)
-prop.table(table(rp$correctPChoices))
 ```
 
 Second, filter using the fact that we had the foresight to log whether the respondant chose the correct primes.
@@ -183,7 +175,6 @@ We can now look at the raw counts of prime and reponse types again, if we like.
 
 ```{r}
 table(p$responseTypeText, p$primeTypeText)
-
 table(rp$responseTypeText, rp$primeTypeText)
 ```
 
@@ -250,7 +241,7 @@ rp.modelWithin = glmer(responseChoice ~ primeStrength * WithCat +  (1 + primeStr
 summary(rp.modelWithin)
 ```
 
-Of course, our interest is in a restriction of the main dataset so that 
+Of course, our interest is in a restriction of the main dataset so that we only cosnider within category reponses.
 
 ```{r}
 wrp.modelWithin = glmer(responseChoice ~ primeStrength * WithCat +  (1 + primeStrength * WithCat | workerid), data=wrp, family = binomial(link = "logit"))
@@ -259,17 +250,22 @@ summary(wrp.modelWithin)
 
 ##  Between detail
 
+We repeat the steps for the within category model.
+First, the model with respect to the rp dataset.
+
 ```{r}
 rp.modelBetween = glmer(responseChoice ~ primeStrength * BetCat  +  (1 + primeStrength * BetCat | workerid), data=rp, family = binomial(link = "logit"))
 summary(rp.modelBetween)
 ```
+
+And then with respect to the restriction of the rp dataset which only includes responses from the same category as the prime.
 
 ```{r}
 brp.modelBetween = glmer(responseChoice ~ primeStrength * BetCat  +  (1 + primeStrength * BetCat | workerid), data=brp, family = binomial(link = "logit"))
 summary(brp.modelBetween)
 ```
 
-# Visualising the data
+# Visualising the data (kind of)
 
 First we set the theme.
 ```{r}
@@ -492,9 +488,9 @@ primeCategory <- c('strongNUM4NUM4', 'weakNUM4NUM4', 'strongNUM4SOME', 'weakNUM4
 
 meanPercent <- c(strongNUM4NUM4MeanPercentage, weakNUM4NUM4MeanPercentage, strongNUM4SOMEMeanPercentage, weakNUM4SOMEMeanPercentage, strongSOMENUM4MeanPercentage, weakSOMENUM4MeanPercentage, strongSOMESOMEMeanPercentage, weakSOMESOMEMeanPercentage)
 
-meanPlusSEPercent <- c(strongNUM4NUM4MeanPlusSEPercentage, weakNUM4NUM4MeanPlusSEPercentage, strongNUM4SOMEMeanPlusSEPercentage, weakNUM4SOMEMeanPlusSEPercentage, strongSOMENUM4MeanPlusSEPercentage, weakSOMENUM4MeanPlusSEPercentage, strongSOMESOMEMeanPlusSEPercentage, weakSOMESOMEMeanPlusSEPercentage)
+meanPlusCIPercent <- c(strongNUM4NUM4MeanPlusSEPercentage, weakNUM4NUM4MeanPlusSEPercentage, strongNUM4SOMEMeanPlusSEPercentage, weakNUM4SOMEMeanPlusSEPercentage, strongSOMENUM4MeanPlusSEPercentage, weakSOMENUM4MeanPlusSEPercentage, strongSOMESOMEMeanPlusSEPercentage, weakSOMESOMEMeanPlusSEPercentage)
 
-meanMinusSEPercent <- c(strongNUM4NUM4MeanMinusSEPercentage, weakNUM4NUM4MeanMinusSEPercentage, strongNUM4SOMEMeanMinusSEPercentage, weakNUM4SOMEMeanMinusSEPercentage, strongSOMENUM4MeanMinusSEPercentage, weakSOMENUM4MeanMinusSEPercentage, strongSOMESOMEMeanMinusSEPercentage, weakSOMESOMEMeanMinusSEPercentage)
+meanMinusCIPercent <- c(strongNUM4NUM4MeanMinusSEPercentage, weakNUM4NUM4MeanMinusSEPercentage, strongNUM4SOMEMeanMinusSEPercentage, weakNUM4SOMEMeanMinusSEPercentage, strongSOMENUM4MeanMinusSEPercentage, weakSOMENUM4MeanMinusSEPercentage, strongSOMESOMEMeanMinusSEPercentage, weakSOMESOMEMeanMinusSEPercentage)
 
 rawMean <- c(strongNUM4NUM4Mean, weakNUM4NUM4Mean, strongNUM4SOMEMean, weakNUM4SOMEMean, strongSOMENUM4Mean, weakSOMENUM4Mean, strongSOMESOMEMean, weakSOMESOMEMean)
 
@@ -502,13 +498,11 @@ rawSD <- c(strongNUM4NUM4SD, weakNUM4NUM4SD, strongNUM4SOMESD, weakNUM4SOMESD, s
 
 rawSE <- c(strongNUM4NUM4SE, weakNUM4NUM4SE, strongNUM4SOMESE, weakNUM4SOMESE, strongSOMENUM4SE, weakSOMENUM4SE, strongSOMESOMESE, weakSOMESOMESE)
 
-rawMeanPlusSE <- c(strongNUM4NUM4MeanPlusSE, weakNUM4NUM4MeanPlusSE, strongNUM4SOMEMeanPlusSE, weakNUM4SOMEMeanPlusSE, strongSOMENUM4MeanPlusSE, weakSOMENUM4MeanPlusSE, strongSOMESOMEMeanPlusSE, weakSOMESOMEMeanPlusSE)
+rawMeanPlusCI <- c(strongNUM4NUM4MeanPlusSE, weakNUM4NUM4MeanPlusSE, strongNUM4SOMEMeanPlusSE, weakNUM4SOMEMeanPlusSE, strongSOMENUM4MeanPlusSE, weakSOMENUM4MeanPlusSE, strongSOMESOMEMeanPlusSE, weakSOMESOMEMeanPlusSE)
 
-rawMeanMinusSE <- c(strongNUM4NUM4MeanMinusSE, weakNUM4NUM4MeanMinusSE, strongNUM4SOMEMeanMinusSE, weakNUM4SOMEMeanMinusSE, strongSOMENUM4MeanMinusSE, weakSOMENUM4MeanMinusSE, strongSOMESOMEMeanMinusSE, weakSOMESOMEMeanMinusSE)
+rawMeanMinusCI <- c(strongNUM4NUM4MeanMinusSE, weakNUM4NUM4MeanMinusSE, strongNUM4SOMEMeanMinusSE, weakNUM4SOMEMeanMinusSE, strongSOMENUM4MeanMinusSE, weakSOMENUM4MeanMinusSE, strongSOMESOMEMeanMinusSE, weakSOMESOMEMeanMinusSE)
 
-
-
-bars.data <- data.frame(primeCategory, meanPercent, meanPlusSEPercent, meanMinusSEPercent, rawMean, rawSD,  rawSE, rawMeanPlusSE, rawMeanMinusSE)
+bars.data <- data.frame(primeCategory, meanPercent, meanPlusCIPercent, meanMinusCIPercent, rawMean, rawSD,  rawSE, rawMeanPlusSE, rawMeanMinusSE)
 
 bars.data
 ```
@@ -519,6 +513,8 @@ p.perc <- ddply(p,.(BetCat, primeStrengthText),summarise,prop = sum(as.numeric(a
 p.perc
 ```
 
+Here's a graph built in R, but it relies on straightforward proportions of responses, and so isn't really taking into account the relative difference in responses for the prime-category pairings.
+Rather than mess around with R visualisation, we proceeded with the calculations above and good, proper, hardworking, LaTeX.
 
 ```{r}
 ggplot(p.perc, aes(x=factor(BetCat),y=prop, fill=primeStrengthText, label=paste(round(prop*100), "%"))) +
@@ -531,11 +527,13 @@ ggplot(p.perc, aes(x=factor(BetCat),y=prop, fill=primeStrengthText, label=paste(
 
 ## Individual plots
 
-An alernative approach seems to be to generate plots for each category indepndently.
+An alernative approach would be to generate plots for each category indepndently.
 Here's some example code to do this.
+But again, it has the shortcomings described above.
+
 ```{r}
 psswp = subset(p, trial_type=='response' & BetCat=="SOMESOME")
-summary(psswp)
+# summary(psswp)
 psswp.perc <- ddply(psswp,.(primeStrengthText),summarise,prop = sum(as.integer(as.character(responseChoice)))/length(responseChoice))
 
 # ggplot(psswp.perc,aes(x=factor(primeStrengthText),y=psswp.perc,label=paste(round(psswp.perc*100), "%")),fill=primeStrength) +
@@ -645,9 +643,15 @@ head(brp)
 
 brpNumF <- subset(brp, primeTypeText=='"NUM4"')
 brpSome <- subset(brp, primeTypeText=='"SOME"')
+```
 
-summary(wrpNumF)
-summary(wrpSome)
+And to check we've done the right thing.
+
+```{r}
+table(brpNumF$primeTypeText, brpNumF$responseTypeText)
+table(brpSome$primeTypeText, brpSome$responseTypeText)
+# summary(wrpNumF)
+# summary(wrpSome)
 ```
 
 Now we've got the right data, let's run the appropriate models.
