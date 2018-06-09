@@ -50,6 +50,7 @@
     "sec:method"
     "sec:results"
     "tab:barresults"
+    "tab:halves"
     "sec:discussion")
    (LaTeX-add-bibliographies
     "ling245"))

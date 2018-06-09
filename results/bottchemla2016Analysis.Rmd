@@ -69,9 +69,8 @@ p$responseChoice = revalue(p$responseChoice, c("\"0\""="0", "\"1\""="1"))
 p$pOChoice = revalue(p$pOChoice, c("\"0\""="0", "\"1\""="1"))
 p$pTChoice = revalue(p$pTChoice, c("\"0\""="0", "\"1\""="1"))
 
-
+# Well, this didn't help the sum contrast problem…
 p$primeStrengthText = revalue(p$primeStrengthText, c('\"strong\"'="verystrong", '\"weak\"'="awfullyweak"))
-p$primeStrengthText
 ```
 
 We can check the revaluing worked by running the following lines.
@@ -306,11 +305,10 @@ Of course, our interest is in a restriction of the main dataset so that we only 
 
 ```{r}
 # contrasts(wrp$WithCat)
-# contrasts(wrp$primeStrengthText)
+contrasts(wrp$primeStrengthText)
 contrasts(wrp$WithCat) <- contr.treatment(4)
-contrasts(wrp$primeStrengthText) <- contr.sum(2)
+contrasts(wrp$primeStrengthText) <- contr("sum", base=2)
 # contrasts(wrp$WithCat)
-# contrasts(wrp$responseChoice)
 wrp.modelWithin = glmer(responseChoice ~ primeStrengthText * WithCat +  (1 + primeStrengthText * WithCat | workerid), data=wrp, family = binomial(link = "logit"))
 summary(wrp.modelWithin)
 ```
@@ -330,10 +328,10 @@ First, the model with respect to the rp dataset.
 And then with respect to the restriction of the rp dataset which only includes responses from the same category as the prime.
 
 ```{r}
-# contrasts(brp$BetCat)
-# contrasts(brp$primeStrengthText)
-contrasts(brp$BetCat) <- contr.treatment(6)
-contrasts(brp$primeStrengthText) <- contr.sum(2)
+contrasts(brp$BetCat)
+contrasts(brp$primeStrengthText)
+contrasts(brp$BetCat) <- contr("treatment")
+contrasts(brp$primeStrengthText) <- contr("sum", base=2)
 # contrasts(brp$BetCat)
 # contrasts(brp$responseChoice)
 brp.modelBetween = glmer(responseChoice ~ primeStrengthText * BetCat  +  (1 + primeStrengthText * BetCat | workerid), data=brp, family = binomial(link = "logit"))
@@ -687,22 +685,39 @@ rpnSnd = subset(rpn, trialNumber > 16)
 # summary(rpnSnd)
 ```
 
+And, make sure we get out categories correct.
+
+```{r}
+contrasts(rpn$primeStrengthText) <- contr("sum", base=2)
+contrasts(rpn$WithCat) <- contr("sum", base=1)
+contrasts(rpnFst$primeStrengthText) <- contr("sum", base=2)
+contrasts(rpnFst$WithCat) <- contr("sum", base=1)
+contrasts(rpnSnd$primeStrengthText) <- contr("sum", base=2)
+contrasts(rpnSnd$WithCat) <- contr("sum", base=1)
+```
+
 Now, let's run the basic model on both datasets
 
 ```{r}
-rpnFst.model = glmer(responseChoice ~ primeStrength*WithBet + (1 + primeStrength*WithBet | workerid), data=rpnFst, family="binomial")
-rpnSnd.model = glmer(responseChoice ~ primeStrength*WithBet + (1 + primeStrength*WithBet | workerid), data=rpnSnd, family="binomial")
+rpnHlv.model = glmer(responseChoice ~ primeStrengthText*WithCat*half + (1 + primeStrengthText*WithCat*half | workerid), data=rpn, family="binomial")
+rpnFst.model = glmer(responseChoice ~ primeStrengthText*WithCat + (1 + primeStrengthText*WithCat | workerid), data=rpnFst, family="binomial")
+rpnSnd.model = glmer(responseChoice ~ primeStrengthText*WithCat + (1 + primeStrengthText*WithCat | workerid), data=rpnSnd, family="binomial")
 ```
 
 Sucess! So let's look at the summaries.
 
-Here's the first:
+Here's taking into account the split
+```{r}
+summary(rpnHlv.model)
+```
+
+Here's the first half:
 
 ```{r}
 summary(rpnFst.model)
 ```
 
-And here's the second:
+And here's the second half:
 
 ```{r}
 summary(rpnSnd.model)
@@ -731,11 +746,23 @@ table(brpSome$primeTypeText, brpSome$responseTypeText)
 # summary(wrpSome)
 ```
 
-Now we've got the right data, let's run the appropriate models.
+Now we've got the right data, let's fix the factors
+
 
 ```{r}
-brpNumF.model = glmer(responseChoice ~ primeStrength + (1 + primeStrength | workerid), data=brpNumF, family="binomial")
-brpSome.model = glmer(responseChoice ~ primeStrength + (1 + primeStrength | workerid), data=brpSome, family="binomial")
+contrasts(brpNumF$primeStrengthText) <- contr("sum", base=2)
+contrasts(brpSome$primeStrengthText) <- contr("sum", base=2)
+
+
+```
+
+
+
+And now let's run the appropriate models.
+
+```{r}
+brpNumF.model = glmer(responseChoice ~ primeStrengthText + (1 + primeStrengthText | workerid), data=brpNumF, family="binomial")
+brpSome.model = glmer(responseChoice ~ primeStrengthText + (1 + primeStrengthText | workerid), data=brpSome, family="binomial")
 ```
 
 And, we can see the summary for the number prime:

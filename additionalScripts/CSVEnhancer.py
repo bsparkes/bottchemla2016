@@ -19,8 +19,13 @@ with open('../data/bottchemla2016.csv', encoding='utf-8') as f:
     if q['trial_type'] == '"response"':
       q['trialNumber'] = trialNumber
       trialNumber += 1
+      if trialNumber <= 17:
+        q['half'] = 1
+      else:
+        q['half'] = 2
     else:
       q['trialNumber'] = 0
+      q['half'] = 0
 
 keys = reader[0].keys()
 with open('../data/bottchemla2016Numbered.csv', 'w', newline='',encoding='utf-8') as output_file:
