@@ -495,27 +495,24 @@ However, as \citeauthor{Bott:2016aa} do not include information about the catego
       & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
       \hline
       Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & & & \\
- &       (Intercept)   &                 0.95132 &   0.35346 &   2.691 &0.007115 \\
- &  primeStrength     &             0.03236 &   0.17817 &   0.182 &0.855902 \\
- &  WithBet"within"    &           -0.60001 &   0.17277 &  -3.473 &0.000515 \\
-      & primeStrength:WithBet"within" &  1.17609 &    0.28439 &   4.135 & 3.54e-05 \\
+    &  (Intercept) & 0.963363 & 0.346362 & 2.781 & 0.00541 \\ 
+    &  Prime &           0.309976 &   0.073970 &   4.191 &  2.78e-05 \\
+    &  WithBet &                     0.005819 &   0.067153 &   0.087 &   0.93095 \\
+    &  Prime:WithBet & -0.294027 &   0.071094 &  -4.136 &  3.54e-05 \\
       & & & & & \\
-      Within simple & Prime & 0.993 & 0.059 & 16.950 & <.001 \\
-      Between Simple & Prime & 0.133 & 0.033 & 4.082 & <.001 \\
+      Between Simple & Prime &  0.01610 &   0.08906 &   0.181 &   0.8566 \\
+      Within Simple &  & 0.58808  &  0.14217  &  4.137 & 3.53e-05 \\
+
       Within detail & \multicolumn{2}{l}{\(\text{Prime} * \text{WithCat} + (1 + \text{Prime} * \text{WithCat} \mid \text{subject})\)}  & & & \\
-      & (Intercept)  & -2.088 & 0.255 & -8.185 & <.001\\
-      & Prime & 1.239 & 0.109 & 11.374 & <.001 \\
-      & WithCatNUM4 & 2.068 & 0.195 & 10.588 & <.001 \\
-      & WithCatSOME & 1.823 & 0.157 & 11.598 & <.001 \\
-      & Prime:WithCatNUM4 & 0.174 & 0.166 & 1.046 & .269 \\
-      & Prime:WithCatSOME & -0.138 & 0.137 & -1.007 & .314 \\
+   & (Intercept)                      &  1.3608 &     0.4597 &   2.960 & 0.003075 \\
+   & Prime               &  0.7591 &     0.2064 &   3.678 & 0.000235 \\
+   & WithCatSOME                    & -0.7835 &     0.4315 &  -1.816 & 0.069437 \\
+   & Prime:WithCatSOME & -0.1640 &     0.2651 &  -0.618 & 0.536260 \\
       Between detail & \multicolumn{2}{l}{\(\text{Prime} * \text{BetCat} + (1 + \text{Prime} * \text{BetCat} \mid \text{subject})\)}  & & & \\
-      & (Intercept)  & -0.691 & 0.204 & -3.384 & <.001\\
-      & Prime & 0.145 & 0.058 & 0.058 & .012 \\
-      & BetCatSOMEADH & -0.054 & 0.089 & -0.611 & .540 \\
-      & BetCatSOMENUM4 & 0.889 & 0.112 & 7.915 & <.001 \\
-      & Prime:BetCatSOMEADH & -0.069 & 0.079 & -0.873 & .383 \\
-      & Prime:BetCatSOMENUM4 & 0.078 & 0.088 & 0.888 & .374 \\
+   & (Intercept)        &                   0.89915 & 0.50608 &   1.777 & 0.0756 \\
+   & Prime  &                 -0.08633 & 0.15969 &  -0.541 & 0.5888 \\
+   & BetCatSOMENUM4   &                   0.86113 & 0.45078 &   1.910 & 0.0561 \\
+   & Prime:BetCatSOMENUM" &  0.36162 & 0.28226 &   1.281 & 0.2001 \\
       \hline
     \end{tabular}
   % \end{adjustbox}

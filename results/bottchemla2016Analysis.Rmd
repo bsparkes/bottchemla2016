@@ -19,6 +19,7 @@ library(plyr) # for figuring out percentages
 library(dplyr)
 library(sjPlot)
 library(sjmisc)
+library(memisc)
 ```
 
 # Preliminaries
@@ -67,6 +68,10 @@ This will then allow us to use the 'as.integer' and 'as.character' functions to 
 p$responseChoice = revalue(p$responseChoice, c("\"0\""="0", "\"1\""="1"))
 p$pOChoice = revalue(p$pOChoice, c("\"0\""="0", "\"1\""="1"))
 p$pTChoice = revalue(p$pTChoice, c("\"0\""="0", "\"1\""="1"))
+
+
+p$primeStrengthText = revalue(p$primeStrengthText, c('\"strong\"'="verystrong", '\"weak\"'="awfullyweak"))
+p$primeStrengthText
 ```
 
 We can check the revaluing worked by running the following lines.
@@ -229,16 +234,19 @@ Follow Bott and Chemla, we'll be using a logit mixed-effect model, so 'gmler' do
 However, we need to set the right contrasts first.
 
 ```{r}
-# contrasts(rpS$WithBet)
-# contrasts(rpS$primeStrengthText)
-contrasts(rp$WithBet) <- contr.sum(2)
-contrasts(rp$primeStrengthText) <- contr.sum(2)
-# contrasts(rpS$WithBet)
-# contrasts(rpS$primeStrengthText)
+
+contrasts(rp$WithBet)
+contrasts(rp$primeStrengthText)
+contrasts(rp$primeStrengthText) <- contr("sum", base=2)
+contrasts(rp$WithBet) <- contr("sum", base=1)
+contrasts(rp$WithBet)
+contrasts(rp$primeStrengthText)
 
 rp.model = glmer(responseChoice ~ primeStrengthText*WithBet + (1 + primeStrengthText*WithBet | workerid), data=rp , family="binomial")
 ```
-Sucess! So let's look at a summary.
+Success! So let's look at a summary.
+
+
 ```{r}
 summary(rp.model)
 ```
@@ -246,19 +254,34 @@ summary(rp.model)
 ## Ugh
 
 Bott and Chemla include a model with the same structure, but with a change of contrasts for the within/between factor to investigate simple effects.
+First the slope for between.
 
 ```{r}
 rpS <- rp
-# contrasts(rpS$WithBet)
-# contrasts(rpS$primeStrengthText)
-contrasts(rpS$WithBet) <- contr.treatment(2)
-contrasts(rpS$primeStrengthText) <- contr.sum(2)
 contrasts(rpS$WithBet)
 contrasts(rpS$primeStrengthText)
-contrasts(rpS$responseChoice)
+contrasts(rpS$primeStrengthText) <- contr("sum", base=2)
+contrasts(rpS$WithBet) <- contr("treatment", base=1)
+contrasts(rpS$WithBet)
+contrasts(rpS$primeStrengthText)
 
-rp.simpleModel <- glmer(responseChoice ~ primeStrengthText*WithBet + (1 + primeStrengthText*WithBet | workerid), data=rpS, family="binomial", contrasts = list(WithBet = "contr.treatment", primeStrengthText = "contr.sum"))
+rp.simpleModel <- glmer(responseChoice ~ primeStrengthText*WithBet + (1 + primeStrengthText*WithBet | workerid), data=rpS, family="binomial")
 summary(rp.simpleModel)
+```
+
+And now the slope for within.
+
+```{r}
+rpS2 <- rp
+contrasts(rpS2$WithBet)
+contrasts(rpS2$primeStrengthText)
+contrasts(rpS2$primeStrengthText) <- contr("sum", base=2)
+contrasts(rpS2$WithBet) <- contr("treatment", base=2)
+contrasts(rpS2$WithBet)
+contrasts(rpS2$primeStrengthText)
+
+rp.simpleModel2 <- glmer(responseChoice ~ primeStrengthText*WithBet + (1 + primeStrengthText*WithBet | workerid), data=rpS2, family="binomial")
+summary(rp.simpleModel2)
 ```
 
 
