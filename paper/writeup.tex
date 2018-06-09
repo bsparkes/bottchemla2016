@@ -495,10 +495,11 @@ However, as \citeauthor{Bott:2016aa} do not include information about the catego
       & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
       \hline
       Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & & & \\
-      & (Intercept) & -0.594 & 0.198 & -2.991 & .003 \\
-      & Prime & 0.563 & 0.034 & 16.342 & <.001 \\
-      & WithBet & 0.126 & 0.029 & 4.284 & <.001 \\
-      & Prime:WithBet & -0.430 & 0.033 & -13.177 & <.001 \\
+ &       (Intercept)   &                 0.95132 &   0.35346 &   2.691 &0.007115 \\
+ &  primeStrength     &             0.03236 &   0.17817 &   0.182 &0.855902 \\
+ &  WithBet"within"    &           -0.60001 &   0.17277 &  -3.473 &0.000515 \\
+      & primeStrength:WithBet"within" &  1.17609 &    0.28439 &   4.135 & 3.54e-05 \\
+      & & & & & \\
       Within simple & Prime & 0.993 & 0.059 & 16.950 & <.001 \\
       Between Simple & Prime & 0.133 & 0.033 & 4.082 & <.001 \\
       Within detail & \multicolumn{2}{l}{\(\text{Prime} * \text{WithCat} + (1 + \text{Prime} * \text{WithCat} \mid \text{subject})\)}  & & & \\

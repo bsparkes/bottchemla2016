@@ -15,9 +15,10 @@ library(tidyverse)
 library(lme4)
 library(languageR)
 library(plyr) # for figuring out percentages
-library(stargazer) # for latex export
 # library(quantmod)
 library(dplyr)
+library(sjPlot)
+library(sjmisc)
 ```
 
 # Preliminaries
@@ -112,6 +113,7 @@ A roundabout, but working solution.
 # table(p$Answer.time_in_minutes)
 p$Answer.time_in_minutes <- gsub("\"", "", p$Answer.time_in_minutes)
 p$Answer.time_in_minutes <- as.numeric(as.character(p$Answer.time_in_minutes))
+mean(p$Answer.time_in_minutes)
 p = subset(p, Answer.time_in_minutes >= 3)
 # table(p$Answer.time_in_minutes)
 
@@ -224,29 +226,73 @@ We're now ready to create a model!
 ## The broad dataset
 First, let's look at the dataset where the only operation we've performed is removing fillers, and trails for which the participant did not choose the correct responses for the primes they saw.
 Follow Bott and Chemla, we'll be using a logit mixed-effect model, so 'gmler' does the trick.
+However, we need to set the right contrasts first.
+
 ```{r}
-rp.model = glmer(responseChoice ~ primeStrength*WithBet + (1 + primeStrength*WithBet | workerid), data=rp, family="binomial")
+# contrasts(rpS$WithBet)
+# contrasts(rpS$primeStrengthText)
+contrasts(rp$WithBet) <- contr.sum(2)
+contrasts(rp$primeStrengthText) <- contr.sum(2)
+# contrasts(rpS$WithBet)
+# contrasts(rpS$primeStrengthText)
+
+rp.model = glmer(responseChoice ~ primeStrengthText*WithBet + (1 + primeStrengthText*WithBet | workerid), data=rp , family="binomial")
 ```
 Sucess! So let's look at a summary.
 ```{r}
 summary(rp.model)
 ```
 
+## Ugh
+
+Bott and Chemla include a model with the same structure, but with a change of contrasts for the within/between factor to investigate simple effects.
+
+```{r}
+rpS <- rp
+# contrasts(rpS$WithBet)
+# contrasts(rpS$primeStrengthText)
+contrasts(rpS$WithBet) <- contr.treatment(2)
+contrasts(rpS$primeStrengthText) <- contr.sum(2)
+contrasts(rpS$WithBet)
+contrasts(rpS$primeStrengthText)
+contrasts(rpS$responseChoice)
+
+rp.simpleModel <- glmer(responseChoice ~ primeStrengthText*WithBet + (1 + primeStrengthText*WithBet | workerid), data=rpS, family="binomial", contrasts = list(WithBet = "contr.treatment", primeStrengthText = "contr.sum"))
+summary(rp.simpleModel)
+```
+
+
+```{r}
+# sjp.setTheme(theme = "forest")
+# sjp.glmer(rp.model,
+#           facet.grid = FALSE,
+#           sort = "sort.all")
+```
+
+
 ## Within detail
 
 Now let's take a look at the case of within category priming.
 The parameters we use follow those of Bott and Chemla, and we can first look at their effect of the main dataset.
 ```{r}
-rp.modelWithin = glmer(responseChoice ~ primeStrength * WithCat +  (1 + primeStrength * WithCat | workerid), data=rp, family = binomial(link = "logit"))
-summary(rp.modelWithin)
+# rp.modelWithin = glmer(responseChoice ~ primeStrength * WithCat +  (1 + primeStrength * WithCat | workerid), data=rp, family = binomial(link = "logit"))
+# summary(rp.modelWithin)
 ```
 
 Of course, our interest is in a restriction of the main dataset so that we only cosnider within category reponses.
 
 ```{r}
-wrp.modelWithin = glmer(responseChoice ~ primeStrength * WithCat +  (1 + primeStrength * WithCat | workerid), data=wrp, family = binomial(link = "logit"))
+# contrasts(wrp$WithCat)
+# contrasts(wrp$primeStrengthText)
+contrasts(wrp$WithCat) <- contr.treatment(4)
+contrasts(wrp$primeStrengthText) <- contr.sum(2)
+# contrasts(wrp$WithCat)
+# contrasts(wrp$responseChoice)
+wrp.modelWithin = glmer(responseChoice ~ primeStrengthText * WithCat +  (1 + primeStrengthText * WithCat | workerid), data=wrp, family = binomial(link = "logit"))
 summary(wrp.modelWithin)
 ```
+
+
 
 ##  Between detail
 
@@ -254,14 +300,20 @@ We repeat the steps for the within category model.
 First, the model with respect to the rp dataset.
 
 ```{r}
-rp.modelBetween = glmer(responseChoice ~ primeStrength * BetCat  +  (1 + primeStrength * BetCat | workerid), data=rp, family = binomial(link = "logit"))
-summary(rp.modelBetween)
+# rp.modelBetween = glmer(responseChoice ~ primeStrength * BetCat  +  (1 + primeStrength * BetCat | workerid), data=rp, family = binomial(link = "logit"))
+# summary(rp.modelBetween)
 ```
 
 And then with respect to the restriction of the rp dataset which only includes responses from the same category as the prime.
 
 ```{r}
-brp.modelBetween = glmer(responseChoice ~ primeStrength * BetCat  +  (1 + primeStrength * BetCat | workerid), data=brp, family = binomial(link = "logit"))
+# contrasts(brp$BetCat)
+# contrasts(brp$primeStrengthText)
+contrasts(brp$BetCat) <- contr.treatment(6)
+contrasts(brp$primeStrengthText) <- contr.sum(2)
+# contrasts(brp$BetCat)
+# contrasts(brp$responseChoice)
+brp.modelBetween = glmer(responseChoice ~ primeStrengthText * BetCat  +  (1 + primeStrengthText * BetCat | workerid), data=brp, family = binomial(link = "logit"))
 summary(brp.modelBetween)
 ```
 
@@ -502,7 +554,7 @@ rawMeanPlusCI <- c(strongNUM4NUM4MeanPlusSE, weakNUM4NUM4MeanPlusSE, strongNUM4S
 
 rawMeanMinusCI <- c(strongNUM4NUM4MeanMinusSE, weakNUM4NUM4MeanMinusSE, strongNUM4SOMEMeanMinusSE, weakNUM4SOMEMeanMinusSE, strongSOMENUM4MeanMinusSE, weakSOMENUM4MeanMinusSE, strongSOMESOMEMeanMinusSE, weakSOMESOMEMeanMinusSE)
 
-bars.data <- data.frame(primeCategory, meanPercent, meanPlusCIPercent, meanMinusCIPercent, rawMean, rawSD,  rawSE, rawMeanPlusSE, rawMeanMinusSE)
+bars.data <- data.frame(primeCategory, meanPercent, meanPlusCIPercent, meanMinusCIPercent, rawMean, rawSD,  rawSE, rawMeanPlusCI, rawMeanMinusCI)
 
 bars.data
 ```
@@ -532,9 +584,9 @@ Here's some example code to do this.
 But again, it has the shortcomings described above.
 
 ```{r}
-psswp = subset(p, trial_type=='response' & BetCat=="SOMESOME")
+# psswp = subset(p, trial_type=='response' & BetCat=="SOMESOME")
 # summary(psswp)
-psswp.perc <- ddply(psswp,.(primeStrengthText),summarise,prop = sum(as.integer(as.character(responseChoice)))/length(responseChoice))
+# psswp.perc <- ddply(psswp,.(primeStrengthText),summarise,prop = sum(as.integer(as.character(responseChoice)))/length(responseChoice))
 
 # ggplot(psswp.perc,aes(x=factor(primeStrengthText),y=psswp.perc,label=paste(round(psswp.perc*100), "%")),fill=primeStrength) +
 #   geom_bar(colour="black", stat="identity", position=position_dodge()) +
@@ -550,12 +602,14 @@ Here's an easy way to do it.
 The idea, basically, is to make a new dataframe with only the results from the relevant trials, then one simply, uses this ddply to combine the results of applying the proportion function to each trial type.
 
 As we're only interested in visualising the data in this case, we'll make things easier by filtering our initial dataset, refined to exlude filler trails and cases where the respondant did not select the 'correct' prime choices, by the two between category prime and response type pairs of interest.
+Though, again, the problems noted above mean that we won't use this in our analysis.
+
 ```{r}
-summary(rp)
-cc = subset(rp, trial_type=='"response"' & (BetCat=='"NUM4SOME"' | BetCat=='"SOMENUM4"'))
-summary(cc)
-cc.perc <- ddply(cc,.(primeStrengthText),summarise, prop = sum(as.integer(as.character(responseChoice)))/length(responseChoice))
-cc.perc
+# summary(rp)
+# cc = subset(rp, trial_type=='"response"' & (BetCat=='"NUM4SOME"' | BetCat=='"SOMENUM4"'))
+# summary(cc)
+# cc.perc <- ddply(cc,.(primeStrengthText),summarise, prop = sum(as.integer(as.character(responseChoice)))/length(responseChoice))
+# cc.perc
 ```
 
 
@@ -566,14 +620,14 @@ An unfortunate oversight, as Bott and Chemla play around with splitting the data
 However, there's a somewhat easy fix, as the CSV implicitly contains the order of the trials, following the order of the rows in the CSV.
 So, using a quick python script we can add a column for the trial number to the dataset.
 We save this to the bottchemla2016Numbered CSV.
-Let's load this up, and observe the newely added column 'trialNumber' at the end of each row.
+Let's load this up, and observe the newely added column 'trialNumber' at the end of each row, summarised by the table below.
 Whether or not filler trials should be taken into account is not clear from what Bott and Chemla say.
 So, as a design choice we decided not to include these in our counts, to get an even split.
 This means all filler trails have the number 0, and counting for response trials starts at 1 and goes to 32.
 
 ```{r}
 pn = read.csv("../data/bottchemla2016Numbered.csv", quote = "\"")
-head(pn)
+table(pn$trialNumber)
 ```
 
 Now we've got our enhanced dataset, let's do the same refinements as before.
