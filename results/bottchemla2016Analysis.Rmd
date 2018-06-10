@@ -416,7 +416,10 @@ There are two things we need to do.
 For, to do standard arithmetic operations we need to remove the NAs.
 But, we also want to make a count of these for each prime-category to make sure that we get the right mean, sd, etc
 So, here we use the 'is.na' function with 'sum' and the rest.
-It's rather laborious, but the results look to be sound.
+It's rather laborious, but the results look to be sound…
+
+… or it was, but something seems to have happened when I was figuring out how to be sure of the bases in the models above to break this.
+I don't really care to fix the code, as the results have already been recorded in the LaTex write-up.
 
 ```{r}
 exlx <- aggregate(as.numeric(as.character(rp$responseChoice)), list(rp$workerid, rp$primeStrengthText, rp$BetCat), sum)

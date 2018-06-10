@@ -1,7 +1,7 @@
-\documentclass[10pt]{article}
+\documentclass[noamssymb]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-\usepackage[margin=1in]{geometry}
+% \usepackage[margin=1in]{geometry}
 % \newcommand\hmmax{0}
 % \newcommand\bmmax{0}
 
@@ -20,11 +20,12 @@
    \setsansfont[Scale=MatchLowercase,Ligatures=TeX]{Myriad Pro}
    \setmonofont[Scale=0.8]{Atlas Typewriter}
 
+   \newfontfamily{\ftf}[Ligatures=TeX]{Comic Neue Angular}
    % \usepackage{selnolig}% For suppressing certain typographic ligatures automatically
    \usepackage{microtype}
 % % % % % % % % %
-\usepackage{amsthm}         % (in part) For the defined environments
-\usepackage{mathtools}      % Improves  on amsmaths/mtpro2
+% \usepackage{amsthm}         % (in part) For the defined environments
+% \usepackage{mathtools}      % Improves  on amsmaths/mtpro2
 \usepackage{bbding}         % For hand pointers, etc.
 
 % % The bibliography % % %
@@ -32,13 +33,11 @@
             style=authoryear-comp,
             citestyle=authoryear-comp,
             backref=false,
-            hyperref=true,
+            % hyperref=true,
             url=false,
             isbn=false,
            ]{biblatex}
 % % \renewcommand*{\bibfont}{\small}
-\DeclareFieldFormat{postnote}{#1}
-\DeclareFieldFormat{multipostnote}{#1}
 % \setlength\bibitemsep{1.5\itemsep}
 \addbibresource{ling245.bib}
 
@@ -62,8 +61,11 @@
 
 % % For Figures % % %
 \usepackage{tikz} % For drawings
+\usetikzlibrary{shadows}
+\usetikzlibrary{arrows,positioning}
 \usepackage{graphicx}
 \usepackage{pgfplots}
+
 % \pgfplotsset{compat=1.15}
 \usepackage{wrapfig}
 \usepackage{float} % For correctly placed floats
@@ -71,40 +73,23 @@
 % \captionsetup{compatibility=false}
 % % % % % % % % % % %
 
-% For plots
-
-
-% \usepackage{graphicx}
-
 % % % Misc packages % % %
 
 % \usepackage{refcheck} % Can be used for checking references
 % \usepackage{lineno}   % For line numbers
-\usepackage{multicol} % For multiple columns
+% \usepackage{multicol} % For multiple columns
 % \usepackage{mathrsfs} % For elegant Latin math letters
 % \usepackage{hyphenat} % For \hyp{} hyphenation command, and general hyphenation stuff
 % \usepackage{titling} % for multiple titles
 % % % % % % % % % % % % %
 
-\usepackage{chngcntr}
-\counterwithout{paragraph}{subsubsection}
-\renewcommand{\theparagraph}{\arabic{paragraph}.}
-\setcounter{secnumdepth}{4}
-\usepackage{titlesec}
-% \titleformat{\paragraph}[runin]{\normalfont}{\indent}{\wordsep}{}
-% \titlespacing{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{5\wordsep}
-% \titleformat{\paragraph}[runin]{\normalfont}{}{\wordsep}{}
-% \titlespacing{\paragraph}{0pt}{1ex plus .2ex minus .2ex}{0pt}
-\titleformat{\paragraph}[hang]{\em}{}{0em}{}
-\titlespacing{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{5\wordsep}
-
+\usepackage{changepage}
 \usepackage[export]{adjustbox}
 
-\usepackage[hidelinks,breaklinks]{hyperref}
+ \usepackage{pifont}
+ \newcommand{\hand}{\ding{43}}
 
-
-
-\title{Ling 245 Class Project Paper}
+\title{Ling 245 Project Presentation}
 \author{Benjamin Sparkes}
 % \date{}
 
@@ -137,235 +122,463 @@ strongSOMESOME &  0.6966165 & 0.7497500 & 0.6434830 &  2.329545 & 1.713514 & 0.1
 }\SOMESOMEData
 % % End data
 
-\maketitle
+
+\begin{frame}
+  \maketitle
+\end{frame}
 
 
-\begin{abstract}
-  Partial replication of Experiment 1 from \textcite{Bott:2016aa}.
-  Main results are:
-  \begin{enumerate*}[label=\alph*)]
-  \item Replication of priming effects in general,
-  \item failure to replicate between-category priming effect,
-  \item replication of within-category priming effect,
-  \item replication of no significant effects when splitting the data in half,
-  \item replication of no significant effect in between-category priming with respect to the prime and target categories.
-  \end{enumerate*}
-  Main theoretical result: less support for shared reasoning processes between distinct instances of enrichment via alternatives.
-\end{abstract}
+\begin{frame}
+  \frametitle{{\ftf Motivation}}
 
-\begin{multicols}{2}
+  \begin{quote}
+    Our approach was to test whether enrichments can be primed across expressions.
+    If different sorts of enrichments can prime each other, there must be an abstract mechanism that is shared between them.
+    By testing which enrichments prime each other and which don’t, we can specify what the common mechanism might be.\nolinebreak
+    \hfill(\citeyear[118]{Bott:2016aa})
+\end{quote}
 
-% \section*{Things to Note}
-% \label{sec:things-note}
+\begin{itemize}
+\item[\hand] Are there are shared reasoning processes which apply to distinct instances of enrichment via alternatives, or whether each category of enrichment has its on specialised process?
+  \begin{itemize}
+  \item[\(\leadsto\)] \citeauthor{Bott:2016aa} are interested in whether priming can occur at all \emph{given} a prior assumption of enrichment via alternatives.
+  \end{itemize}
+\end{itemize}
+\end{frame}
 
-% Need a decent number of observations from each individual on each trial for the analysis \citeauthor{Bott:2016aa} perform to work.
-% Here, `decent number' means that we need at least one primeStrength and (WithCat/BetCat) trial with correct prime choices, else there are going to be fewer observations than random effects.
+\begin{frame}
+  \frametitle{{\ftf Thoughts on the Question}}
+ The question of whether or not there are shared reasoning processes which apply to distinct instances of enrichment via alternatives, or whether each category of enrichment has its on specialised process has a nice cognitive feel.
 
-\section{Introduction}
-\label{sec:introduction}
+ \begin{itemize}
+  \item Intuitively there's some positive upshot whichever way the data points.
+    \begin{enumerate}[label=(\roman*)]
+    \item If there is cross-category enrichment, then there is a need to posit shared reasonig processes.
+    \item If there is no cross-category enrichment, then one should posit distinct reasoning processes.
+    \end{enumerate}
+    \end{itemize}
+  However, it is important to note that each of these carries a presupposition that the data can/should/will support one of these resolutions.
+  And, as we shall see, there is no guarantee that the data will be so clean.
 
-The core question of \textcite{Bott:2016aa} is whether or not there are shared reasoning processes which apply to distinct instances of enrichment via alternatives, or whether each category of enrichment has its on specialised process.
-(\citeyear[118]{Bott:2016aa})
-One may worry that this begs the question with respect to what kind of explanation one should give to pragmatic reasoning of the kind considered by \citeauthor{Bott:2016aa} in favour of enrichment via alternatives.
-There are two items to note in this respect.
-First, assuming that an explanation is correct is not quite the same as begging the question.
-So long as we, or \citeauthor{Bott:2016aa}, are not attempting to support enrichment via alternatives as an explanation for (certain cases of) pragmatic reasoning, there's no worry in assuming that it's correct.
-Second, \citeauthor{Bott:2016aa}, indeed, are not attempting to support enrichment via alternatives as an explanation for (certain cases of) pragmatic reasoning.
-This may not appear to be consistent with statements such as:
-`Our approach was to test whether enrichments can be primed across expressions.' (\citeyear[118]{Bott:2016aa}).
-This may suggests that \citeauthor{Bott:2016aa} are interested in whether priming can occur at all, but when this is followed by:
-`If different sorts of enrichments can prime each other, there must be an abstract mechanism that is shared between them.
-By testing which enrichments prime each other and which don’t, we can specify what the common mechanism might be.' (\citeyear[118]{Bott:2016aa})
-It should be clear that \citeauthor{Bott:2016aa} are interested in whether priming can occur at all \emph{given} a prior assumption of enrichment via alternatives.
+\end{frame}
 
-The question of whether or not there are shared reasoning processes which apply to distinct instances of enrichment via alternatives, or whether each category of enrichment has its on specialised process has a nice cognitive feel.
-For, it would seem that there's some positive upshot whichever way the data points.
-If there is cross-category enrichment, then there is a need to posit shared reasonig processes.
-And, if there is no cross-category enrichment, then one should posit distinct reasoning processes.
-While the question has a nice cognitive feel given these resolutions, it is important to note that each of these carries a presupposition that the data can/should/will support one of these resolutions.
-However, (and as we shall see) there is no guarantee that the data will be so clean.
+\begin{frame}
+  \frametitle{{\ftf \citeauthor{Bott:2016aa}'s Experiments}}
+  \citeauthor{Bott:2016aa} ran three experiments, in which participants are presented with trials consisting of a setence and two picutures, and are asked to select the picture which best reflects the sentence.
 
-\citeauthor{Bott:2016aa} ran three experiments, in which participants are presented with trials consisting of a setence and two picutures, and are asked to select the picture which best reflects the sentence.
-We'll go into the details below, as for now the relevant detail is that trials are split into \emph{prime} and \emph{response}, and every response trial is preceeded by two prime trials which are used to ensure the participant considers certain alternatives.
-For the two pictures in the response trial, one picture is consistent with the semantic content of the sentence, and the other contains the words `Better Picture?', which the participants were instructed to click if they felt the the other picture did not sufficiently capture the sentence meaning.
-This allows us to state the basic linking hypothesis, which is that prior trials will effect how participants evaluate sentences, and that in response trials participants click on `Better Picture?' if they process the setence pragmatically, and the semantically adequate picture otherwise.
+  Trials are split into \emph{prime} and \emph{response}, and every response trial is preceeded by two prime trials which are used to ensure the participant considers certain alternatives.
 
-\citeauthor{Bott:2016aa} do not make predictions regarding the results of the experiment.
-Instead, their core interest is in how the question noted above should be resolved.
-However, they do note that `[i]f enrichment can be primed at all, we would expect within-category priming' and that `[i]f the \emph{numbers}, \emph{some} and \emph{ad hoc} EVAs share enrichment mechanisms we would expect them to prime each other, so that a strong some prime, for example, leads to a greater proportion of strong number responses.'
-(\citeyear[122]{Bott:2016aa})
-And, from the results of \citeauthor{Bott:2016aa}'s experiment, one should expect to see a significant effect of priming, both within and between categories.
+  For the two pictures in the response trial, one picture is consistent with the semantic content of the sentence, and the other contains the words `Better Picture?', which the participants were instructed to click if they felt the the other picture did not sufficiently capture the sentence meaning.
 
-This paper contains the results of a (partial) replication of Experiment 1 of \textcite{Bott:2016aa}.
-The replication is partial for two reasons:
-\begin{enumerate*}[label=\arabic*)]
-\item the replication ran with half the number of participants compared with \citeauthor{Bott:2016aa}'s original experiment (100 and 200 participants, respectively), and
-\item the replication contained only two enrichment categories, as opposed to three in the original.
-\end{enumerate*}
-The basis for both modifications was straightforward cost considerations, and by uncommenting a few lines of code (and fixing any bugs that this may cause) allows for the full experiment to be run.
-We will discuss the second aspect of this modification in detail after reviewing \citeauthor{Bott:2016aa}'s paper.
+  This allows us to state the basic linking hypothesis, which is that prior trials will effect how participants evaluate sentences, and that in response trials participants click on `Better Picture?' if they process the setence pragmatically, and the semantically adequate picture otherwise.
+\end{frame}
 
-The code for the experiment, data collected, analysis scripts, and other relevant resources can be found at \url{https://github.com/bsparkes/bottchemla2016}\nolinebreak
-\footnote{Though \url{https://gitlab.com/bsparkes/bottchemla2016} is more likely to stick around.}\nolinebreak
-, and one can experience the experiment at \url{https://bsparkes.github.io/bottchemla2016/experiment/html/bottchemla2016.html}.
+\begin{frame}
+  \frametitle{{\ftf Details of the Experiment}}
 
-The experiment was registered with OSF (\url{https://osf.io/5bnmr/register/5771ca429ad5a1020de2872e}), though due to forgetfulness this was not strictly a \emph{pre}registration as the experiment had been initialised earlier the same day.
-Still, as the analysis of the experiment will follow that of \citeauthor{Bott:2016aa}, there isn't much room for funny business.
+The sentences were constructed using one of two frames:
+\begin{enumerate}[label=(\roman*)]
+\item Some of the symbols are [symbol]
+\item There are four [symbol]
+\end{enumerate}
 
+\citeauthor{Bott:2016aa} included a third frame:
+\begin{enumerate}[label=(\roman*), resume]
+\item There is a [symbol].
+\end{enumerate}
+\end{frame}
 
+\begin{frame}
+  \frametitle{{\ftf Example}}
 
-
-
-\section{The Experiment}
-\label{sec:experiment}
-
-\begin{figure*}[ht]
- \centering
-  \begin{tikzpicture}[scale=1]
+  \begin{adjustbox}{width=1.3\textwidth, center=13cm}
+  \begin{tikzpicture}
     \draw (-7,0) -- (-2,0);
     \node[text width=6cm] at (-2,5) {\emph{Prime}};
     \node[text width=6cm] at (7,5) {\emph{Target}};
     \node[text width=6cm] at (-5.75,2.125) {\emph{Strong}};
     \node[text width=6cm] at (-5.75,-2.375) {\emph{Weak}};
     \node[text width=6cm] at (-3.875,4) {\textsf{Some of the symbols are squares}};
-    \node[inner sep=0pt] (p1L) at (-6,2) {\includegraphics[width=.15\linewidth, frame]{images/p1LSpquares.png}};
-    \node[inner sep=0pt] (p1R) at (-3,2) {\includegraphics[width=.15\linewidth, frame]{images/p1RSquares.png}};
+    \node[inner sep=0pt] (p1L) at (-6,2) {\includegraphics[width=.15\linewidth, fbox]{images/p1LSpquares.png}};
+    \node[inner sep=0pt] (p1R) at (-3,2) {\includegraphics[width=.15\linewidth, fbox]{images/p1RSquares.png}};
     \node[text width=6cm] at (-3.6,-.5) {\textsf{Some of the symbols are stars}};
-    \node[inner sep=0pt] (p2L) at (-6,-2.5) {\includegraphics[width=.15\linewidth, frame]{images/p2LStars.png}};
-    \node[inner sep=0pt] (p2R) at (-3,-2.5) {\includegraphics[width=.15\linewidth, frame]{images/p2RStars.png}};
+    \node[inner sep=0pt] (p2L) at (-6,-2.5) {\includegraphics[width=.15\linewidth, fbox]{images/p2LStars.png}};
+    \node[inner sep=0pt] (p2R) at (-3,-2.5) {\includegraphics[width=.15\linewidth, fbox]{images/p2RStars.png}};
     \node[text width=6cm] at (5.375,2) {\textsf{Four of the symbols are hearts}};
-    \node[inner sep=0pt] (rL) at (3,0) {\includegraphics[width=.15\linewidth, frame]{images/responseFourH.png}};
-    \node[inner sep=0pt] (rR) at (6,0) {\includegraphics[width=.15\linewidth, frame]{images/bp.png}};
+    \node[inner sep=0pt] (rL) at (3,0) {\includegraphics[width=.15\linewidth, fbox]{images/responseFourH.png}};
+    \node[inner sep=0pt] (rR) at (6,0) {\includegraphics[width=.15\linewidth, fbox]{images/bp.png}};
     \draw[->] (-1,2) -- (.75,1);
     \draw[->] (-1,-2) -- (.75,-1);
   \end{tikzpicture}
-  \caption{\emph{Example stimuli for the replication.} Participants see two instances of a prime type followed by a target.
-    The prime (left) consists of a sentence and two pictures, and the target (right) consists of one picture containing symbols and a `Better Picture?' option.
-    Here, the schema for a cross category triplet is shown, when the prime is taken from the \emph{some} category, and the prime from the \emph{number}4 category.
-    The symbols used were generated randomly, and the outlines for each picture had curved corners which I was too lazy to reproduce in tikz.
-  }
-\end{figure*}
+\end{adjustbox}
 
-\subsection{Method}
-\label{sec:method}
+  % {\emph{Example stimuli for the replication.} Participants see two instances of a prime type followed by a target.
+  % The prime (left) consists of a sentence and two pictures, and the target (right) consists of one picture containing symbols and a `Better Picture?' option.
+  % Here, the schema for a cross category triplet is shown, when the prime is taken from the \emph{some} category, and the prime from the \emph{number}4 category.
+  % The symbols used were generated randomly, and the outlines for each picture had curved corners which I was too lazy to reproduce in tikz.
+  % }
+\end{frame}
 
 
-\begin{figure*}[ht]
-\begin{subfigure}[]{.25\textwidth}
-  \begin{tikzpicture}
-    \begin{axis}[
-      align =center,
-      title = {Num4 \\ Num4},
-      width=\textwidth,
-      height=10cm,
-      ybar=2*\pgflinewidth,
-      enlarge x limits=1,
-      bar width=25pt,
-      symbolic x coords={strongNUM4NUM4, weakNUM4NUM4},
-      xticklabels = {Strong, Weak},
-      xtick={strongNUM4NUM4, weakNUM4NUM4},
-      grid=major,
-      ymax=1,
-      ymin=0,
-      enlarge x limits=.75,
-      ]
-      \addplot+[error bars/.cd,y dir=both,y explicit] table[x=primeCategory,y=meanPercent, y error=percentError]{\NUMNUMData};
-    \end{axis}
-  \end{tikzpicture}
-\end{subfigure}%\hspace{2pt}
-\begin{subfigure}[]{.25\textwidth}
-  \begin{tikzpicture}
-    \begin{axis}[
-      align =center,
-      title = {Num4 \\ Some},
-      width=\textwidth,
-      height=10cm,
-      ybar=2*\pgflinewidth,
-      enlarge x limits=1,
-      bar width=25pt,
-      symbolic x coords={strongNUM4SOME, weakNUM4SOME},
-      xticklabels = {Strong, Weak},
-      xtick={strongNUM4SOME, weakNUM4SOME},
-      grid=major,
-      ymax=1,
-      ymin=0,
-      yticklabels=\empty, % That's the trick
-      enlarge x limits=.75,
-      ]
-      \addplot+[error bars/.cd,y dir=both,y explicit] table[x=primeCategory,y=meanPercent, y error=percentError]{\NUMSOMEData};
-    \end{axis}
-  \end{tikzpicture}
-\end{subfigure}%\hspace{2pt}
-\begin{subfigure}[]{.25\textwidth}
-  \begin{tikzpicture}
-    \begin{axis}[
-      align =center,
-      title = {Some \\ Num4},
-      width=\textwidth,
-      height=10cm,
-      ybar=2*\pgflinewidth,
-      enlarge x limits=1,
-      bar width=25pt,
-      symbolic x coords={strongSOMENUM4, weakSOMENUM4},
-      xticklabels = {Strong, Weak},
-      xtick={strongSOMENUM4, weakSOMENUM4},
-      grid=major,
-      ymax=1,
-      ymin=0,
-      yticklabels=\empty, % That's the trick
-      enlarge x limits=.75,
-      ]
-      \addplot+[error bars/.cd,y dir=both,y explicit] table[x=primeCategory,y=meanPercent, y error=percentError]{\SOMENUMData};
-    \end{axis}
-  \end{tikzpicture}
-\end{subfigure}%\hspace{pt}
-\begin{subfigure}[]{.25\textwidth}
-  \begin{tikzpicture}
-    \begin{axis}[
-      align =center,
-      title = {Some \\ Some},
-      width=\textwidth,
-      height=10cm,
-      ybar=2*\pgflinewidth,
-      enlarge x limits=1,
-      bar width=25pt,
-      symbolic x coords={strongSOMESOME, weakSOMESOME},
-      xticklabels = {Strong, Weak},
-      xtick=data,
-      grid=major,
-      ymax=1,
-      ymin=0,
-      yticklabels=\empty, % That's the trick
-      enlarge x limits=.75,
-      ]
-      \addplot+[error bars/.cd,y dir=both,y explicit] table[x=primeCategory,y=meanPercent, y error=percentError]{\SOMESOMEData};
-    \end{axis}
-  \end{tikzpicture}
-\end{subfigure}
-\caption{\emph{Replication results}. Priming is shown by the difference between the strong and weak bars for each panel. The label at the top of each panel shows the prime and response types.
-  For example, the third panel, labelled `Some, Num4' corresponds to priming with \emph{some} and a \emph{number}4 response.\protect\footnotemark
-  \space It is unclear what the error bars for the corresponding panels are for \citeauthor{Bott:2016aa}, here the error bars correspond to 90\% confidence intervals.}
-  \label{tab:barresults}
-\end{figure*}
-\footnotetext{Unlike \citeauthor{Bott:2016aa}'s results for the experiment 1, we keep the between category priming groups distinct (see \textcite[Fig.\ 2, 122]{Bott:2016aa}).
-  However, \citeauthor{Bott:2016aa} also present distinct results for \emph{some} and \emph{number}4 respones when compiling the results from all three of their experiments, and so the panels may be compared to these (see \textcite[Fig.\ 6, 133]{Bott:2016aa}).}
+
+\begin{frame}
+  \frametitle{{\ftf The `Replication'}}
+  We (partially) replicated Experiment 1 of \citeauthor{Bott:2016aa}.
+The replication is partial for two reasons:
+\begin{enumerate}[label=\arabic*)]
+\item Half the number of participants compared with \citeauthor{Bott:2016aa}'s original experiment (100 and 200 participants, respectively)
+\item Only two enrichment categories, as opposed to three in the original.
+\item We included keyboard shortcuts
+\item Areas where \citeauthor{Bott:2016aa} weren't super clear on details
+\end{enumerate}
+The basis for both modifications were straightforward cost considerations.
+% length of experiment halved, so essentially a quarter of the cost otherwise.
+
+By uncommenting a few lines of code (and fixing any bugs that this may cause) the full experiment can be run.
+
+{\footnotesize
+\begin{itemize}
+\item \url{https://github.com/bsparkes/bottchemla2016}
+\item \url{https://bsparkes.github.io/bottchemla2016/experiment/html/bottchemla2016.html}
+\end{itemize}
+}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{{\ftf Predictions}}
+
+\citeauthor{Bott:2016aa} did not make predictions regarding the results of the experiment.
+
+As noted, their core interest was in how the question about EVAs should be resolved.
+
+\emph{However}, they do note that `[i]f enrichment can be primed at all, we would expect within-category priming' and that `[i]f the \emph{numbers}, \emph{some} and \emph{ad hoc} EVAs share enrichment mechanisms we would expect them to prime each other, so that a strong some prime, for example, leads to a greater proportion of strong number responses.'
+(\citeyear[122]{Bott:2016aa})
+
+And, from the results of \citeauthor{Bott:2016aa}'s experiment, one should expect to see a significant effect of priming, both within and between categories.
+\end{frame}
+
+\begin{frame}
+  \frametitle{{\ftf Results}}
+  \begin{enumerate}[label=\arabic*.]
+  \item Replication of priming effects in general,
+  \item failure to replicate between-category priming effect,
+  \item replication of within-category priming effect,
+  \item replication of no significant effects when splitting the data in half,
+  \item replication of no significant effect in between-category priming with respect to the prime and target categories.
+  \end{enumerate}
+
+  \begin{itemize}
+  \item[\hand] Less support for shared reasoning processes between distinct instances of enrichment via alternatives.
+  \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+
+\frametitle{{\ftf A Bar Plot}}
+
+  \begin{adjustwidth}{-1em}{-0em}
+
+    \begin{figure}[ht]
+      \begin{subfigure}[]{.25\textwidth}
+        \begin{tikzpicture}
+          \begin{axis}[
+            align =center,
+            title = {Num4 \\ Num4},
+            width=4cm,
+            height=8cm,
+            ybar=2*\pgflinewidth,
+            enlarge x limits=1,
+            bar width=25pt,
+            symbolic x coords={strongNUM4NUM4, weakNUM4NUM4},
+            xticklabels = {Strong, Weak},
+            xtick={strongNUM4NUM4, weakNUM4NUM4},
+            grid=major,
+            ymax=1,
+            ymin=0,
+            enlarge x limits=.75,
+            ]
+            \addplot+[error bars/.cd,y dir=both,y explicit] table[x=primeCategory,y=meanPercent, y error=percentError]{\NUMNUMData};
+          \end{axis}
+        \end{tikzpicture}
+      \end{subfigure}\hfill
+      \begin{subfigure}[]{.25\textwidth}
+        \begin{tikzpicture}
+          \begin{axis}[
+            align =center,
+            title = {Num4 \\ Some},
+            width=4cm,
+            height=8cm,
+            ybar=2*\pgflinewidth,
+            enlarge x limits=1,
+            bar width=25pt,
+            symbolic x coords={strongNUM4SOME, weakNUM4SOME},
+            xticklabels = {Strong, Weak},
+            xtick={strongNUM4SOME, weakNUM4SOME},
+            grid=major,
+            ymax=1,
+            ymin=0,
+            yticklabels=\empty, % That's the trick
+            enlarge x limits=.75,
+            ]
+            \addplot+[error bars/.cd,y dir=both,y explicit] table[x=primeCategory,y=meanPercent, y error=percentError]{\NUMSOMEData};
+          \end{axis}
+        \end{tikzpicture}
+      \end{subfigure}%\hspace{2pt}
+      \begin{subfigure}[]{.25\textwidth}
+        \begin{tikzpicture}
+          \begin{axis}[
+            align =center,
+            title = {Some \\ Num4},
+            width=4cm,
+            height=8cm,
+            ybar=2*\pgflinewidth,
+            enlarge x limits=1,
+            bar width=25pt,
+            symbolic x coords={strongSOMENUM4, weakSOMENUM4},
+            xticklabels = {Strong, Weak},
+            xtick={strongSOMENUM4, weakSOMENUM4},
+            grid=major,
+            ymax=1,
+            ymin=0,
+            yticklabels=\empty, % That's the trick
+            enlarge x limits=.75,
+            ]
+            \addplot+[error bars/.cd,y dir=both,y explicit] table[x=primeCategory,y=meanPercent, y error=percentError]{\SOMENUMData};
+          \end{axis}
+        \end{tikzpicture}
+      \end{subfigure}%\hspace{pt}
+      \begin{subfigure}[]{.25\textwidth}
+        \begin{tikzpicture}
+          \begin{axis}[
+            align =center,
+            title = {Some \\ Some},
+            width=4cm,
+            height=8cm,
+            ybar=2*\pgflinewidth,
+            enlarge x limits=1,
+            bar width=25pt,
+            symbolic x coords={strongSOMESOME, weakSOMESOME},
+            xticklabels = {Strong, Weak},
+            xtick=data,
+            grid=major,
+            ymax=1,
+            ymin=0,
+            yticklabels=\empty, % That's the trick
+            enlarge x limits=.75,
+            ]
+            \addplot+[error bars/.cd,y dir=both,y explicit] table[x=primeCategory,y=meanPercent, y error=percentError]{\SOMESOMEData};
+          \end{axis}
+        \end{tikzpicture}
+      \end{subfigure}
+    \end{figure}
+  \end{adjustwidth}
+
+% \caption{\emph{Replication results}. Priming is shown by the difference between the strong and weak bars for each panel. The label at the top of each panel shows the prime and response types.
+%   For example, the third panel, labelled `Some, Num4' corresponds to priming with \emph{some} and a \emph{number}4 response.\protect\footnotemark
+%   \space It is unclear what the error bars for the corresponding panels are for \citeauthor{Bott:2016aa}, here the error bars correspond to 90\% confidence intervals.}
+
+% \footnotetext{Unlike \citeauthor{Bott:2016aa}'s results for the experiment 1, we keep the between category priming groups distinct (see \textcite[Fig.\ 2, 122]{Bott:2016aa}).
+%   However, \citeauthor{Bott:2016aa} also present distinct results for \emph{some} and \emph{number}4 respones when compiling the results from all three of their experiments, and so the panels may be compared to these (see \textcite[Fig.\ 6, 133]{Bott:2016aa}).}
+
+\end{frame}
+
+
+\begin{frame}
+
+  \frametitle{{\ftf Results from \textcite[125]{Bott:2016aa}}}
+
+    \begin{adjustbox}{width=1\textwidth,center=\textwidth}
+    \begin{tabular}{llrrrr}
+      \hline
+      & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
+      \hline
+      Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & & & \\
+      & (Intercept) & \(-\)0.594 & 0.198 & \(-\)2.991 & .003 \\
+      & Prime & 0.563 & 0.034 & 16.342 & <.001 \\
+      & WithBet & 0.126 & 0.029 & 4.284 & <.001 \\
+      & Prime:WithBet & \(-\)0.430 & 0.033 & \(-\)13.177 & <.001 \\
+      Within simple & Prime & 0.993 & 0.059 & 16.950 & <.001 \\
+      Between Simple & Prime & 0.133 & 0.033 & 4.082 & <.001 \\
+      Within detail & \multicolumn{2}{l}{\(\text{Prime} * \text{WithCat} + (1 + \text{Prime} * \text{WithCat} \mid \text{subject})\)}  & & & \\
+      & (Intercept)  & \(-\)2.088 & 0.255 & \(-\)8.185 & <.001\\
+      & Prime & 1.239 & 0.109 & 11.374 & <.001 \\
+      & WithCatNUM4 & 2.068 & 0.195 & 10.588 & <.001 \\
+      & WithCatSOME & 1.823 & 0.157 & 11.598 & <.001 \\
+      & Prime:WithCatNUM4 & 0.174 & 0.166 & 1.046 & .269 \\
+      & Prime:WithCatSOME & \(-\)0.138 & 0.137 & \(-\)1.007 & .314 \\
+      Between detail & \multicolumn{2}{l}{\(\text{Prime} * \text{BetCat} + (1 + \text{Prime} * \text{BetCat} \mid \text{subject})\)}  & & & \\
+      & (Intercept)  & \(-\)0.691 & 0.204 & \(-\)3.384 & <.001\\
+      & Prime & 0.145 & 0.058 & 0.058 & .012 \\
+      & BetCatSOMEADH & \(-\)0.054 & 0.089 & \(-\)0.611 & .540 \\
+      & BetCatSOMENUM4 & 0.889 & 0.112 & 7.915 & <.001 \\
+      & Prime:BetCatSOMEADH & \(-\)0.069 & 0.079 & \(-\)0.873 & .383 \\
+      & Prime:BetCatSOMENUM4 & 0.078 & 0.088 & 0.888 & .374 \\
+      \hline
+    \end{tabular}
+  \end{adjustbox}
+
+  % \emph{Note}. R-pseudo code shown in the first line of every section.
+  % \emph{Prime} = priming factor (2 levels: strong, weak [base]).
+  % \emph{WithBet} = within/between factor (2 levels: within [base], between).
+  % \emph{WithCat} = within expression category factor (3 levels: \emph{some}, number4, \emph{ad hoc} [base]).
+  % \emph{Betcat} = combined between expression category factor (3 levels: \emph{some} \(\leftrightarrow\) number4, \emph{some} \(\leftrightarrow\) \emph{ad hoc}, number4 \(\leftrightarrow\) \emph{ad hoc} [base]).
+
+\end{frame}
+
+
+
+\begin{frame}
+
+\frametitle{{\ftf Results from the replication}}
+
+\begin{adjustbox}{width=1\textwidth,center=\textwidth}
+    \begin{tabular}{llrrrr}
+      \hline
+      & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
+      \hline
+      Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & & & \\
+      & (Intercept)   & 0.962  & 0.346 &  2.778 & <.010 \\
+      & Prime         & 0.310  & 0.074 &  4.196 & <.001 \\
+      & WithBet       & \(-\)0.006 & 0.067 & \(-\)0.089 &  .929 \\
+      & Prime:WithBet & 0.294  & 0.071 &  4.135 & <.001 \\
+      Between Simple & Prime & 0.016 & 0.089 & 0.181 & .857  \\
+      Within Simple  & Prime & 0.603 & 0.114 & 5.277 & <.001 \\
+      Within Detail & \multicolumn{2}{l}{\(\text{Prime} * \text{WithCat} + (1 + \text{Prime} * \text{WithCat} \mid \text{subject})\)}  & & & \\
+      & (Intercept)   &  1.361 & 0.460 &  2.960 & <.010 \\
+      & Prime         &  0.759 & 0.206 &  3.678 & <.001 \\
+      & WithCat       & \(-\)0.784 & 0.432 & \(-\)1.816 & .069  \\
+      & Prime:WithCat & \(-\)0.164 & 0.265 & \(-\)0.618 & .536  \\
+      Between detail & \multicolumn{2}{l}{\(\text{Prime} * \text{BetCat} + (1 + \text{Prime} * \text{BetCat} \mid \text{subject})\)}  & & & \\
+      & (Intercept)  &  0.899 & 0.506 &  1.777 & .076 \\
+      & Prime        & \(-\)0.086 & 0.160 & \(-\)0.541 & .589 \\
+      & BetCat       & 0.861  & 0.451 &  1.910 & .056 \\
+      & Prime:BetCat &  0.362 & 0.282 &  1.281 & .200 \\
+      \hline
+    \end{tabular}
+  \end{adjustbox}
+
+  % \emph{Prime} = priming factor (2 levels: strong, weak).
+  % \emph{WithCat} = within category factor (2 levels: \emph{some}, \emph{number}4 [base]).
+  % \emph{Betcat} = between category factor (2 levels: \emph{some} \(\rightarrow\) number4 [base], \emph{some} \(\rightarrow\) \emph{number}4).
+
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\appendix
+
+
+\begin{frame}
+  \frametitle{{\ftf Don't go past this slide \dots}}
+
+  Additional details follow \dots
+\end{frame}
+
+\begin{frame}
+  \frametitle{{\ftf Details for the bar plots}}
+
+\begin{adjustbox}{width=1\textwidth,center=\textwidth}
+    \begin{tabular}{rrrrrrrrrr}
+      \hline
+      \multicolumn{2}{c}{Prime} & Response & \multicolumn{4}{c}{From the replication} & \multicolumn{2}{c}{From Bott and Chelma} \\
+      % \multicolumn{2}{*}{Bar} & & & & \\
+      \cline{1-3}
+      Type & Category & Category  & mean \% & Raw mean & Raw S.D.\ & Raw S.E.\ &  mean \%  & Raw S.E.\  \\
+      \hline
+      Strong & Num4 &  Num4 &   0.6767956 &  2.634409 & 1.653619 & 0.1714723  & 0.615 & 0.018   \\
+      Weak & Num4 &  Num4 &   0.5675553 &  2.184783 & 1.683334 & 0.1745536  & 0.339 & 0.018    \\
+      Strong & Num4 &  Some &   0.5762712 &  2.193548 & 1.702032 & 0.1764925  & 0.553 & 0.019    \\
+      Weak & Num4 &  Some &   0.5833029 &  2.239130 & 1.750162 & 0.1814834  & 0.484 & 0.019    \\
+      Strong & Some &  Num4 &   0.7414502 &  2.511364 & 1.597371 & 0.1656396  & 0.544 & 0.020    \\
+      Weak & Some &  Num4 &   0.6498584 &  2.466667 & 1.643510 & 0.1704240  & 0.474 & 0.019    \\
+      Strong & Some &  Some &   0.6966165 &  2.329545 & 1.713514 & 0.1776831  & 0.604 & 0.019    \\
+      Weak & Some &  Some &   0.4703510 &  1.978261 & 1.728737 & 0.1792617 & 0.340 & 0.018     \\
+      \hline
+    \end{tabular}
+  \end{adjustbox}
+  Relevant cell mean and S.E.\ from \citeauthor{Bott:2016aa} included (see Table A1 (\citeyear[138--139]{Bott:2016aa})).
+\end{frame}
+
+
+\begin{frame}
+
+  \frametitle{{\ftf Analysis of priming effect for between category trials}}
+  \begin{adjustbox}{width=1\textwidth,center=\textwidth}
+    \begin{tabular}{llrrrr}
+      \hline
+      & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
+      \hline
+      & \multicolumn{2}{l}{\(\text{Prime} + (1 + \text{Prime} \mid \text{Subject})\)} & & & \\
+      \emph{some} \(\rightarrow\) \emph{number}4 & Prime & \(-\)0.080 &  0.162 & \(-\)0.492 & 0.623 \\
+      \emph{number}4 \(\rightarrow\) \emph{some} & Prime & 0.354  &  0.238 & 1.488  & 0.137 \\
+      \hline
+    \end{tabular}
+  \end{adjustbox}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{{\ftf Analysis of the experiment by halves}}
+
+  \begin{adjustbox}{width=1\textwidth,center=\textwidth}
+    \begin{tabular}{llrrrr}
+      \hline
+      & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
+      \hline
+      Within by half & \multicolumn{5}{l}{\(\text{Prime} * \text{WithCat} * \text{Half} + (1 + \text{Prime} * \text{WithCat} * \text{Half} \mid \text{Subject})\)}  \\
+      & (Intercept)        & \(-\)0.221 & 0.378 & \(-\)0.584 & .559 \\
+      & Prime              &  0.141 & 0.320 &  0.442 & .658 \\
+      & WithCat            &  1.068 & 0.481 &  2.222 & <.050 \\
+      & Half               &  0.850 & 0.371 &  2.294 & <.050 \\
+      & Prime:WithCat      &  0.770 & 0.542 &  1.423 & .155 \\
+      & Prime:Half         &  0.172 & 0.243 &  0.706 & .480 \\
+      & WithCat:Half       & \(-\)0.671 & 0.334 & \(-\)2.011 & <.050 \\
+      & Prime:Withcat:Half & \(-\)0.534 & 0.379 & \(-\)1.407 & .159 \\
+      Half 1 only & (Intercept)   & 0.675 & 0.3157 & 2.139 & <.050 \\
+      & Prime         & 0.314 & 0.1154 & 2.719 & <.010 \\
+      & WithCat       & 0.377 & 0.1801 & 2.092 & <.050 \\
+      & Prime:WithCat & 0.217 & 0.1975 & 1.098 & .272 \\
+      Half 2 only & (Intercept)   & 1.518 & 0.6091 & 2.493 & <.050 \\
+      & Prime         & 0.519 & 0.2572 & 2.016 & <.050 \\
+      & WithCat       & \(-\)0.203& 0.299 & \(-\)0.680& .497 \\
+      & Prime:WithCat & \(-\)0.392& 0.361 & \(-\)1.086& .277 \\
+      \hline
+    \end{tabular}
+  \end{adjustbox}
+ {\small Half = experiment half factor (2 levels: first half, second half). First half and \emph{number}4 as bases.}
+\end{frame}
+
+
+
+\end{document}
+
+
+
+
+
+
+
 
 
 \paragraph{Materials}
 
-The experiment consistent of trails, where each involved two pictures presented below a sentence.
-Participants were asked to select one of the two pictures which best reflects the sentence.
-The sentence was constructed using one of two frames:
-\begin{enumerate*}[label=(\roman*)]
-\item Some of the symbols are [symbol]
-\item There are four [symbol]
-\end{enumerate*}
-\citeauthor{Bott:2016aa} included a third frame:
-\begin{enumerate*}[label=(\roman*), resume]
-\item There is a [symbol].
-\end{enumerate*}
-As mentioned in the introduction, this frame was excluded for cost considerations.
-We shall keep track of the differences to the experiment which follow from using two frames as opposed to three in this section, and engage in a broader discussion in the Discussion portion of this paper.
+
 
 The symbols were one of diamonds, clubs, ticks, spades, hearts, squares, stars, circles, notes, or triangles.
 Pictures consisted of rectangles in the style of playing cards which contained either symbols of the text ``Better Picture?''.
@@ -465,79 +678,7 @@ Further, we included keyboard shortcuts to help participants complete the experi
 \subsection{Results}
 \label{sec:results}
 
-\begin{table*}[ht]
-  \caption{Experiment 1 results from \textcite[125]{Bott:2016aa}.}\vspace{-20pt}
-  \label{tab:oriresults}
-  \begin{center}
-    % \begin{adjustbox}{width=1\textwidth,center=\textwidth}
-    \begin{tabular}{llrrrr}
-      \hline
-      & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
-      \hline
-      Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & & & \\
-      & (Intercept) & \(-\)0.594 & 0.198 & \(-\)2.991 & .003 \\
-      & Prime & 0.563 & 0.034 & 16.342 & <.001 \\
-      & WithBet & 0.126 & 0.029 & 4.284 & <.001 \\
-      & Prime:WithBet & \(-\)0.430 & 0.033 & \(-\)13.177 & <.001 \\
-      Within simple & Prime & 0.993 & 0.059 & 16.950 & <.001 \\
-      Between Simple & Prime & 0.133 & 0.033 & 4.082 & <.001 \\
-      Within detail & \multicolumn{2}{l}{\(\text{Prime} * \text{WithCat} + (1 + \text{Prime} * \text{WithCat} \mid \text{subject})\)}  & & & \\
-      & (Intercept)  & \(-\)2.088 & 0.255 & \(-\)8.185 & <.001\\
-      & Prime & 1.239 & 0.109 & 11.374 & <.001 \\
-      & WithCatNUM4 & 2.068 & 0.195 & 10.588 & <.001 \\
-      & WithCatSOME & 1.823 & 0.157 & 11.598 & <.001 \\
-      & Prime:WithCatNUM4 & 0.174 & 0.166 & 1.046 & .269 \\
-      & Prime:WithCatSOME & \(-\)0.138 & 0.137 & \(-\)1.007 & .314 \\
-      Between detail & \multicolumn{2}{l}{\(\text{Prime} * \text{BetCat} + (1 + \text{Prime} * \text{BetCat} \mid \text{subject})\)}  & & & \\
-      & (Intercept)  & \(-\)0.691 & 0.204 & \(-\)3.384 & <.001\\
-      & Prime & 0.145 & 0.058 & 0.058 & .012 \\
-      & BetCatSOMEADH & \(-\)0.054 & 0.089 & \(-\)0.611 & .540 \\
-      & BetCatSOMENUM4 & 0.889 & 0.112 & 7.915 & <.001 \\
-      & Prime:BetCatSOMEADH & \(-\)0.069 & 0.079 & \(-\)0.873 & .383 \\
-      & Prime:BetCatSOMENUM4 & 0.078 & 0.088 & 0.888 & .374 \\
-      \hline
-    \end{tabular}
-  % \end{adjustbox}
-\end{center}
-\emph{Note}. R-pseudo code shown in the first line of every section.
-  \emph{Prime} = priming factor (2 levels: strong, weak [base]).
-  \emph{WithBet} = within/between factor (2 levels: within [base], between).
-  \emph{WithCat} = within expression category factor (3 levels: \emph{some}, number4, \emph{ad hoc} [base]).
-  \emph{Betcat} = combined between expression category factor (3 levels: \emph{some} \(\leftrightarrow\) number4, \emph{some} \(\leftrightarrow\) \emph{ad hoc}, number4 \(\leftrightarrow\) \emph{ad hoc} [base]).
-\end{table*}
 
-\begin{table*}[ht]
-  \caption{Experiment 1 results from the replication.}\vspace{-20pt}
-  \label{tab:represults}
-  \begin{center}
-    \begin{tabular}{llrrrr}
-      \hline
-      & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
-      \hline
-      Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & & & \\
-      & (Intercept)   & 0.962  & 0.346 &  2.778 & <.010 \\
-      & Prime         & 0.310  & 0.074 &  4.196 & <.001 \\
-      & WithBet       & \(-\)0.006 & 0.067 & \(-\)0.089 &  .929 \\
-      & Prime:WithBet & 0.294  & 0.071 &  4.135 & <.001 \\
-      Between Simple & Prime & 0.016 & 0.089 & 0.181 & .857  \\
-      Within Simple  & Prime & 0.603 & 0.114 & 5.277 & <.001 \\
-      Within Detail & \multicolumn{2}{l}{\(\text{Prime} * \text{WithCat} + (1 + \text{Prime} * \text{WithCat} \mid \text{subject})\)}  & & & \\
-      & (Intercept)   &  1.361 & 0.460 &  2.960 & <.010 \\
-      & Prime         &  0.759 & 0.206 &  3.678 & <.001 \\
-      & WithCat       & \(-\)0.784 & 0.432 & \(-\)1.816 & .069  \\
-      & Prime:WithCat & \(-\)0.164 & 0.265 & \(-\)0.618 & .536  \\
-      Between detail & \multicolumn{2}{l}{\(\text{Prime} * \text{BetCat} + (1 + \text{Prime} * \text{BetCat} \mid \text{subject})\)}  & & & \\
-      & (Intercept)  &  0.899 & 0.506 &  1.777 & .076 \\
-      & Prime        & \(-\)0.086 & 0.160 & \(-\)0.541 & .589 \\
-      & BetCat       & 0.861  & 0.451 &  1.910 & .056 \\
-      & Prime:BetCat &  0.362 & 0.282 &  1.281 & .200 \\
-      \hline
-    \end{tabular}
-\end{center}
-  \emph{Prime} = priming factor (2 levels: strong, weak).
-  \emph{WithCat} = within category factor (2 levels: \emph{some}, \emph{number}4 [base]).
-  \emph{Betcat} = between category factor (2 levels: \emph{some} \(\rightarrow\) number4 [base], \emph{some} \(\rightarrow\) \emph{number}4).
-\end{table*}
 
 % \begin{quote}
 %   Look back at some of the readings if you're not certain what goes in each section. If you're doing a replication, include in Methods the ways in which you deviated from the original or weren't able to completely reproduce the original (e.g., because of lack of information or because you only chose to run a subset of conditions, etc.). If you're doing a replication, also include in Results the extent to which you replicated the original result(s). Include intuitive visualizations of the data in the Results section.
@@ -644,7 +785,7 @@ The aim of \textcite{Bott:2016aa} was to better understand how people use altern
 In our replication we found significant effects of priming within categories, but no significant effects of priming between categories, even when the prime and target categories were controlled for.
 
 
-\end{multicols}
+
 
 \vfill
 \printbibliography
@@ -652,73 +793,6 @@ In our replication we found significant effects of priming within categories, bu
 
 
 \newpage
-\appendix
-\section{Additional Data}
-
-\begin{table*}[h]
-  \centering
-  \begin{tabular}{rrrrrrrrrr}
-    \hline
-    \multicolumn{2}{c}{Prime} & Response & \multicolumn{4}{c}{From the replication} & \multicolumn{2}{c}{From Bott and Chelma} \\
-    % \multicolumn{2}{*}{Bar} & & & & \\
-    \cline{1-3}
-    Type & Category & Category  & mean \% & Raw mean & Raw S.D.\ & Raw S.E.\ &  mean \%  & Raw S.E.\  \\
-    \hline
- Strong & Num4 &  Num4 &   0.6767956 &  2.634409 & 1.653619 & 0.1714723  & 0.615 & 0.018   \\
-   Weak & Num4 &  Num4 &   0.5675553 &  2.184783 & 1.683334 & 0.1745536  & 0.339 & 0.018    \\
- Strong & Num4 &  Some &   0.5762712 &  2.193548 & 1.702032 & 0.1764925  & 0.553 & 0.019    \\
-   Weak & Num4 &  Some &   0.5833029 &  2.239130 & 1.750162 & 0.1814834  & 0.484 & 0.019    \\
- Strong & Some &  Num4 &   0.7414502 &  2.511364 & 1.597371 & 0.1656396  & 0.544 & 0.020    \\
-   Weak & Some &  Num4 &   0.6498584 &  2.466667 & 1.643510 & 0.1704240  & 0.474 & 0.019    \\
- Strong & Some &  Some &   0.6966165 &  2.329545 & 1.713514 & 0.1776831  & 0.604 & 0.019    \\
-    Weak & Some &  Some &   0.4703510 &  1.978261 & 1.728737 & 0.1792617 & 0.340 & 0.018     \\
-    \hline
-  \end{tabular}\vspace{-7pt}
-  \caption{Details for the plots contained in Figure \ref{tab:barresults}.
-  Relevant cell mean and S.E. from \citeauthor{Bott:2016aa} included (see Table A1 (\citeyear[138--139]{Bott:2016aa})).}
-\end{table*}
-\begin{table*}[ht]
-  \centering
-  \begin{tabular}{llrrrr}
-    \hline
-     & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
-   \hline
-    & \multicolumn{2}{l}{\(\text{Prime} + (1 + \text{Prime} \mid \text{Subject})\)} & & & \\
-    \emph{some} \(\rightarrow\) \emph{number}4 & Prime & \(-\)0.080 &  0.162 & \(-\)0.492 & 0.623 \\
-    \emph{number}4 \(\rightarrow\) \emph{some} & Prime & 0.354  &  0.238 & 1.488  & 0.137 \\
-    \hline
-  \end{tabular}\vspace{-7pt}
-  \caption{Analysis of priming effect for between category trials.}
-  \label{tab:primebetweeendirection}
-\end{table*}
-\begin{table*}[h]
-  \centering
-  \begin{tabular}{llrrrr}
-    \hline
-     & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
-    \hline
-    Within by half & \multicolumn{5}{l}{\(\text{Prime} * \text{WithCat} * \text{Half} + (1 + \text{Prime} * \text{WithCat} * \text{Half} \mid \text{Subject})\)}  \\
-    & (Intercept)        & \(-\)0.221 & 0.378 & \(-\)0.584 & .559 \\
-    & Prime              &  0.141 & 0.320 &  0.442 & .658 \\
-    & WithCat            &  1.068 & 0.481 &  2.222 & <.050 \\
-    & Half               &  0.850 & 0.371 &  2.294 & <.050 \\
-    & Prime:WithCat      &  0.770 & 0.542 &  1.423 & .155 \\
-    & Prime:Half         &  0.172 & 0.243 &  0.706 & .480 \\
-    & WithCat:Half       & \(-\)0.671 & 0.334 & \(-\)2.011 & <.050 \\
-    & Prime:Withcat:Half & \(-\)0.534 & 0.379 & \(-\)1.407 & .159 \\
-    Half 1 only & (Intercept)   & 0.675 & 0.3157 & 2.139 & <.050 \\
-                & Prime         & 0.314 & 0.1154 & 2.719 & <.010 \\
-                & WithCat       & 0.377 & 0.1801 & 2.092 & <.050 \\
-                & Prime:WithCat & 0.217 & 0.1975 & 1.098 & .272 \\
-    Half 2 only & (Intercept)   & 1.518 & 0.6091 & 2.493 & <.050 \\
-                & Prime         & 0.519 & 0.2572 & 2.016 & <.050 \\
-                & WithCat       & \(-\)0.203& 0.299 & \(-\)0.680& .497 \\
-                & Prime:WithCat & \(-\)0.392& 0.361 & \(-\)1.086& .277 \\
-    \hline
-  \end{tabular}\vspace{-7pt}
-  \caption{Analysis of the experiment by halves. Half = experiment half factor (2 levels: first half, second half). First half and \emph{number}4 as bases.}
-  \label{tab:halves}
-\end{table*}
 
 
 \end{document}
