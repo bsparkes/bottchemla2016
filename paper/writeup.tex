@@ -139,6 +139,20 @@ strongSOMESOME &  0.6966165 & 0.7497500 & 0.6434830 &  2.329545 & 1.713514 & 0.1
 
 \maketitle
 
+
+\begin{abstract}
+  Partial replication of Experiment 1 from \textcite{Bott:2016aa}.
+  Main results are:
+  \begin{enumerate*}[label=\alph*)]
+  \item Replication of priming effects in general,
+  \item failure to replicate between-category priming effect,
+  \item replication of within-category priming effect,
+  \item replication of no significant effects when splitting the data in half,
+  \item replication of no significant effect in between-category priming with respect to the prime and target categories.
+  \end{enumerate*}
+  Main theoretical result: less support for shared reasoning processes between distinct instances of enrichment via alternatives.
+\end{abstract}
+
 \begin{multicols}{2}
 
 % \section*{Things to Note}
@@ -171,14 +185,16 @@ And, if there is no cross-category enrichment, then one should posit distinct re
 While the question has a nice cognitive feel given these resolutions, it is important to note that each of these carries a presupposition that the data can/should/will support one of these resolutions.
 However, (and as we shall see) there is no guarantee that the data will be so clean.
 
-\citeauthor{Bott:2016aa} run three experiments, in which participants are presented with trials consisting of a setence and two picutures, and are asked to select the picture which best reflects the sentence.
+\citeauthor{Bott:2016aa} ran three experiments, in which participants are presented with trials consisting of a setence and two picutures, and are asked to select the picture which best reflects the sentence.
 We'll go into the details below, as for now the relevant detail is that trials are split into \emph{prime} and \emph{response}, and every response trial is preceeded by two prime trials which are used to ensure the participant considers certain alternatives.
 For the two pictures in the response trial, one picture is consistent with the semantic content of the sentence, and the other contains the words `Better Picture?', which the participants were instructed to click if they felt the the other picture did not sufficiently capture the sentence meaning.
 This allows us to state the basic linking hypothesis, which is that prior trials will effect how participants evaluate sentences, and that in response trials participants click on `Better Picture?' if they process the setence pragmatically, and the semantically adequate picture otherwise.
 
 \citeauthor{Bott:2016aa} do not make predictions regarding the results of the experiment.
-For, their core interest is in how the question noted above should be resolved.
-However, from the results of \citeauthor{Bott:2016aa}'s experiment, one should expect to see a significant effect of priming, both within and between categories.
+Instead, their core interest is in how the question noted above should be resolved.
+However, they do note that `[i]f enrichment can be primed at all, we would expect within-category priming' and that `[i]f the \emph{numbers}, \emph{some} and \emph{ad hoc} EVAs share enrichment mechanisms we would expect them to prime each other, so that a strong some prime, for example, leads to a greater proportion of strong number responses.'
+(\citeyear[122]{Bott:2016aa})
+And, from the results of \citeauthor{Bott:2016aa}'s experiment, one should expect to see a significant effect of priming, both within and between categories.
 
 This paper contains the results of a (partial) replication of Experiment 1 of \textcite{Bott:2016aa}.
 The replication is partial for two reasons:
@@ -193,66 +209,15 @@ The code for the experiment, data collected, analysis scripts, and other relevan
 \footnote{Though \url{https://gitlab.com/bsparkes/bottchemla2016} is more likely to stick around.}\nolinebreak
 , and one can experience the experiment at \url{https://bsparkes.github.io/bottchemla2016/experiment/html/bottchemla2016.html}.
 
+The experiment was registered with OSF (\url{https://osf.io/5bnmr/register/5771ca429ad5a1020de2872e}), though due to forgetfulness this was not strictly a \emph{pre}registration as the experiment had been initialised earlier the same day.
+Still, as the analysis of the experiment will follow that of \citeauthor{Bott:2016aa}, there isn't much room for funny business.
 
 
-
-
-
-The experiment was registered with OSF, though due to forgetfulness this was not strictly a \emph{pre}registration as the experiment had been initialised earlier the same day.
-However, as the analysis of the experiment will follow that of \citeauthor{Bott:2016aa}, there isn't much room for funny business.
-The registration is available at the following url: \url{https://osf.io/5bnmr/register/5771ca429ad5a1020de2872e}.
-
-
-
-\begin{table*}[ht]
-  \caption{Experiment 1 results from \textcite[125]{Bott:2016aa}.}\vspace{-20pt}
-  \begin{center}
-    % \begin{adjustbox}{width=1\textwidth,center=\textwidth}
-    \begin{tabular}{llrrrr}
-      \hline
-      & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
-      \hline
-      Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & & & \\
-      & (Intercept) & -0.594 & 0.198 & -2.991 & .003 \\
-      & Prime & 0.563 & 0.034 & 16.342 & <.001 \\
-      & WithBet & 0.126 & 0.029 & 4.284 & <.001 \\
-      & Prime:WithBet & -0.430 & 0.033 & -13.177 & <.001 \\
-      Within simple & Prime & 0.993 & 0.059 & 16.950 & <.001 \\
-      Between Simple & Prime & 0.133 & 0.033 & 4.082 & <.001 \\
-      Within detail & \multicolumn{2}{l}{\(\text{Prime} * \text{WithCat} + (1 + \text{Prime} * \text{WithCat} \mid \text{subject})\)}  & & & \\
-      & (Intercept)  & -2.088 & 0.255 & -8.185 & <.001\\
-      & Prime & 1.239 & 0.109 & 11.374 & <.001 \\
-      & WithCatNUM4 & 2.068 & 0.195 & 10.588 & <.001 \\
-      & WithCatSOME & 1.823 & 0.157 & 11.598 & <.001 \\
-      & Prime:WithCatNUM4 & 0.174 & 0.166 & 1.046 & .269 \\
-      & Prime:WithCatSOME & -0.138 & 0.137 & -1.007 & .314 \\
-      Between detail & \multicolumn{2}{l}{\(\text{Prime} * \text{BetCat} + (1 + \text{Prime} * \text{BetCat} \mid \text{subject})\)}  & & & \\
-      & (Intercept)  & -0.691 & 0.204 & -3.384 & <.001\\
-      & Prime & 0.145 & 0.058 & 0.058 & .012 \\
-      & BetCatSOMEADH & -0.054 & 0.089 & -0.611 & .540 \\
-      & BetCatSOMENUM4 & 0.889 & 0.112 & 7.915 & <.001 \\
-      & Prime:BetCatSOMEADH & -0.069 & 0.079 & -0.873 & .383 \\
-      & Prime:BetCatSOMENUM4 & 0.078 & 0.088 & 0.888 & .374 \\
-      \hline
-    \end{tabular}
-  % \end{adjustbox}
-\end{center}
-\emph{Note}. R-pseudo code shown in the first line of every section.
-  \emph{Prime} = priming factor (2 levels: strong, weak).
-  \emph{WithBet} = within/between factor (2 levels: within, between).
-  \emph{WithCat} = within expression category factor (3 levels: \emph{some}, number4, \emph{ad hoc}).
-  \emph{Betcat} = between expression category factor (3 levels: \emph{some} \(\leftrightarrow\) number4, \emph{some} \(\leftrightarrow\) \emph{ad hoc}, number4 \(\leftrightarrow\) \emph{ad hoc}).
-\end{table*}
 
 
 
 \section{The Experiment}
 \label{sec:experiment}
-
-
-
-\subsection{Method}
-\label{sec:method}
 
 \begin{figure*}[ht]
  \centering
@@ -281,97 +246,9 @@ The registration is available at the following url: \url{https://osf.io/5bnmr/re
   }
 \end{figure*}
 
+\subsection{Method}
+\label{sec:method}
 
-\paragraph{Participants}
-
-One hundred participants were recruited using Amazon Turk.
-Following \citeauthor{Bott:2016aa} we removed 7 participants who did not declare English as their native language, and the data from the remaining 93 participants were used in the experiment.
-
-Further, we included keyboard shortcuts to help participants complete the experiment, where the left or right card could be selected by pressing the left or right arrow, respectively, and this could be confirmed by pressing on the space bar.
-  This meant that in principle the participants could complete the experiment very quickly.
-  For example, going through the experiment as fast as possible (using the keyboard, not reading the sentnces, etc.) takes around 40 seconds.
-  One and a half second seems a reasonable lower bound for time spent on a trail\nolinebreak
-  \footnote{After restricting by language, the mean completion time was just under 9 minutes.}\nolinebreak
-  , which would require participants to spend at least three minutes on the experiment, excluding time spent on instructions and other tasks.
-  So, we excluded a single participant who fell below this lower bound.
-
-In the discussion section we will explore relaxations and restrictions of this constraint.
-
-\paragraph{Materials}
-
-Each trail involved a sentence presented above two pictures.
-Participants were asked to select one of the two pictures which best reflects the sentence.
-The sentence was constructed using one of two frames:
-\begin{enumerate*}[label=(\roman*)]
-\item Some of the symbols are [symbol]
-\item There are four [symbol]
-\end{enumerate*}
-\citeauthor{Bott:2016aa} included a third frame:
-\begin{enumerate*}[label=(\roman*), resume]
-\item There is a [symbol].
-\end{enumerate*}
-As mentioned in the introduction, this frame was excluded for cost considerations.
-We shall keep track of the differences to the experiment which follow from using two frames as opposed to three in this section, and engage in a broader discussion in the Discussion portion of this paper.
-
-The symbols were one of diamonds, clubs, ticks, spades, hearts, squares, stars, circles, notes, or triangles.
-Pictures consisted of rectangles in the style of playing cards which contained either symbols of the test ``Better Picture?''.
-In prime trials both pictures contained symbols, while from target trials the left picture contained symbols and the other the ``Better Picture?'' text.
-
-Pictures which contained symbols could be strong, weak, or false.
-Strong prime trails involved a strong and a weak picture.
-Weak prime trails involved a weak and a false picture.
-
-For each prime trials there was a `correct' response, either due to the semantic content of the sentence in the case of weak trials, or due to pragmatics in the case of strong trials.
-As \citeauthor{Bott:2016aa} write `in the presence of both a weak picture and a strong picture, participants could not make a non-arbitrary choice solely based on the truth conditions of the weak interpretation which is true in both cases, hence the strong reading is a favored option in that it provides a non-arbitrary way to resolve the task.' (\citeyear[124]{Bott:2016aa})
-
-In \emph{some} trials strong pictures involved three symbols matching the predicate in the sentence, and six of another type.
-For example, the picture corresponding to the sentence ``Some of the symbols are spades'' would be three spades and six of instances of some other symbols, such as diamonds.
-\citeauthor{Bott:2016aa} do not specify how these symbols are arranged, and so we randomised between a line of three symbols matching the predicate at the top of the picture, and at the bottom of the picture.
-Weak pictures involved nine symbols matching the predicate in the sentence, and false pictures involved nine symbols of the same type which did not match the predicate.
-
-In \emph{number4} trials strong pictures involved symbols matching the number and predicate in the sentence, the number was always `four'.
-For example, the picture corresponding to the sentence ``There are four circles'' would be four circles.
-Weak pictures involved a greater number of symbols than in the sentence which matched the predicate, following \citeauthor{Bott:2016aa} this was always six.
-False pictures involved a smaller number of symbols than in the sentence which matched the predicate, following \citeauthor{Bott:2016aa} this was always two.
-
-Details for \emph{ad hoc} trails can be found in \textcite[123--124]{Bott:2016aa}.
-In addition to ad hoc trials, \citeauthor{Bott:2016aa} included \emph{ad hoc bias} trials at the start of the experiment.
-To quote \citeauthor{Bott:2016aa}; `The idea behind the bias trials was to facilitate participants in imagining what the appropriate ``better picture'' might be for the enriched expression.' (\citeyear[124]{Bott:2016aa})
-As we did not include ad hoc trials we did not include these ad hoc bias trials.
-
-\paragraph{Design}
-There were two types or enrichment category (\emph{some} and \emph{number4}), and for each category there were two prime and target types (\emph{strong} and \emph{weak}.
-So, there were \(2 \times 2 \times 2 = 8\) distinct prime-target combinations, \emph{prime} \(\rightarrow\) (\emph{strength} \(\times\) \emph{target}).
-Following \citeauthor{Bott:2016aa} there were four examples of each prime-target combination, so there were \(4\) (examples) \(\times 8\) (prime-target combinations) \(\times 3\) (triplets) \(= 96\) experimental trials, or \(32\) experimental triplets.
-
-In contrast, as \citeauthor{Bott:2016aa} included \emph{ad hoc} trials, and do there were \(3 \times 2 \times 3 = 18\) distinct prime-target combinations, and so  \(4\) (examples) \(\times 18\) (prime-target combinations) \(\times 3\) (triplets) \(= 216\) experimental trials, or \(54\) experimental triplets.
-
-\citeauthor{Bott:2016aa} included a further \(36\) filler trials, \(12\) per enrichment category.
-So, there was one filler trial for every \(6\) target trials.
-To keep this ratio between filler and target trials we included \(15\) filler trials.
-This gives a filler trial for every \(6.4\) target trials.
-
-\paragraph{Randomisation and `counterbalancing'}
-
-Following \citeauthor{Bott:2016aa} all participants saw the same set of target trials, though as we included fewer filler trials than there were filler trial types, we took two filler trial types from the \emph{many} category, two from \emph{number\(6\)}, and an additional from either filler type \emph{many} or \emph{number\(6\)} chosen at random for each participant.
-The symbol in the sentence and the pictures was always chosen at random for each trial.
-Prime-target triplets had a distinct construction as discussed above, however the order of these triplets was randomised for each participant (both target and filler triplets were included in the randomisation).
-
-As noted above, for each prime trial there was a `correct' response, and the position of this correct response was randomised.
-This contrasts with \citeauthor{Bott:2016aa} who ensured that the position of the correct response was counterbalanced across trials so that in half of the trails it was to the left, and in half to the right and that in half of the trials the correct response was the same side as the previous trial and in the other half it was on the opposite side (\citeyear[124]{Bott:2016aa}).
-So, again we have not quite exactly replicated \citeauthor{Bott:2016aa}'s experiment, but \citeauthor{Bott:2016aa} only specify that the position of the correct picture was counterbalanced, and do not, for example, say that this counterbalancing was spread evenly across prime-target triplets, was held fixed across participants, etc.
-Rather than think through a series of design choices with unclear details and motivation, randomisation of placement on each trial for each participant seemed far more straightforward.
-However, in the case of target trials we followed \citeauthor{Bott:2016aa} in always placing the ``Better Picture?'' option to the right (\citeyear[124]{Bott:2016aa}).
-
-\paragraph{Procedure}
-
-\begin{itemize}
-\item Note the keyboard shortcuts added, and the help screen at the start.
-\end{itemize}
-
-
-\subsection{Results}
-\label{sec:results}
 
 \begin{figure*}[ht]
 \begin{subfigure}[]{.25\textwidth}
@@ -465,7 +342,6 @@ However, in the case of target trials we followed \citeauthor{Bott:2016aa} in al
     \end{axis}
   \end{tikzpicture}
 \end{subfigure}
-
 \caption{\emph{Replication results}. Priming is shown by the difference between the strong and weak bars for each panel. The label at the top of each panel shows the prime and response types.
   For example, the third panel, labelled `Some, Num4' corresponds to priming with \emph{some} and a \emph{number}4 response.\protect\footnotemark
   \space It is unclear what the error bars for the corresponding panels are for \citeauthor{Bott:2016aa}, here the error bars correspond to 90\% confidence intervals.}
@@ -474,20 +350,124 @@ However, in the case of target trials we followed \citeauthor{Bott:2016aa} in al
 \footnotetext{Unlike \citeauthor{Bott:2016aa}'s results for the experiment 1, we keep the between category priming groups distinct (see \textcite[Fig.\ 2, 122]{Bott:2016aa}).
   However, \citeauthor{Bott:2016aa} also present distinct results for \emph{some} and \emph{number}4 respones when compiling the results from all three of their experiments, and so the panels may be compared to these (see \textcite[Fig.\ 6, 133]{Bott:2016aa}).}
 
-\begin{quote}
-  Look back at some of the readings if you're not certain what goes in each section. If you're doing a replication, include in Methods the ways in which you deviated from the original or weren't able to completely reproduce the original (e.g., because of lack of information or because you only chose to run a subset of conditions, etc.). If you're doing a replication, also include in Results the extent to which you replicated the original result(s). Include intuitive visualizations of the data in the Results section.
-\end{quote}
 
-Each target trial was preceded by two prime trials.
-\citeauthor{Bott:2016aa} use this design to filter out target responses where they cannot be sure that the participant understood the correct interpretation of the prime sentence.
-For \citeauthor{Bott:2016aa} this led to the removal of 875 out of 13,360 target responses (\citeyear[124]{Bott:2016aa}).
-In our replication the same procedure led to the removal of 216 out of 2976 target responses.
-In terms of a comparison of relative target response removals, the numbers are 6.5\% and 7.2\% of all trials, respectively.
-\citeauthor{Bott:2016aa} note that a slightly larger number of \emph{some} trials were removed in comparison to \emph{ad hoc} and \emph{number} targets (\citeyear[124]{Bott:2016aa}) and as we did not include \emph{ad hoc} trials this may explain the slight difference between the experiments.
-However, as \citeauthor{Bott:2016aa} do not include information about the categories the incorrect primes were removed from, we don't have sufficient information to establish this explanation in any robust sense.
+\paragraph{Materials}
+
+The experiment consistent of trails, where each involved two pictures presented below a sentence.
+Participants were asked to select one of the two pictures which best reflects the sentence.
+The sentence was constructed using one of two frames:
+\begin{enumerate*}[label=(\roman*)]
+\item Some of the symbols are [symbol]
+\item There are four [symbol]
+\end{enumerate*}
+\citeauthor{Bott:2016aa} included a third frame:
+\begin{enumerate*}[label=(\roman*), resume]
+\item There is a [symbol].
+\end{enumerate*}
+As mentioned in the introduction, this frame was excluded for cost considerations.
+We shall keep track of the differences to the experiment which follow from using two frames as opposed to three in this section, and engage in a broader discussion in the Discussion portion of this paper.
+
+The symbols were one of diamonds, clubs, ticks, spades, hearts, squares, stars, circles, notes, or triangles.
+Pictures consisted of rectangles in the style of playing cards which contained either symbols of the text ``Better Picture?''.
+In prime trials both pictures contained symbols, while from target trials the left picture contained symbols and the other the ``Better Picture?'' text.\nolinebreak
+\footnote{In \citeauthor{Bott:2016aa}'s example stimuli the ``Better Picture?'' option contained a darker background, but this was not mentioned in the text, and we could see no clear motivation for doing so.
+Instead, the option had the same background as all other pictures---white.}
+
+Pictures which contained symbols could be strong, weak, or false.
+Strong prime trails involved a strong and a weak picture.
+Weak prime trails involved a weak and a false picture.
+
+For each prime trials there was a `correct' response, either due to the semantic content of the sentence in the case of weak trials, or due to pragmatics in the case of strong trials.
+As \citeauthor{Bott:2016aa} write `in the presence of both a weak picture and a strong picture, participants could not make a non-arbitrary choice solely based on the truth conditions of the weak interpretation which is true in both cases, hence the strong reading is a favored option in that it provides a non-arbitrary way to resolve the task.'
+(\citeyear[124]{Bott:2016aa})
+
+In \emph{some} trials strong pictures involved three symbols matching the predicate in the sentence, and six of another type.
+For example, the picture corresponding to the sentence ``Some of the symbols are spades'' would be three spades and six of instances of some other symbols, such as diamonds.
+\citeauthor{Bott:2016aa} do not specify how these symbols are arranged, and so we randomised between a line of three symbols matching the predicate at the top of the picture, and at the bottom of the picture.
+Weak pictures involved nine symbols matching the predicate in the sentence, and false pictures involved nine symbols of the same type which did not match the predicate.
+
+In \emph{number4} trials strong pictures involved symbols matching the number and predicate in the sentence, the number was always `four'.
+For example, the picture corresponding to the sentence ``There are four circles'' would be four circles.
+Weak pictures involved a greater number of symbols than in the sentence which matched the predicate, following \citeauthor{Bott:2016aa} this was always six.
+False pictures involved a smaller number of symbols than in the sentence which matched the predicate, following \citeauthor{Bott:2016aa} this was always two.
+
+Details for \emph{ad hoc} trails can be found in \textcite[123--124]{Bott:2016aa}.
+In addition to ad hoc trials, \citeauthor{Bott:2016aa} included \emph{ad hoc bias} trials at the start of the experiment.
+To quote \citeauthor{Bott:2016aa}; `The idea behind the bias trials was to facilitate participants in imagining what the appropriate ``better picture'' might be for the enriched expression.' (\citeyear[124]{Bott:2016aa})
+As we did not include ad hoc trials we did not include these ad hoc bias trials.
+
+Filler trials were also included.
+There were \emph{all} sentences, an alternative to \emph{some}, and \emph{number}6 sentences, an alternative to \emph{number}4.
+For example, ``All the symbols are [symbol]'' and ``Six of the symbols are [symbol]''.
+Each could occur in three forms:
+\begin{enumerate*}[label=(\arabic*)]
+\item a weak picture with symbols that did not match the predicate in the sentence, and a ``Better Picture?'' option
+\item a weak picture with symbols that matched the predicate, and a ``Better Picture?'' option, and
+\item a weak picture with symbols that matched the predicate, and a strong picture.
+\end{enumerate*}
+\citeauthor{Bott:2016aa} used these to highlight alternatives to participants.
+
+\paragraph{Design}
+There were two types or enrichment category (\emph{some} and \emph{number4}), and for each category there were two prime and target types (\emph{strong} and \emph{weak}.
+So, there were \(2 \times 2 \times 2 = 8\) distinct prime-target combinations, \emph{prime} \(\rightarrow\) (\emph{strength} \(\times\) \emph{target}).
+Following \citeauthor{Bott:2016aa} there were four examples of each prime-target combination, so there were \(4\) (examples) \(\times 8\) (prime-target combinations) \(\times 3\) (triplets) \(= 96\) experimental trials, or \(32\) experimental triplets.
+
+In contrast, as \citeauthor{Bott:2016aa} included \emph{ad hoc} trials, and so there were \(3 \times 2 \times 3 = 18\) distinct prime-target combinations, and so  \(4\) (examples) \(\times 18\) (prime-target combinations) \(\times 3\) (triplets) \(= 216\) experimental trials, or \(54\) experimental triplets.
+
+\citeauthor{Bott:2016aa} included a further \(36\) filler trials, \(12\) per enrichment category.
+So, there was one filler trial for every \(6\) target trials.
+To keep this ratio between filler and target trials we included \(15\) filler trials.
+This gives a filler trial for every \(6.4\) target trials.
+\citeauthor{Bott:2016aa} note that filler trials were `linked to each prime-target combination' (\citeyear[123]{Bott:2016aa}), but did not specify whether this link was simply conceptual, or also part of the experiment.
+It is for this reason that we distributed the filler trials randomly.
+
+\paragraph{Randomisation and `counterbalancing'}
+
+Following \citeauthor{Bott:2016aa} all participants saw the same set of target trials, though as we included fewer filler trials than there were filler trial types, we took two filler trial types from the \emph{many} category, two from \emph{number\(6\)}, and an additional from either filler type \emph{many} or \emph{number\(6\)} chosen at random for each participant.
+The symbol in the sentence and the pictures was always chosen at random for each trial.
+Prime-target triplets had a distinct construction as discussed above, however the order of these triplets was randomised for each participant (both target and filler triplets were included in the randomisation).
+
+As noted above, for each prime trial there was a `correct' response, and the position of this correct response was randomised.
+This contrasts with \citeauthor{Bott:2016aa} who ensured that the position of the correct response was counterbalanced across trials so that in half of the trails it was to the left, and in half to the right and that in half of the trials the correct response was the same side as the previous trial and in the other half it was on the opposite side (\citeyear[124]{Bott:2016aa}).
+So, again we have not quite exactly replicated \citeauthor{Bott:2016aa}'s experiment, but \citeauthor{Bott:2016aa} only specify that the position of the correct picture was counterbalanced, and do not, for example, say that this counterbalancing was spread evenly across prime-target triplets, was held fixed across participants, etc.
+Rather than think through a series of design choices with unclear details and motivation, randomisation of placement on each trial for each participant seemed far more straightforward.
+However, in the case of target trials we followed \citeauthor{Bott:2016aa} in always placing the ``Better Picture?'' option on the right (\citeyear[124]{Bott:2016aa}).
+
+\paragraph{Procedure}
+
+As noted, Participants were instructed to click on the picture that ``best reflected the sentence'', and were given one example with the sentence ``Many of the symbols are [symbol]'' and another with the sentence ``There is a [symbol1] above a [symbol2]''.
+The latter included a picture for which sentence was false and the ``Better Picture?'' option, with a reminder as to when it may be appropriate to click the ``Better Picture?'' option.\nolinebreak
+\footnote{It is unclear whether or not this differs from \citeauthor{Bott:2016aa}, as they do not note the contrast to the ``Better Picture?'' option.
+  And, one may argue that using an example where the sentence would be straightforwardly false on the other option (the relevant symbols were next to each other) to illustrate the use of ``Better Picture?'' may prejudice the participants in favour of a semantic interpretation.
+  In the former example one of the cards contained 9 symbols, with all but one matching the sentence symbol, and the other contained 9 symbols where only 3 matched the sentence symbol.
+  And again, this could reasonably be taken to require a semantic interpretation of the sentence.
+  Still, as the interest of the experiment is whether pragmatic enrichment can be primed, an initial semantic bias should not be too much of a concern.
+  Participants were asked to `think again' if they selected the false picture in both of the examples.
+}
+
+\paragraph{Participants}
+
+One hundred participants were recruited using Amazon Turk.
+Following \citeauthor{Bott:2016aa} we removed 7 participants who did not declare English as their native language, and the data from the remaining 93 participants were used in the experiment.
+
+Further, we included keyboard shortcuts to help participants complete the experiment, where the left or right card could be selected by pressing the left or right arrow, respectively, and this could be confirmed by pressing on the space bar (this functionality was detailed at the start of the experiment, and participants were able to test what pressing a key would do).
+  This meant that in principle the participants could complete the experiment very quickly.
+  For example, going through the experiment as fast as possible (using the keyboard, not reading the sentnces, etc.) takes around 40 seconds.
+  One and a half second seems a reasonable lower bound for time spent on a trail\nolinebreak
+  \footnote{After restricting by language, the mean completion time was just under 9 minutes.}\nolinebreak
+  , which would require participants to spend at least three minutes on the experiment, excluding time spent on instructions and other tasks.
+  So, we excluded a single participant who fell below this lower bound.\nolinebreak
+  \footnote{This is perhaps an odd mix of trial-by-trail exclusion, and broad participant exclusion.
+    It would have been interesting to depart from \citeauthor{Bott:2016aa}'s approach and exclude participants who failed to correctly respond to some certain percentage of primes (say 15\% or so).
+  Perhaps some other time.}
+
+
+\subsection{Results}
+\label{sec:results}
 
 \begin{table*}[ht]
-  \caption{Experiment 1 results from our replication.}\vspace{-20pt}
+  \caption{Experiment 1 results from \textcite[125]{Bott:2016aa}.}\vspace{-20pt}
+  \label{tab:oriresults}
   \begin{center}
     % \begin{adjustbox}{width=1\textwidth,center=\textwidth}
     \begin{tabular}{llrrrr}
@@ -495,65 +475,135 @@ However, as \citeauthor{Bott:2016aa} do not include information about the catego
       & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
       \hline
       Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & & & \\
-      & (Intercept)   & 0.962  & 0.346 &  2.778 &  <.01 \\
-      & Prime         & 0.310  & 0.074 &  4.196 & <.001 \\
-      & WithBet       & -0.006 & 0.067 & -0.089 &  .929 \\
-      & Prime:WithBet & 0.294  & 0.071 &  4.135 & <.001 \\
-      Between Simple & Prime & 0.016 & 0.089 & 0.181 & .857  \\
-      Within Simple  & Prime & 0.603 & 0.114 & 5.277 & <.001 \\
+      & (Intercept) & \(-\)0.594 & 0.198 & \(-\)2.991 & .003 \\
+      & Prime & 0.563 & 0.034 & 16.342 & <.001 \\
+      & WithBet & 0.126 & 0.029 & 4.284 & <.001 \\
+      & Prime:WithBet & \(-\)0.430 & 0.033 & \(-\)13.177 & <.001 \\
+      Within simple & Prime & 0.993 & 0.059 & 16.950 & <.001 \\
+      Between Simple & Prime & 0.133 & 0.033 & 4.082 & <.001 \\
       Within detail & \multicolumn{2}{l}{\(\text{Prime} * \text{WithCat} + (1 + \text{Prime} * \text{WithCat} \mid \text{subject})\)}  & & & \\
-      & (Intercept)       &  1.361 & 0.460 &  2.960 & <.01 \\
-      & Prime             &  0.759 & 0.206 &  3.678 & <.001 \\
-      & WithCatSOME       & -0.784 & 0.432 & -1.816 & .069 \\
-      & Prime:WithCatSOME & -0.164 & 0.265 & -0.618 & .536 \\
+      & (Intercept)  & \(-\)2.088 & 0.255 & \(-\)8.185 & <.001\\
+      & Prime & 1.239 & 0.109 & 11.374 & <.001 \\
+      & WithCatNUM4 & 2.068 & 0.195 & 10.588 & <.001 \\
+      & WithCatSOME & 1.823 & 0.157 & 11.598 & <.001 \\
+      & Prime:WithCatNUM4 & 0.174 & 0.166 & 1.046 & .269 \\
+      & Prime:WithCatSOME & \(-\)0.138 & 0.137 & \(-\)1.007 & .314 \\
       Between detail & \multicolumn{2}{l}{\(\text{Prime} * \text{BetCat} + (1 + \text{Prime} * \text{BetCat} \mid \text{subject})\)}  & & & \\
-      & (Intercept)         &  0.899 & 0.506 &  1.777 & .076 \\
-      & Prime               & -0.086 & 0.160 & -0.541 & .589 \\
-      & BetCatSOMENUM4      &  0.861 & 0.451 &  1.910 & .056 \\
-      & Prime:BetCatSOMENUM &  0.362 & 0.282 &  1.281 & .200 \\
+      & (Intercept)  & \(-\)0.691 & 0.204 & \(-\)3.384 & <.001\\
+      & Prime & 0.145 & 0.058 & 0.058 & .012 \\
+      & BetCatSOMEADH & \(-\)0.054 & 0.089 & \(-\)0.611 & .540 \\
+      & BetCatSOMENUM4 & 0.889 & 0.112 & 7.915 & <.001 \\
+      & Prime:BetCatSOMEADH & \(-\)0.069 & 0.079 & \(-\)0.873 & .383 \\
+      & Prime:BetCatSOMENUM4 & 0.078 & 0.088 & 0.888 & .374 \\
       \hline
     \end{tabular}
   % \end{adjustbox}
 \end{center}
 \emph{Note}. R-pseudo code shown in the first line of every section.
+  \emph{Prime} = priming factor (2 levels: strong, weak [base]).
+  \emph{WithBet} = within/between factor (2 levels: within [base], between).
+  \emph{WithCat} = within expression category factor (3 levels: \emph{some}, number4, \emph{ad hoc} [base]).
+  \emph{Betcat} = combined between expression category factor (3 levels: \emph{some} \(\leftrightarrow\) number4, \emph{some} \(\leftrightarrow\) \emph{ad hoc}, number4 \(\leftrightarrow\) \emph{ad hoc} [base]).
+\end{table*}
+
+\begin{table*}[ht]
+  \caption{Experiment 1 results from the replication.}\vspace{-20pt}
+  \label{tab:represults}
+  \begin{center}
+    \begin{tabular}{llrrrr}
+      \hline
+      & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
+      \hline
+      Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & & & \\
+      & (Intercept)   & 0.962  & 0.346 &  2.778 & <.010 \\
+      & Prime         & 0.310  & 0.074 &  4.196 & <.001 \\
+      & WithBet       & \(-\)0.006 & 0.067 & \(-\)0.089 &  .929 \\
+      & Prime:WithBet & 0.294  & 0.071 &  4.135 & <.001 \\
+      Between Simple & Prime & 0.016 & 0.089 & 0.181 & .857  \\
+      Within Simple  & Prime & 0.603 & 0.114 & 5.277 & <.001 \\
+      Within Detail & \multicolumn{2}{l}{\(\text{Prime} * \text{WithCat} + (1 + \text{Prime} * \text{WithCat} \mid \text{subject})\)}  & & & \\
+      & (Intercept)   &  1.361 & 0.460 &  2.960 & <.010 \\
+      & Prime         &  0.759 & 0.206 &  3.678 & <.001 \\
+      & WithCat       & \(-\)0.784 & 0.432 & \(-\)1.816 & .069  \\
+      & Prime:WithCat & \(-\)0.164 & 0.265 & \(-\)0.618 & .536  \\
+      Between detail & \multicolumn{2}{l}{\(\text{Prime} * \text{BetCat} + (1 + \text{Prime} * \text{BetCat} \mid \text{subject})\)}  & & & \\
+      & (Intercept)  &  0.899 & 0.506 &  1.777 & .076 \\
+      & Prime        & \(-\)0.086 & 0.160 & \(-\)0.541 & .589 \\
+      & BetCat       & 0.861  & 0.451 &  1.910 & .056 \\
+      & Prime:BetCat &  0.362 & 0.282 &  1.281 & .200 \\
+      \hline
+    \end{tabular}
+\end{center}
   \emph{Prime} = priming factor (2 levels: strong, weak).
-  \emph{WithBet} = within/between factor (2 levels: within, between).
-  \emph{WithCat} = within expression category factor (3 levels: \emph{some}, number4, \emph{ad hoc}).
-  \emph{Betcat} = between expression category factor (3 levels: \emph{some} \(\leftrightarrow\) number4, \emph{some} \(\leftrightarrow\) \emph{ad hoc}, number4 \(\leftrightarrow\) \emph{ad hoc}).
+  \emph{WithCat} = within category factor (2 levels: \emph{some}, \emph{number}4 [base]).
+  \emph{Betcat} = between category factor (2 levels: \emph{some} \(\rightarrow\) number4 [base], \emph{some} \(\rightarrow\) \emph{number}4).
 \end{table*}
 
 
-\begin{table*}[ht]
-  \centering
-  \begin{tabular}{llrrrr}
-    \hline
-     & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
-   \hline
-    & \multicolumn{2}{l}{\(\text{Prime} + (1 + \text{Prime} \mid \text{Subject})\)} & & & \\
-    Some \(\rightarrow\) number4 & Prime -0.080 &   0.162 &  -0.492 &   0.623 \\
-    number4 \(\rightarrow\) some & Prime & 0.354  &  0.238 & 1.488 0.137 \\
-    \hline
-  \end{tabular}
-  \caption{etc.}
-\end{table*}
 
+% \begin{quote}
+%   Look back at some of the readings if you're not certain what goes in each section. If you're doing a replication, include in Methods the ways in which you deviated from the original or weren't able to completely reproduce the original (e.g., because of lack of information or because you only chose to run a subset of conditions, etc.). If you're doing a replication, also include in Results the extent to which you replicated the original result(s). Include intuitive visualizations of the data in the Results section.
+% \end{quote}
 
-\begin{table*}[ht]
-  \centering
-  \begin{tabular}{llrrrr}
-    \hline
-     & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
-    \hline
-     Within by half & \multicolumn{2}{l}{\(\text{Prime} * \text{WithCat} * \text{Half} + (1 + \text{Prime} * \text{WithCat} * \text{Half} \mid \text{Subject})\)} & & & \\
-    Half 1 only &
-    \\
-    Half 2 only &
-                  
+\paragraph{Data treatment}
 
-  \end{tabular}
-  \caption{halves}
-  \label{tab:halves}
-\end{table*}
+Each target trial was preceded by two prime trials.
+\citeauthor{Bott:2016aa} use this design to filter out target responses where they cannot be sure that the participant understood the correct interpretation of the prime sentence.
+For \citeauthor{Bott:2016aa} this led to the removal of 875 out of 13,360 target responses (\citeyear[124]{Bott:2016aa}).
+In our replication the same procedure led to the removal of 194 out of 2,750 target responses.
+In terms of a comparison of relative target response removals, the numbers are 6.5\% and 7.1\% of all trials, respectively.
+\citeauthor{Bott:2016aa} note that a slightly larger number of \emph{some} trials were removed in comparison to \emph{ad hoc} and \emph{number} targets (\citeyear[124]{Bott:2016aa}) and as we did not include \emph{ad hoc} trials this may explain the slight difference between the experiments.
+However, as \citeauthor{Bott:2016aa} do not include information about the categories the incorrect primes were removed from, we don't have sufficient information to establish this explanation in any robust sense.
+
+\paragraph{Analysis procedure}
+
+Follow \citeauthor{Bott:2016aa} the response-type likelihood was modelled using logit mixed-effect models.
+Analyses were conducted using lme4 (\cite{Bates:2014aa}), languageR (\cite{Baayen:2011aa}), and memisc (\cite{Elff:2012aa}), libraries for the R statistics program (\cite{Team:2013aa}).
+The data is presented in the same format as \citeauthor{Bott:2016aa} with \(\beta\) values, standard errors, \emph{Z}-values, and \emph{p}-values shown in the tables accompanying the experiment together with R pseudo-code describing the models.
+Treatment and sum coding were used as described by \citeauthor{Bott:2016aa}, with any factor not explicitly mentioned receiving treatment contrasts.
+The memisc package was used to ensure that both types of contrasts had the same bases as in the original experiment.
+The random effects structure included random intercepts and slopes for all repeated measure factors.
+
+The analysis starts with an general model involving all of the data, in which the interaction of with and between-expression priming is assessed.
+A more detailed analysis is then performed by restricting the analysis to within and between-expression trials only.
+The dependent measure was the log odds of choosing a strong over a weak prime.
+
+\paragraph{Analysis}
+
+Fig.\ \ref{tab:barresults} shows the results from the replication, and the corresponding figure can be found in \textcite[122]{Bott:2016aa}.
+Table \ref{tab:oriresults} reports statistical details of \citeauthor{Bott:2016aa}'s results from the original experiment, and Table \ref{tab:represults} reports the same from the replication.
+These figures and tables are fairly self explanatory, but a detailed walk-through can be found in \textcite[125]{Bott:2016aa}.
+
+\citeauthor{Bott:2016aa} report three analyses:
+\begin{enumerate*}
+\item Whether EVAs can be primed at all,
+\item whether priming occurs at the within-category level, and
+\item whether priming occurs at the between-category level.
+\end{enumerate*}
+For the first model, sum contrasts are used for both factors, and a significant effect of a strong prime increasing the rate of strong responses, \(\beta = 0.56\), \emph{p} \(< .001\), a significant effect of strong responses happening in between category trials, rather than between category, \(\beta = 0.126\), \emph{p} \(< .001\) and an interaction between the two \(\beta = -0.43\), \emph{p} \(< .001\) showing that the effect of the prime was greater in between category trials.
+
+We observed slightly different results.
+First, a significant effect of priming \(\beta = 0.310\), \emph{p} \(<.001\), no significant effect of between category trials, \emph{p} \(= .929\), but a significant effect of the interaction between the two \(\beta = .294\), \emph{p} \(<.001\) showing that the effect of prime was greater for within category trails.
+Though, in all cases these effects were smaller than those observed by \citeauthor{Bott:2016aa}.
+
+\citeauthor{Bott:2016aa} use a model with a similar structure, but using treatment contrasts for the within/between factor and sum contrasts for the prime factor to investigate simple effects.
+\citeauthor{Bott:2016aa} observed significant priming occurred at the within category level, \(\beta = .99\), \emph{p} \(< .001\), and at the between category level \(\beta = .13\), \emph{p} \(< .001\).
+We observed significant priming at the within category level \(\beta = .603\), \emph{p} \(<.001\), but no significant priming at the between category level \(\beta = .016\), \emph{p} \(< .857\).
+
+So, while \citeauthor{Bott:2016aa} observed priming of EVAs at the within-category level and the between category level, we only observed priming of EVAs at the within-category level.
+
+\citeauthor{Bott:2016aa} broke the data down into within-category trials and between-category trials to assess the observed effects in more detail, conducting separate analyses on each.
+In each model treatment contrasts were used for the categories, and sum contrasts for the prime.
+
+\citeauthor{Bott:2016aa} observed a significant effect of prime, \(\beta = 1.24\), \emph{p} \(< .001\), for within category trials, showing an effect for \emph{ad hoc} categories.
+In contrast to \citeauthor{Bott:2016aa} we found a significant effect for the \emph{number}4 category, \(\beta = 0.759\), \emph{p} \(< .001\).
+And, in line with \citeauthor{Bott:2016aa}, we did not find a significant effect with respect for the \emph{some} category.
+
+Between categories, \citeauthor{Bott:2016aa} found a significant effect only for \emph{some}/\emph{number}4 trials, but not when interaction with the strength of the prime was accounted for, and we found no significant interaction.
+
+\citeauthor{Bott:2016aa} also perform further analysis of the data pooled from three experiments they conducted (\citeyear[132--133]{Bott:2016aa}).
+We followed a similar analysis, looking at the separate prime and target categories in the case of between category trials (see Table \ref{tab:primebetweeendirection}) and with splits of the data into first and second halves of the experiment (see Table \ref{tab:halves}).
+In contrast to \citeauthor{Bott:2016aa} analysing the separate prime and target categories in the case of between category trials revealed no significant effects, and in line with \citeauthor{Bott:2016aa} the split by halves did not reveal a difference in responses (see \textcite[Table 4, 134]{Bott:2016aa}).
 
 \section{Discussion}
 \label{sec:discussion}
@@ -566,37 +616,94 @@ However, as \citeauthor{Bott:2016aa} do not include information about the catego
   If you're not doing a replication: to what extent were the predictions borne out? If not borne out, what are some potential reasons why?
 \end{quote}
 
+
+
+
+
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+The aim of \textcite{Bott:2016aa} was to better understand how people use alternatives to enrich the basic meaning of a sentence.
+\citeauthor{Bott:2016aa} observed significant effects of priming both within and between categories, and in particular between \emph{some} and \emph{number}4 categories.
+In our replication we found significant effects of priming within categories, but no significant effects of priming between categories, even when the prime and target categories were controlled for.
+
+
 \end{multicols}
 
 \vfill
 \printbibliography
 
+
+
 \newpage
 \appendix
 \section{Additional Data}
 
+\begin{table*}[h]
+  \centering
+  \begin{tabular}{rrrrrrrrrr}
+    \hline
+    \multicolumn{2}{c}{Prime} & Response & \multicolumn{4}{c}{From the replication} & \multicolumn{2}{c}{From Bott and Chelma} \\
+    % \multicolumn{2}{*}{Bar} & & & & \\
+    \cline{1-3}
+    Type & Category & Category  & mean \% & Raw mean & Raw S.D.\ & Raw S.E.\ &  mean \%  & Raw S.E.\  \\
+    \hline
+ Strong & Num4 &  Num4 &   0.6767956 &  2.634409 & 1.653619 & 0.1714723  & 0.615 & 0.018   \\
+   Weak & Num4 &  Num4 &   0.5675553 &  2.184783 & 1.683334 & 0.1745536  & 0.339 & 0.018    \\
+ Strong & Num4 &  Some &   0.5762712 &  2.193548 & 1.702032 & 0.1764925  & 0.553 & 0.019    \\
+   Weak & Num4 &  Some &   0.5833029 &  2.239130 & 1.750162 & 0.1814834  & 0.484 & 0.019    \\
+ Strong & Some &  Num4 &   0.7414502 &  2.511364 & 1.597371 & 0.1656396  & 0.544 & 0.020    \\
+   Weak & Some &  Num4 &   0.6498584 &  2.466667 & 1.643510 & 0.1704240  & 0.474 & 0.019    \\
+ Strong & Some &  Some &   0.6966165 &  2.329545 & 1.713514 & 0.1776831  & 0.604 & 0.019    \\
+    Weak & Some &  Some &   0.4703510 &  1.978261 & 1.728737 & 0.1792617 & 0.340 & 0.018     \\
+    \hline
+  \end{tabular}\vspace{-7pt}
+  \caption{Details for the plots contained in Figure \ref{tab:barresults}.
+  Relevant cell mean and S.E. from \citeauthor{Bott:2016aa} included (see Table A1 (\citeyear[138--139]{Bott:2016aa})).}
+\end{table*}
 \begin{table*}[ht]
   \centering
-  \begin{tabular}{rrr|rrrrr}
+  \begin{tabular}{llrrrr}
     \hline
-    \multicolumn{2}{c}{Prime} & Response & & & & \\
-    Type & Category & Category  & Percentage mean & Raw mean & Raw S.D.\ & Raw S.E.\ \\
+     & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
+   \hline
+    & \multicolumn{2}{l}{\(\text{Prime} + (1 + \text{Prime} \mid \text{Subject})\)} & & & \\
+    \emph{some} \(\rightarrow\) \emph{number}4 & Prime & \(-\)0.080 &  0.162 & \(-\)0.492 & 0.623 \\
+    \emph{number}4 \(\rightarrow\) \emph{some} & Prime & 0.354  &  0.238 & 1.488  & 0.137 \\
     \hline
- Strong & Num4 &  Num4 &   0.6767956 &  2.634409 & 1.653619 & 0.1714723     \\
-   Weak & Num4 &  Num4 &   0.5675553 &  2.184783 & 1.683334 & 0.1745536     \\
- Strong & Num4 &  Some &   0.5762712 &  2.193548 & 1.702032 & 0.1764925     \\
-   Weak & Num4 &  Some &   0.5833029 &  2.239130 & 1.750162 & 0.1814834     \\
- Strong & Some &  Num4 &   0.7414502 &  2.511364 & 1.597371 & 0.1656396     \\
-   Weak & Some &  Num4 &   0.6498584 &  2.466667 & 1.643510 & 0.1704240     \\
- Strong & Some &  Some &   0.6966165 &  2.329545 & 1.713514 & 0.1776831     \\
-    Weak & Some &  Some &   0.4703510 &  1.978261 & 1.728737 & 0.1792617     \\
-    \hline
-  \end{tabular}
-  \caption{Details for the plots contained in Figure \ref{tab:barresults}.}
+  \end{tabular}\vspace{-7pt}
+  \caption{Analysis of priming effect for between category trials.}
+  \label{tab:primebetweeendirection}
 \end{table*}
-
-
-
+\begin{table*}[h]
+  \centering
+  \begin{tabular}{llrrrr}
+    \hline
+     & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
+    \hline
+    Within by half & \multicolumn{5}{l}{\(\text{Prime} * \text{WithCat} * \text{Half} + (1 + \text{Prime} * \text{WithCat} * \text{Half} \mid \text{Subject})\)}  \\
+    & (Intercept)        & \(-\)0.221 & 0.378 & \(-\)0.584 & .559 \\
+    & Prime              &  0.141 & 0.320 &  0.442 & .658 \\
+    & WithCat            &  1.068 & 0.481 &  2.222 & <.050 \\
+    & Half               &  0.850 & 0.371 &  2.294 & <.050 \\
+    & Prime:WithCat      &  0.770 & 0.542 &  1.423 & .155 \\
+    & Prime:Half         &  0.172 & 0.243 &  0.706 & .480 \\
+    & WithCat:Half       & \(-\)0.671 & 0.334 & \(-\)2.011 & <.050 \\
+    & Prime:Withcat:Half & \(-\)0.534 & 0.379 & \(-\)1.407 & .159 \\
+    Half 1 only & (Intercept)   & 0.675 & 0.3157 & 2.139 & <.050 \\
+                & Prime         & 0.314 & 0.1154 & 2.719 & <.010 \\
+                & WithCat       & 0.377 & 0.1801 & 2.092 & <.050 \\
+                & Prime:WithCat & 0.217 & 0.1975 & 1.098 & .272 \\
+    Half 2 only & (Intercept)   & 1.518 & 0.6091 & 2.493 & <.050 \\
+                & Prime         & 0.519 & 0.2572 & 2.016 & <.050 \\
+                & WithCat       & \(-\)0.203& 0.299 & \(-\)0.680& .497 \\
+                & Prime:WithCat & \(-\)0.392& 0.361 & \(-\)1.086& .277 \\
+    \hline
+  \end{tabular}\vspace{-7pt}
+  \caption{Analysis of the experiment by halves. Half = experiment half factor (2 levels: first half, second half). First half and \emph{number}4 as bases.}
+  \label{tab:halves}
+\end{table*}
 
 
 \end{document}

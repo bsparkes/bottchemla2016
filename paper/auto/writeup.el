@@ -48,10 +48,14 @@
     "sec:introduction"
     "sec:experiment"
     "sec:method"
-    "sec:results"
     "tab:barresults"
-    "tab:halves"
-    "sec:discussion")
+    "sec:results"
+    "tab:oriresults"
+    "tab:represults"
+    "sec:discussion"
+    "sec:conclusion"
+    "tab:primebetweeendirection"
+    "tab:halves")
    (LaTeX-add-bibliographies
     "ling245"))
  :latex)
