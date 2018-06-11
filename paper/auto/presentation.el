@@ -40,10 +40,6 @@
    (TeX-add-symbols
     '("sem" 1)
     "hand")
-   (LaTeX-add-labels
-    "sec:results"
-    "sec:discussion"
-    "sec:conclusion")
    (LaTeX-add-bibliographies
     "ling245"))
  :latex)
