@@ -12,7 +12,6 @@
    % \renewcommand\rmdefault{Pym} %\usepackage{mathptmx} %\usepackage{times}
    \usepackage[complete, subscriptcorrection, slantedGreek, mtpfrak, mtpbbi, mtpcal]{mtpro2}
    \usepackage{bm}% Access to bold math symbols
-   % \usepackage[onlytext]{MinionPro}
    \usepackage[no-math]{fontspec}
    \defaultfontfeatures{Ligatures=TeX,Numbers={Proportional}}
    \newfontfeature{Microtype}{protrusion=default;expansion=default;}
@@ -41,7 +40,6 @@
 % % \renewcommand*{\bibfont}{\small}
 % \setlength\bibitemsep{1.5\itemsep}
 \addbibresource{ling245.bib}
-
 % \newcommand{\seccite}[1]{\citeauthor{#1}, \citetitle{#1}, \citeyear{#1}}
 % % % % % % % % % % % % % % %
 
@@ -56,7 +54,7 @@
 \usepackage[inline]{enumitem}
 % \setlist[enumerate]{itemsep=.03125em}
   \setlist[itemize]{noitemsep}
-  \setlist[description]{noitemsep,style=unboxed,leftmargin=.5cm,font=\normalfont\space}
+  % \setlist[description]{noitemsep,style=unboxed,leftmargin=.5cm,font=\normalfont\space}
   \setlist[enumerate]{noitemsep}
 % % %
 
@@ -90,7 +88,7 @@
  \usepackage{pifont}
  \newcommand{\hand}{\ding{43}}
 
-\title{Ling 245 Project Presentation}
+\title{\ftf Ling 245 Project Presentation}
 \author{Benjamin Sparkes}
 % \date{}
 
@@ -159,7 +157,6 @@ strongSOMESOME &  0.6966165 & 0.7497500 & 0.6434830 &  2.329545 & 1.713514 & 0.1
     \end{enumerate}
     \end{itemize}
   However, it is important to note that each of these carries a presupposition that the data can/should/will support one of these resolutions.
-  As we shall see, there is no guarantee that the data will be so clean.
 
 \end{frame}
 
@@ -170,7 +167,13 @@ strongSOMESOME &  0.6966165 & 0.7497500 & 0.6434830 &  2.329545 & 1.713514 & 0.1
 
   Participants were presented with trials consisting of a setence and two picutures, and are asked to select the picture which best reflects the sentence.
 
-  Trials are split into \emph{prime} and \emph{response}, and every response trial is preceeded by two prime trials which are used to ensure the participant considers certain alternatives.
+  Trials are split into \emph{prime} and \emph{response}.
+  \begin{itemize}
+  \item Prime and response trials have the same structure.
+  \item Every response trial is preceeded by two prime trials.
+  \item Prime trials are used to ensure the participant considers certain alternatives.
+  \end{itemize}
+
 
 \end{frame}
 
@@ -585,7 +588,8 @@ Replication:
   For the first model, sum contrasts are used for both factors, and a significant effect of a strong prime increasing the rate of strong responses, \(\beta = 0.56\), \emph{p} \(< .001\), a significant effect of strong responses happening in between category trials, rather than within category, \(\beta = 0.126\), \emph{p} \(< .001\) and an interaction between the two \(\beta = -0.43\), \emph{p} \(< .001\) showing that the effect of the prime was greater in between within trials.
 
 We observed slightly different results.
-First, a significant effect of priming \(\beta = 0.310\), \emph{p} \(<.001\) for within category trials, no significant effect of between category trials, \emph{p} \(= .929\), but a significant effect of the interaction between the two \(\beta = .294\), \emph{p} \(<.001\) showing that the effect of prime was less for within category trails.
+First, a significant effect of priming \(\beta = 0.310\), \emph{p} \(<.001\) for within category trials, no significant effect of between category trials, \emph{p} \(= .929\), but a significant effect of the interaction between the two \(\beta = .294\), \emph{p} \(<.001\).
+So, the effect of prime was less for between category trails.
 Though, in all cases these effects were smaller than those observed by \citeauthor{Bott:2016aa}.
 \end{frame}
 
@@ -771,9 +775,9 @@ Replication:
 \begin{frame}
   \frametitle{{\ftf Summary}}
 
-  The aim of \textcite{Bott:2016aa} was to better understand how people use alternatives to enrich the basic meaning of a sentence.
+  \citeauthor{Bott:2016aa}'s goal  was to better understand how people use alternatives to enrich the basic meaning of a sentence.
 
-  \citeauthor{Bott:2016aa} observed significant effects of priming both within and between categories, and in particular between \emph{some} and \emph{number}4 categories.
+  Significant effects of priming both within and between categories were observed, and in particular between \emph{some} and \emph{number}4 categories.
 
   In our replication we found significant effects of priming within categories, but no significant effects of priming between categories, even when the prime and target categories were controlled for.
 
@@ -940,7 +944,5 @@ Replication:
   \frametitle{{\ftf References}}
   \printbibliography
 \end{frame}
-
-\end{document}
 
 \end{document}
