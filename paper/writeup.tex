@@ -18,7 +18,9 @@
    \newfontfeature{Microtype}{protrusion=default;expansion=default;}
    \setmainfont[Ligatures=TeX]{TimesNRMTPro}
    \setsansfont[Scale=MatchLowercase,Ligatures=TeX]{Myriad Pro}
-   \setmonofont[Scale=0.8]{Atlas Typewriter}
+   \setmonofont[Scale=0.8]{mononoki}
+
+   \newfontfamily{\unifont}[Ligatures=TeX]{Menlo}
 
    % \usepackage{selnolig}% For suppressing certain typographic ligatures automatically
    \usepackage{microtype}
@@ -367,7 +369,8 @@ The sentence was constructed using one of two frames:
 As mentioned in the introduction, this frame was excluded for cost considerations.
 We shall keep track of the differences to the experiment which follow from using two frames as opposed to three in this section, and engage in a broader discussion in the Discussion portion of this paper.
 
-The symbols were one of diamonds, clubs, ticks, spades, hearts, squares, stars, circles, notes, or triangles.
+The symbols were one of diamonds, clubs, ticks, spades, hearts, squares, stars, circles, notes, or triangles.\nolinebreak
+\footnote{The following unicode sybomls were used: {\space\unifont ♦\space} \mbox{ }  {\space\unifont ♣\space} \mbox{ } {\space\unifont ✓\space} \mbox{ } {\space\unifont ♠\space} \mbox{ } {\space\unifont ♥\space} \mbox{ } {\space\unifont ◼\space} \mbox{ } {\space\unifont ★\space} \mbox{ } {\space\unifont ●\space} \mbox{ } {\space\unifont ♩\space} \mbox{ } {\space\unifont ▲}}
 Pictures consisted of rectangles in the style of playing cards which contained either symbols of the text ``Better Picture?''.
 In prime trials both pictures contained symbols, while from target trials the left picture contained symbols and the other the ``Better Picture?'' text.\nolinebreak
 \footnote{In \citeauthor{Bott:2016aa}'s example stimuli the ``Better Picture?'' option contained a darker background, but this was not mentioned in the text, and we could see no clear motivation for doing so.
@@ -653,6 +656,7 @@ In our replication we found significant effects of priming within categories, bu
 
 \newpage
 \appendix
+
 \section{Additional Data}
 
 \begin{table*}[h]
@@ -683,7 +687,7 @@ In our replication we found significant effects of priming within categories, bu
     \hline
      & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
    \hline
-    & \multicolumn{2}{l}{\(\text{Prime} + (1 + \text{Prime} \mid \text{Subject})\)} & & & \\
+    & \(\text{Prime} + (1 + \text{Prime} \mid \text{Subject})\) & & & & \\
     \emph{some} \(\rightarrow\) \emph{number}4 & Prime & \(-\)0.080 &  0.162 & \(-\)0.492 & 0.623 \\
     \emph{number}4 \(\rightarrow\) \emph{some} & Prime & 0.354  &  0.238 & 1.488  & 0.137 \\
     \hline
@@ -720,5 +724,104 @@ In our replication we found significant effects of priming within categories, bu
   \label{tab:halves}
 \end{table*}
 
+\newpage
+\section{Direct Comparisons}
+\label{sec:direct-comparisons}
+
+\begin{table*}[ht]
+  \centering
+\begin{tabular}{llrrrr}
+  \hline
+  & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
+  \hline
+  Overview & \(\text{Prime} * \text{WithBet} + (1 + \text{Prime} * \text{WithBet} \mid \text{subject})\) & & & \\
+  \textbf{Original}&  & & & & \\
+  & (Intercept) & \(-\)0.594 & 0.198 & \(-\)2.991 & .003 \\
+  & Prime & 0.563 & 0.034 & 16.342 & <.001 \\
+  & WithBet & 0.126 & 0.029 & 4.284 & <.001 \\
+  & Prime:WithBet & \(-\)0.430 & 0.033 & \(-\)13.177 & <.001 \\
+  Within simple & Prime & 0.993 & 0.059 & 16.950 & <.001 \\
+  Between Simple & Prime & 0.133 & 0.033 & 4.082 & <.001 \\
+  \textbf{Replication} & & & & & \\
+  & (Intercept)   & 0.962  & 0.346 &  2.778 & <.010 \\
+  & Prime         & 0.310  & 0.074 &  4.196 & <.001 \\
+  & WithBet       & \(-\)0.006 & 0.067 & \(-\)0.089 &  .929 \\
+  & Prime:WithBet & 0.294  & 0.071 &  4.135 & <.001 \\
+  Between Simple & Prime & 0.016 & 0.089 & 0.181 & .857  \\
+  Within Simple  & Prime & 0.603 & 0.114 & 5.277 & <.001 \\
+  \hline
+\end{tabular}
+\caption{Table contained results of original experiment and replciation for the overview models.}
+\end{table*}
+
+\begin{table*}[ht]
+  \centering
+\begin{tabular}{llrrrr}
+  \hline
+  & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
+  \hline
+  Within detail & \(\text{Prime} * \text{WithCat} + (1 + \text{Prime} * \text{WithCat} \mid \text{subject})\) &  & & & \\
+  \textbf{Original} & & & & & \\
+  & (Intercept)  & \(-\)2.088 & 0.255 & \(-\)8.185 & <.001\\
+  & Prime & 1.239 & 0.109 & 11.374 & <.001 \\
+  & WithCatNUM4 & 2.068 & 0.195 & 10.588 & <.001 \\
+  & WithCatSOME & 1.823 & 0.157 & 11.598 & <.001 \\
+  & Prime:WithCatNUM4 & 0.174 & 0.166 & 1.046 & .269 \\
+  & Prime:WithCatSOME & \(-\)0.138 & 0.137 & \(-\)1.007 & .314 \\
+  \textbf{Replication} & & & & & \\
+  & (Intercept)   &  1.361 & 0.460 &  2.960 & <.010 \\
+  & Prime         &  0.759 & 0.206 &  3.678 & <.001 \\
+  & WithCatSOME       & \(-\)0.784 & 0.432 & \(-\)1.816 & .069  \\
+  & Prime:WithCatSOME & \(-\)0.164 & 0.265 & \(-\)0.618 & .536  \\
+  \hline
+\end{tabular}
+\caption{Table contained results of original experiment and replciation for the within models.}
+\end{table*}
+
+
+\begin{table*}[ht]
+  \centering
+\begin{tabular}{llrrrr}
+  \hline
+  & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
+  \hline
+  Between detail & \(\text{Prime} * \text{BetCat} + (1 + \text{Prime} * \text{BetCat} \mid \text{subject})\) &  & & & \\
+  \textbf{Original} & & & & & \\
+  & (Intercept)  & \(-\)0.691 & 0.204 & \(-\)3.384 & <.001\\
+  & Prime & 0.145 & 0.058 & 0.058 & .012 \\
+  & BetCatSOMEADH & \(-\)0.054 & 0.089 & \(-\)0.611 & .540 \\
+  & BetCatSOMENUM4 & 0.889 & 0.112 & 7.915 & <.001 \\
+  & Prime:BetCatSOMEADH & \(-\)0.069 & 0.079 & \(-\)0.873 & .383 \\
+  & Prime:BetCatSOMENUM4 & 0.078 & 0.088 & 0.888 & .374 \\
+  \textbf{Replication} & & & & & \\
+  & (Intercept)  &  0.899 & 0.506 &  1.777 & .076 \\
+  & Prime        & \(-\)0.086 & 0.160 & \(-\)0.541 & .589 \\
+  & BetCatSOMENUM4 & 0.861  & 0.451 &  1.910 & .056 \\
+  & Prime:BetCatSOMENUM4 &  0.362 & 0.282 &  1.281 & .200 \\
+  \hline
+\end{tabular}
+
+\caption{Table contained results of original experiment and replciation for the between models.
+Note, these aren't really comparable.}
+\end{table*}
+
+\begin{table*}[ht]
+  \centering
+\begin{tabular}{llrrrr}
+  \hline
+  & & \(\beta\) & S.E.\ & \emph{Z} & \emph{p}-value  \\
+  \hline
+  & \(\text{Prime} + (1 + \text{Prime} \mid \text{Subject})\) & & & & \\
+  \textbf{Original} & & & & & \\
+  \emph{some} \(\rightarrow\) \emph{number}4 & Prime & 0.345 &  0.069 & 5.140 & <.001 \\
+  \emph{number}4 \(\rightarrow\) \emph{some} & Prime & 0.221  & 0.065 & 3.412  & <.001 \\
+  \hline
+  \textbf{Replication} & & & & & \\
+  \emph{some} \(\rightarrow\) \emph{number}4 & Prime & \(-\)0.080 &  0.162 & \(-\)0.492 & 0.623 \\
+  \emph{number}4 \(\rightarrow\) \emph{some} & Prime & 0.354  &  0.238 & 1.488  & 0.137 \\
+  \hline
+\end{tabular}
+\caption{Table contained results of original experiment and replciation for the directional models.}
+\end{table*}
 
 \end{document}
