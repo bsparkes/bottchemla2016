@@ -47,6 +47,7 @@
    (LaTeX-add-labels
     "sec:introduction"
     "sec:experiment"
+    "fig:excards"
     "sec:method"
     "tab:barresults"
     "sec:results"
@@ -56,7 +57,11 @@
     "sec:conclusion"
     "tab:primebetweeendirection"
     "tab:halves"
-    "sec:direct-comparisons")
+    "sec:direct-comparisons"
+    "tab:direct-overview"
+    "tab:direct-within"
+    "tab:direct-between"
+    "tab:direct-direction")
    (LaTeX-add-bibliographies
     "ling245"))
  :latex)
